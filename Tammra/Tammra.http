@@ -1,0 +1,6 @@
+@Tammra_HostAddress = http://localhost:5230
+
+GET {{Tammra_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
