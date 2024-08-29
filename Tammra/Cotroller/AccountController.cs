@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -6,11 +7,14 @@ using System.Threading.Tasks;
 using Tammra.DTOs.Account;
 using Tammra.Models;
 using Tammra.Services;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Tammra.Cotroller
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Route("account")]
     public class AccountController : ControllerBase
     {
         private readonly JWTService _jWTService;
@@ -25,13 +29,20 @@ namespace Tammra.Cotroller
             _signInManager = signInManager;
             _userManager = userManager;
         }
+        [Authorize]
+        [HttpGet("refresh-user-token")]
+        public async Task<ActionResult<UserDto>> RefreshUserToken()
+        {
+            var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.Email)?.Value);
+            return CreateApplicationUserDto(user);
+        }
         [HttpPost("Login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto model)
         {
             var user = await _userManager.FindByNameAsync(model.Username);
             if (user == null)
             {
-                return Unauthorized("The Username or The Password is invalid");
+                return Unauthorized("Username or password is invalid");
             }
             if (user.EmailConfirmed == false)
             {
@@ -40,16 +51,16 @@ namespace Tammra.Cotroller
             var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password , false);
             if (!result.Succeeded)
             {
-                return Unauthorized("The Username or The Password is invalid");
+                return Unauthorized("البريد الالكتروني او كلمة السر غير صحيح");
             }
             return CreateApplicationUserDto(user);
         }
-        [HttpPost("Regist")]
+        [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto model)
         {
             if (await CheckEmailExitAsync(model.Email)) 
             {
-                return BadRequest($"هذا البريد الإلكترونى مستخدم من قبل {model.Email}");
+                return BadRequest();
             }
             var userToAdd = new User
             {
@@ -65,7 +76,7 @@ namespace Tammra.Cotroller
             {
                 return BadRequest(result.Errors);
             }
-            return Ok("تم إنشاء حسابك بنجاح");
+            return Ok();
         }
 
         #region Privat Helper Method
@@ -73,8 +84,8 @@ namespace Tammra.Cotroller
         {
             return new UserDto
             {
-                FirstName = user.UserName,
-                LastName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 JWT = _jWTService.JWTCreating(user)
             };
         }

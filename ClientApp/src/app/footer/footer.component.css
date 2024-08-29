@@ -1,0 +1,11 @@
+.Ftr {
+    background-color:rgb(235, 200, 154) ;
+    color: #7c3030; 
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .Ftr a {
+    color: #783e3e; 
+    text-decoration: none;
+  }

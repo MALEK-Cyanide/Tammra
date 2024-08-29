@@ -27,10 +27,11 @@ namespace Tammra.Services
                 new Claim(ClaimTypes.NameIdentifier , user.Id),
                 new Claim(ClaimTypes.Email , user.Email),
                 new Claim(ClaimTypes.GivenName , user.FirstName),
-                new Claim(ClaimTypes.Surname , user.LastName)
+                new Claim(ClaimTypes.Surname , user.LastName),
+                new Claim("my iwn claim name" , "this is value")
             };
 
-            var creadentials = new SigningCredentials(_jwtKey , SecurityAlgorithms.HmacSha512Signature);
+            var creadentials = new SigningCredentials(_jwtKey , SecurityAlgorithms.HmacSha256Signature);
 
             var tokenDecriptor = new SecurityTokenDescriptor
             {
