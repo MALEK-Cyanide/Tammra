@@ -13,10 +13,10 @@
                         <a class="nav-link" routerLink="/" routerLinkActive="Active" [routerLinkActiveOptions]="{exact : true}">الصفحة الرئيسية</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link">Play</a>
+                        <a class="nav-link" routerLink="/play" routerLinkActive="Active" >Play</a>
                     </li>
                 </ul>
-                <ul class="navbar-nav">
+                <ul class="navbar-nav" *ngIf="((accoutService.user$) | async) === null">
                     <li class="nav-item">
                         <a class="btn btn-secondary mx-2" routerLink="/account/register" routerLinkActive="Active">
                             تسجيل حساب
@@ -28,6 +28,12 @@
                         </a>
                     </li>
                 </ul>
+                <div class="d-flex align-item-center" *ngIf="(accoutService.user$) | async">
+                    <a class="text-white" style="text-decoration: none; cursor: pointer;">
+                        <span class="h5 text-warning">{{Fname}}</span> مرحباً
+                    </a>
+                    <a class="btn btn-secondary ms-2" (click)="logout()">تسجيل الخروج</a>
+                </div>
             </div>
         </div>
     </nav>

@@ -29,6 +29,7 @@ namespace Tammra.Cotroller
             _signInManager = signInManager;
             _userManager = userManager;
         }
+
         [Authorize]
         [HttpGet("refresh-user-token")]
         public async Task<ActionResult<UserDto>> RefreshUserToken()
@@ -36,6 +37,7 @@ namespace Tammra.Cotroller
             var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.Email)?.Value);
             return CreateApplicationUserDto(user);
         }
+
         [HttpPost("Login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto model)
         {

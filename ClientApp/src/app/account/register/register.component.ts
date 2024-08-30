@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { AccountService } from '../account.service';
 import { ValidationMessagesComponent } from "../../shared/components/errors/validation-messages/validation-messages.component";
 import { Router } from '@angular/router';
+import { User } from '../../shared/models/User';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -23,7 +25,13 @@ export class RegisterComponent {
 
   constructor(private accountService : AccountService , 
       private formBuilder :FormBuilder
-      ,private router : Router){}
+      ,private router : Router){
+        this.accountService.user$.pipe(take(1)).subscribe({
+          next:(user : User | null) => {
+            if(user){
+                router.navigateByUrl("/");}}
+      })
+      }
   
   ngOnInit(): void {
     this.initializeForm();

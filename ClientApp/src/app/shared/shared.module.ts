@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ValidationMessagesComponent } from './components/errors/validation-messages/validation-messages.component';
+import { NotificationComponent } from './components/modals/notification/notification.component';
 
 
 @NgModule({
@@ -11,12 +12,16 @@ import { ValidationMessagesComponent } from './components/errors/validation-mess
   imports: [
     CommonModule,
     RouterModule,
-    ReactiveFormsModule,HttpClientModule,
+    ReactiveFormsModule
+    ,HttpClientModule,
     ValidationMessagesComponent
+    ,NotificationComponent
   ],
   exports:[RouterModule ,
     ReactiveFormsModule,
-    HttpClientModule,ValidationMessagesComponent
+    HttpClientModule,
+    ValidationMessagesComponent,
+    NotificationComponent
   ]
 })
 export class SharedModule { }

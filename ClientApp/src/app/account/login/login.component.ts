@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from '../account.service';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ValidationMessagesComponent } from '../../shared/components/errors/validation-messages/validation-messages.component';
+import { take } from 'rxjs';
+import { User } from '../../shared/models/User';
 
 
 @Component({
@@ -20,8 +22,28 @@ export class LoginComponent implements OnInit{
   loginForm: FormGroup = new FormGroup({});
   submitted = false;
   errorMessages: string[] = [];
+  returnURL: string | null = null;
 
-  constructor(private accountService : AccountService ,private formBuilder :FormBuilder,private router : Router){}
+  constructor(private accountService : AccountService 
+    ,private formBuilder :FormBuilder
+    ,private router : Router,private activeRoute:ActivatedRoute){
+      this.accountService.user$.pipe(take(1)).subscribe({
+        next:(user : User | null) => {
+          if(user){
+              router.navigateByUrl("/");
+          }
+          else{
+            this.activeRoute.queryParamMap.subscribe({
+              next:(prams :any) =>{
+                if(prams){
+                  this.returnURL = prams.get("returnURL");
+                }
+              }
+            })
+          }
+        },
+      })
+    }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -39,7 +61,11 @@ export class LoginComponent implements OnInit{
     if(this.loginForm.valid){
       this.accountService.login(this.loginForm.value).subscribe({
       next : (response : any) =>{
-        this.router.navigateByUrl("/account/register");
+        if(this.returnURL){
+          this.router.navigateByUrl(this.returnURL);
+        }else{
+          this.router.navigateByUrl("/");
+        }
       },
       error : error =>{
         if(error.error.errors){
