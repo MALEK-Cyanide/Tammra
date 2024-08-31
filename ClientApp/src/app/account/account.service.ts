@@ -1,12 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { Register } from '../shared/models/register';
+import { Register } from '../shared/models/account/register';
 import { environment } from '../../environments/environment.development';
-import { Login } from '../shared/models/login';
-import { User } from '../shared/models/User';
+import { Login } from '../shared/models/account/login';
+import { User } from '../shared/models/account/User';
 import { map, of, ReplaySubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
+import { ConfirmEmail } from '../shared/models/account/ConfirmEmail';
 
 @Injectable({
   providedIn: 'root'
@@ -90,5 +91,11 @@ export class AccountService {
   else{
     this.refreshUser(null).subscribe();
     }
+  }
+  confirmEmail(model : ConfirmEmail){
+    return this.http.put(`${environment.appUrl}/api/Account/confirm-email` , model)
+  }
+  resendEmailConformationLink(email : string){
+    return this.http.post(`${environment.appUrl}/api/Account/resend-email-confirm-link/${email}` , {});
   }
 }

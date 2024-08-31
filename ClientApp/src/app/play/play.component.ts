@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 })
 export class PlayComponent implements OnInit{
   message: string | undefined;
-  constructor(private playService : PlayService){}
+  constructor(public playService : PlayService){}
 
   ngOnInit(): void {
     this.playService.getPlayers().subscribe({

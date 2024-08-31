@@ -1,0 +1,6 @@
+<div class="container text-center" *ngIf="success == true">
+    <a class="btn btn-primary" routerLink="/account/login">تسجيل الدخول</a>
+</div>
+<div class="container text-center" *ngIf="success == false">
+    <a class="btn btn-link" (click)="resendEmailConfirmationLink()">إعادة إرسال طلب تأكيد البريد</a>
+</div>

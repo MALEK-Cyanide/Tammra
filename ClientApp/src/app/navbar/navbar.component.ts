@@ -16,7 +16,6 @@ import { CommonModule } from '@angular/common';
     RegisterComponent,
     LoginComponent,
     HomeComponent,
-    HttpClientModule,
     SharedModule,
     CommonModule
   ],

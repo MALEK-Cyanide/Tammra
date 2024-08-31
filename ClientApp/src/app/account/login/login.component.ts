@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ValidationMessagesComponent } from '../../shared/components/errors/validation-messages/validation-messages.component';
 import { take } from 'rxjs';
-import { User } from '../../shared/models/User';
+import { User } from '../../shared/models/account/User';
 
 
 @Component({
@@ -24,9 +24,9 @@ export class LoginComponent implements OnInit{
   errorMessages: string[] = [];
   returnURL: string | null = null;
 
-  constructor(private accountService : AccountService 
-    ,private formBuilder :FormBuilder
-    ,private router : Router,private activeRoute:ActivatedRoute){
+  constructor(public accountService : AccountService 
+    ,public formBuilder :FormBuilder
+    ,public router : Router,public activeRoute:ActivatedRoute){
       this.accountService.user$.pipe(take(1)).subscribe({
         next:(user : User | null) => {
           if(user){
@@ -77,5 +77,8 @@ export class LoginComponent implements OnInit{
       }
     });
     };
+  }
+  resendEmailConfirmationLink(){
+    this.router.navigateByUrl("/account/send-email/resend-email-confirm-link");
   }
 }

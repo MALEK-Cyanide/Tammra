@@ -10,8 +10,12 @@
                         class="form-control"
                         [class.is-invalid]="submitted && loginForm.get('Username')?.errors">
                     <label for="Username">البريد الإلكتروني</label>
+                    
                     <span class="text-danger" *ngIf="submitted && loginForm.get('Username')?.hasError('required')">
-                        أسم المستخدم مطلوب
+                        البريد الإلكتروني مطلوب
+                    </span>
+                    <span class="text-danger" *ngIf="submitted && loginForm.get('Username')?.hasError('pattern')">
+                        البريد الإلكتروني غير صحيح
                     </span>
                 </div>
 
@@ -22,14 +26,17 @@
                     <span class="text-danger" *ngIf="submitted && loginForm.get('Password')?.hasError('required')">
                         كلمة السر مطلوبة
                     </span>
+                    <span class="text-danger" *ngIf="submitted && loginForm.get('Password')?.hasError('minlength') || loginForm.get('password')?.hasError('maxlength')">
+                        كلمة السر يجب ان تكون من 6 أحرف او أرقام الي 15
+                    </span>
                 </div>
 
                  <div class="form-floatin" *ngIf="errorMessages.length > 0">
                     <app-validation-messages [errorMessages]="errorMessages"></app-validation-messages>
-                     <!-- <a class="btn btn-link" (click)="resendEmailConfirmationLink()"
-                        *ngIf="errorMessages[0].includes('Please confirm your email')">
-                        إضغط هنا لإعادة إرسال التحقق من البريد الإلكتروني
-                    </a>  -->
+                     <a class="btn btn-link" (click)="resendEmailConfirmationLink()"
+                        *ngIf="errorMessages[0].includes('قم بتأكيد بريدك الإلكتروني')">
+                        إعادة إرسال تأكيد البريد الإلكتروني
+                    </a> 
                 </div> 
 
                 <div class="d-grid mt-4 px-1">

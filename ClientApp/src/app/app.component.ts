@@ -29,7 +29,7 @@ import { jwtInterceptor } from './shared/interceptors/jwt.interceptor';
 })
 export class AppComponent implements OnInit{
 
-  constructor(private accountService : AccountService){
+  constructor(public accountService : AccountService){
     
   }
 

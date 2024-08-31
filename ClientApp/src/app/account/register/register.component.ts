@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { AccountService } from '../account.service';
 import { ValidationMessagesComponent } from "../../shared/components/errors/validation-messages/validation-messages.component";
 import { Router } from '@angular/router';
-import { User } from '../../shared/models/User';
+import { User } from '../../shared/models/account/User';
 import { take } from 'rxjs';
 
 @Component({
@@ -23,9 +23,9 @@ export class RegisterComponent {
   submitted = false;
   errorMessages: string[] = [];
 
-  constructor(private accountService : AccountService , 
-      private formBuilder :FormBuilder
-      ,private router : Router){
+  constructor(public accountService : AccountService , 
+    public formBuilder :FormBuilder
+      ,public router : Router){
         this.accountService.user$.pipe(take(1)).subscribe({
           next:(user : User | null) => {
             if(user){
