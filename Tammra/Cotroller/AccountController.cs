@@ -182,15 +182,15 @@ namespace Tammra.Cotroller
         [HttpPut("reset-password")]
         public async Task<IActionResult> ResetPassword(ResetPasswordDto model)
         {
-            var user = await _userManager.FindByEmailAsync(model.Email);
+            var user = await _userManager.FindByEmailAsync(model.email);
             if (user == null) return Unauthorized("هذا البريد الإلكتروني لم يتم تسجيله");
             if (user.EmailConfirmed == false) return BadRequest("قم بتأكيد بريدك الإلكتروني اولاً");
             try
             {
-                var decodedTokenBytes = WebEncoders.Base64UrlDecode(model.Token);
+                var decodedTokenBytes = WebEncoders.Base64UrlDecode(model.token);
                 var decodedToken = Encoding.UTF8.GetString(decodedTokenBytes);
 
-                var result = await _userManager.ResetPasswordAsync(user, decodedToken,model.NewPassword);
+                var result = await _userManager.ResetPasswordAsync(user, decodedToken,model.newPassword);
                 if (result.Succeeded)
                 {
                     return Ok(new JsonResult(new { title = "تغير كلمة السر", message = "تم تغير كلمة السر بنجاح" }));

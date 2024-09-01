@@ -32,8 +32,6 @@ export class ConfirmEmailComponent implements OnInit {
                   token : parms.get("token"),
                   email : parms.get("email")
                 }
-                console.log(parms.get("token"));
-                console.log(parms.get("email"));
                 this.success = true;
                 this.accountServices.confirmEmail(confirmEmail).subscribe({
                   next: (res : any) => {

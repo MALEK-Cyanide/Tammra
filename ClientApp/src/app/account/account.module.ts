@@ -16,7 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
     SharedModule,
     HttpClientModule
   ],
-  exports:[
+  exports: [
     RouterModule,
     AccountRoutingModule,
     SharedModule,

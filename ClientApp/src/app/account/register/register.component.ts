@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators ,ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -23,16 +23,18 @@ export class RegisterComponent {
   submitted = false;
   errorMessages: string[] = [];
 
-  constructor(public accountService : AccountService , 
-    public formBuilder :FormBuilder
-      ,public router : Router){
-        this.accountService.user$.pipe(take(1)).subscribe({
-          next:(user : User | null) => {
-            if(user){
-                router.navigateByUrl("/");}}
-      })
+  constructor(public accountService: AccountService,
+    public formBuilder: FormBuilder
+    , public router: Router) {
+    this.accountService.user$.pipe(take(1)).subscribe({
+      next: (user: User | null) => {
+        if (user) {
+          router.navigateByUrl("/");
+        }
       }
-  
+    })
+  }
+
   ngOnInit(): void {
     this.initializeForm();
   }
@@ -44,24 +46,24 @@ export class RegisterComponent {
       password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
     })
   }
-  register(){
+  register() {
     this.submitted = true;
     this.errorMessages = [];
-    if(this.registerForm.valid){
+    if (this.registerForm.valid) {
       this.accountService.register(this.registerForm.value).subscribe({
-      next : (response : any) =>{
-        alert("تم إنشاء حسابك بنجاح");
-        this.router.navigateByUrl("/account/login");
-      },
-      error : error =>{
-        if(error.error.errors){
-          this.errorMessages = error.error.errors
+        next: (response: any) => {
+          alert("تم إنشاء حسابك بنجاح");
+          this.router.navigateByUrl("/account/login");
+        },
+        error: error => {
+          if (error.error.errors) {
+            this.errorMessages = error.error.errors
+          }
+          else {
+            this.errorMessages.push(error.error);
+          }
         }
-        else{
-          this.errorMessages.push(error.error);
-        }
-      }
-    });
+      });
     };
   }
 }
