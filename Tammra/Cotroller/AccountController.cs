@@ -44,14 +44,11 @@ namespace Tammra.Cotroller
         public async Task<ActionResult<UserDto>> Login(LoginDto model)
         {
             var user = await _userManager.FindByNameAsync(model.Username);
-            if (user == null)
-            {
-                return Unauthorized("Username or password is invalid");
-            }
-            if (user.EmailConfirmed == false)
-            {
-                return Unauthorized("Please Confirm your Email");
-            }
+
+            if (user == null) return Unauthorized("Username or password is invalid");
+
+            if (user.EmailConfirmed == false) return Unauthorized("Please Confirm your Email");
+
             var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password , false);
             if (!result.Succeeded)
             {
