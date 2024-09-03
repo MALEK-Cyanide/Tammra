@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Tammra.Cotroller
 {
-    [Authorize]
+    
     [Route("api/[controller]")]
     [ApiController]
     public class PlayController : ControllerBase

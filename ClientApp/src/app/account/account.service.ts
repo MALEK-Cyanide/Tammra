@@ -102,7 +102,7 @@ export class AccountService {
   ForgotUsernameOrPassword(email: string) {
     return this.http.post(`${environment.appUrl}/api/Account/forget-username-or-password/${email}`, {});
   }
-  restPassword(reset : RestPassword){
+  restPassword(reset: RestPassword) {
     return this.http.put(`${environment.appUrl}/api/account/reset-password`, reset);
   }
 }

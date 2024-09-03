@@ -24,6 +24,7 @@ namespace Tammra.Cotroller
     {
         private readonly JWTService _jWTService;
         private readonly SignInManager<User> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
         private readonly EmailService _emailService;
         private readonly IConfiguration _config;
@@ -32,7 +33,8 @@ namespace Tammra.Cotroller
             SignInManager<User> signInManager ,
             UserManager<User> userManager,
             EmailService emailService,
-            IConfiguration config)
+            IConfiguration config,
+            RoleManager<IdentityRole> roleManager)
         {
             _jWTService = jWTService;
             _signInManager = signInManager;
@@ -52,7 +54,7 @@ namespace Tammra.Cotroller
             var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password , false);
             if (!result.Succeeded)
             {
-                return Unauthorized("البريد الالكتروني او كلمة السر غير صحيح");
+                return BadRequest("البريد الالكتروني او كلمة السر غير صحيح");
             }
             return CreateApplicationUserDto(user);
         }
@@ -68,27 +70,30 @@ namespace Tammra.Cotroller
                 UserName = model.Email.ToLower(),
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                Email = model.Email.ToLower()
+                Email = model.Email.ToLower(),
+                Role = model.Role
             };
 
-            var result = await _userManager.CreateAsync(userToAdd, model.Password);
-            if (!result.Succeeded)
-            {
-                return BadRequest(result.Errors);
-            }
-            try
-            {
-                if(await SendConfirmEmailAsync(userToAdd))
-                {
-                    return Ok(new JsonResult(new {title = "Created" , message = "Done , Just confirm ur Email"}));
-                }
-                return BadRequest("Faild to send email");
-            }
-            catch (System.Exception)
-            {
+            var resultCreated = await _userManager.CreateAsync(userToAdd, model.Password);
+            var resultRolled = await _userManager.AddToRoleAsync(userToAdd, model.Role);
 
-                return BadRequest("Faild to send email");
+            if (!resultCreated.Succeeded && !resultRolled.Succeeded)
+            {
+                return BadRequest(resultCreated.Errors);
             }
+            //try
+            //{
+            //    if(await SendConfirmEmailAsync(userToAdd))
+            //    {
+            return Ok(new JsonResult(new { title = "Created", message = "Done , Just confirm ur Email" }));
+            //    }
+            //    return BadRequest("Faild to send email");
+            //}
+            //catch (System.Exception)
+            //{
+
+            //return BadRequest("Faild to send email");
+            //}
         }
 
         [Authorize]
@@ -199,6 +204,22 @@ namespace Tammra.Cotroller
                 return BadRequest("Invalid Token");
             }
         }
+
+        [HttpPost("add-role/{role:alpha}")]
+        public async Task<IActionResult> AddRole(string role)
+        {
+            if (!await _roleManager.RoleExistsAsync(role))
+            {
+                var result = await _roleManager.CreateAsync(new IdentityRole(role));
+                if (result.Succeeded)
+                {
+                    return Ok(new { meesage = "Role Created" });
+                }
+                return BadRequest(result.Errors);
+            }
+            return BadRequest("Role is exist");
+        }
+
         #region Privat Helper Method
         private UserDto CreateApplicationUserDto(User user)
         {
@@ -206,6 +227,7 @@ namespace Tammra.Cotroller
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                Role = user.Role,
                 JWT = _jWTService.JWTCreating(user)
             };
         }

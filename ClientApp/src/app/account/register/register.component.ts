@@ -40,6 +40,7 @@ export class RegisterComponent {
   }
   initializeForm() {
     this.registerForm = this.formBuilder.group({
+      role: ['' , Validators.required],
       firstName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
       lastName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
       email: ['', [Validators.required, Validators.pattern('^\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}$')]],

@@ -7,6 +7,17 @@
                         تسجيل دخول لبائع
                     </h3>
                 </div>
+                <div class="form-group mb-3">
+                    <label for="role">نوع المستخدم</label>
+                    <select formControlName="role" class="form-control" required>
+                      <option value="">-- Select Role --</option>
+                      <option value="Vendor">بائع</option>
+                      <option value="Customer">عميل</option>
+                    </select>
+                    <span class="text-danger" *ngIf="submitted && registerForm.get('userRole')?.hasError('required')">
+                      نوع المستخدم مطلوب
+                    </span>
+                  </div>
                 <div class="form-floating mb-3">
                     <input formControlName="firstName" type="text" placeholder="ألأسم الأول" class="form-control"
                         [class.is-invalid]="submitted && registerForm.get('firstName')?.errors">

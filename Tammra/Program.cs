@@ -85,6 +85,13 @@ namespace Tammra
                 };
             });
 
+            builder.Services.AddAuthorization(option =>
+            {
+                option.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
+                option.AddPolicy("AdminPolicy", policy => policy.RequireRole("Vendor"));
+                option.AddPolicy("AdminPolicy", policy => policy.RequireRole("Customer"));
+            });
+
             var app = builder.Build();
             app.UseCors(op =>
             {
