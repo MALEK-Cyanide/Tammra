@@ -63,9 +63,12 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.accountService.login(this.loginForm.value).subscribe({
         next: (response: any) => {
+          console.log("adofjasfaksfoasfoasfo");
           if (this.returnURL) {
+            
             this.router.navigateByUrl(this.returnURL);
           } else {
+            console.log(response.value.mess);
             this.router.navigateByUrl("/");
           }
         },

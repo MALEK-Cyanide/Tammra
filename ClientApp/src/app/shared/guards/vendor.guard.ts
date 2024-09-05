@@ -9,11 +9,11 @@ export class VendorGuard implements CanActivate {
   constructor(private accountService: AccountService
     , private router: Router) { }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if(this.accountService.getJWT().role == "Vendor"){
+    if (this.accountService.getJWT().role == "Vendor") {
       return true;
     }
-      else
-      return false;
+    else
+      this.router.navigateByUrl("/authentication")
+    return false;
   }
-  
 }

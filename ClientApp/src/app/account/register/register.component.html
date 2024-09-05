@@ -1,23 +1,23 @@
-<div class="d-flex justify-content-center" style="text-align: right;">
-    <div class="col-12 col-lg-5">
-        <main class="form-signin">
+<div class="row">
+    <div class="col-md-6">
+        <div class="container">
             <form [formGroup]="registerForm" (ngSubmit)="register()" autocomplete="off">
                 <div class="text-center mb-4">
                     <h3 class="mb-3 font-weight-normal">
-                        تسجيل دخول لبائع
+                        تسجيل دخول
                     </h3>
                 </div>
                 <div class="form-group mb-3">
                     <label for="role">نوع المستخدم</label>
                     <select formControlName="role" class="form-control" required>
-                      <option value="">-- Select Role --</option>
-                      <option value="Vendor">بائع</option>
-                      <option value="Customer">عميل</option>
+                        <option value="">-- Select Role --</option>
+                        <option value="Vendor">بائع</option>
+                        <option value="Customer">عميل</option>
                     </select>
                     <span class="text-danger" *ngIf="submitted && registerForm.get('userRole')?.hasError('required')">
-                      نوع المستخدم مطلوب
+                        نوع المستخدم مطلوب
                     </span>
-                  </div>
+                </div>
                 <div class="form-floating mb-3">
                     <input formControlName="firstName" type="text" placeholder="ألأسم الأول" class="form-control"
                         [class.is-invalid]="submitted && registerForm.get('firstName')?.errors">
@@ -74,12 +74,12 @@
                     <app-validation-messages [errorMessages]="errorMessages"></app-validation-messages>
                 </div>
 
-                <div class="d-grid mt-4 px-1">
-                    <button class="btn btn-lg btn-info" type="submit">إنشاء حساب</button>
+                <div class="form-group d-flex m-2 text-center">
+                    <button class="btn btn-outline-dark" type="submit">إنشاء حساب</button>
                 </div>
             </form>
 
-            <div class="row d-flex justify-content-center mt-3">
+            <!-- <div class="row d-flex justify-content-center mt-3">
                 <div class="col-4">
                     <hr>
                 </div>
@@ -90,10 +90,10 @@
             </div>
             <div class="d-flex justify-content-between my-3">
                 <div #googleButton></div>
-                <!-- <button style="width: 180px;" class="btn btn-primary btn-sm" (click)="registerWithFacebook()">
+                 <button style="width: 180px;" class="btn btn-primary btn-sm" (click)="registerWithFacebook()">
                     Facebook
-                </button> -->
-            </div>
-        </main>
+                </button> -
+            </div> -->
+        </div>
     </div>
 </div>

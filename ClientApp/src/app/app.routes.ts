@@ -6,6 +6,7 @@ import { PlayModule } from './Play/play.module';
 import { CustomerGuard } from './shared/guards/customer.guard';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
+import { AuthenticationComponent } from './shared/authentication/authentication.component';
 export const routes: Routes = [
     {path:"" ,component:HomeComponent},
     {path:"about" , component:AboutComponent},
@@ -18,5 +19,6 @@ export const routes: Routes = [
     },
     {path:"account" , loadChildren:() => import("./account/account.module").then(m => m.AccountModule)},
     {path:"not-found" ,component:NotFoundComponent},
+    {path:"authentication" ,component:AuthenticationComponent},
     {path:"**" ,component:NotFoundComponent , pathMatch :'full'}
 ];

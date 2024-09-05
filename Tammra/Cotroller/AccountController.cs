@@ -54,7 +54,7 @@ namespace Tammra.Cotroller
             var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password , false);
             if (!result.Succeeded)
             {
-                return BadRequest("البريد الالكتروني او كلمة السر غير صحيح");
+                return Ok(new {mess = "Bad Reqest"});
             }
             return CreateApplicationUserDto(user);
         }
@@ -71,7 +71,7 @@ namespace Tammra.Cotroller
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email.ToLower(),
-                Role = model.Role
+                UserRole = model.Role
             };
 
             var resultCreated = await _userManager.CreateAsync(userToAdd, model.Password);
@@ -83,18 +83,18 @@ namespace Tammra.Cotroller
             }
             //try
             //{
-            //    if(await SendConfirmEmailAsync(userToAdd))
+            //    if (await SendConfirmEmailAsync(userToAdd))
             //    {
-            return Ok(new JsonResult(new { title = "Created", message = "Done , Just confirm ur Email" }));
-            //    }
+                    return Ok(new JsonResult(new { title = "Created", message = "Done , Just confirm ur Email" }));
+            //}
             //    return BadRequest("Faild to send email");
-            //}
-            //catch (System.Exception)
-            //{
+        //}
+        //    catch (System.Exception)
+        //    {
 
-            //return BadRequest("Faild to send email");
-            //}
-        }
+        //    return BadRequest("Faild to send email");
+    //}
+}
 
         [Authorize]
         [HttpGet("refresh-user-token")]
@@ -227,7 +227,7 @@ namespace Tammra.Cotroller
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Role = user.Role,
+                Role = user.UserRole,
                 JWT = _jWTService.JWTCreating(user)
             };
         }

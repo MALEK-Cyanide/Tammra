@@ -1,128 +1,99 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
 <div class="top-header-container">
-    <div style="background-color: #401a04" class="top-header text-white">
-        <div class="container d-flex justify-content-between align-items-center">
-            <div class="contact-info d-flex gap-3">
-                <span>
-                    <i class="fas fa-envelope"></i>
-                    <a href="mailto:Tammrashop@tammra.com" class="text-white text-decoration-none">
-                        Tammrashop &#64; tammra.com
-                    </a>
-                </span>
-                <span><i class="fas fa-phone"></i>
-                    <a href="tel:+200112555632" class="text-white text-decoration-none">+200112555632</a></span>
-            </div>
-            <div class="availability">
-                <span>توصيل مجانا على الطلبات</span>
-            </div>
-            <div class="auth-links d-flex gap-2" *ngIf="((accoutService.user$) | async) === null">
-                <a routerLink="/account/register" class="btn">
-                    <i style="padding: 0 5px" class="fas fa-user">
-                        التسجيل
-                    </i>
-                </a>
-                <a routerLink="/account/login" class="btn">
-                    <i style="padding: 0 5px" class="fas fa-user">
-                        تسجيل دخول
-                    </i>
-                </a>
-            </div>
-            <div class="auth-links d-flex gap-2" *ngIf="(accoutService.user$) | async">
+  <div style="background-color: #401a04" class="top-header text-white">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div class="contact-info d-flex gap-3">
+        <span>
+          <i class="fas fa-envelope"></i>
+          <a href="mailto:Tammrashop@tammra.com" class="text-white text-decoration-none">
+            Tammrashop &#64; tammra.com
+          </a>
+        </span>
+        <span><i class="fas fa-phone"></i>
+          <a href="tel:+200112555632" class="text-white text-decoration-none">+200112555632</a></span>
+      </div>
+      <div class="availability">
+        <span>توصيل مجانا على الطلبات</span>
+      </div>
+      <div class="auth-links d-flex gap-2" *ngIf="((accoutService.user$) | async) === null">
+        <a routerLink="/account/register" class="btn">
+          <i style="padding: 0 5px" class="fas fa-user">
+            التسجيل
+          </i>
+        </a>
+        <a routerLink="/account/login" class="btn">
+          <i style="padding: 0 5px" class="fas fa-user">
+            تسجيل دخول
+          </i>
+        </a>
+      </div>
+      <div class="auth-links d-flex gap-2" *ngIf="(accoutService.user$) | async">
 
-                <a class="text-white" style="text-decoration: none; cursor: pointer;">
-                    مرحباً <span class="text-warning fname"> {{Fname}} </span>
-                </a>
+        <a class="text-white" style="text-decoration: none; cursor: pointer;">
+          مرحباً <span class="text-warning fname"> {{Fname}} </span>
+        </a>
 
-                <a routerLink="/account/register" class="btn" (click)="logout()">
-                    <i d-flex style="padding: 0 5px" class="fas fa-user">
-                        تسجيل الخروج
-                    </i>
-                </a>
-            </div>
-        </div>
+        <a routerLink="/account/register" class="btn" (click)="logout()">
+          تسجيل الخروج
+
+        </a>
+      </div>
     </div>
+  </div>
 </div>
 <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-    <div class="container-fluid">
-      <a class="navbar-brand" routerLink="/">
-        <img src="/Images/logo.png" alt="Logo" height="50rem" />
-      </a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul
-          class="navbar-nav mx-auto mb-2 mb-lg-0 d-flex justify-content-between align-items-center"
-        >
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/">
+      <img src="/Images/logo.png" alt="Logo" height="50rem" />
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 d-flex justify-content-between align-items-center">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" [routerLinkActiveOptions]="{ exact: true }"
+            routerLinkActive="active" routerLink="/">
+            الصفحة الرئيسية</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/play/get-player">منتجاتنا</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/about">نبذة عنا</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/contact">اتصل بنا</a>
+        </li>
+
+        <div class="M_btns">
+          <li>
+            <a routerLinkActive="active" routerLink="/cart"> البحث</a>
+          </li>
+          <li>
+            <a routerLinkActive="active" routerLink="/cart"> عربة التسوق</a>
+          </li>
+        </div>
+        <div style="color: #401a04; font-weight: bold" class="Reg_visiblity"
+          *ngIf="((accoutService.user$) | async) === null">
           <li class="nav-item">
-            <a
-              class="nav-link active"
-              aria-current="page"
-              [routerLinkActiveOptions]="{ exact: true }"
-              routerLinkActive="active"
-              routerLink="/"
-            >
-              الصفحة الرئيسية</a
-            >
+            <a style="color: #401a04" routerLinkActive="active" routerLink="/account/register">التسجيل</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLinkActive="active" routerLink="/play/get-player"
-              >منتجاتنا</a
-            >
+            <a routerLinkActive="active" routerLink="account/login"><i></i>تسجيل دخول</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLinkActive="active" routerLink="/about"
-              >نبذة عنا</a
-            >
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLinkActive="active" routerLink="/contact"
-              >اتصل بنا</a
-            >
-          </li>
-  
-          <div class="M_btns">
-            <li>
-              <a routerLinkActive="active" routerLink="/cart"> البحث</a>
-            </li>
-            <li>
-              <a routerLinkActive="active" routerLink="/cart"> عربة التسوق</a>
-            </li>
-          </div>
-          <div style="color: #401a04; font-weight: bold" class="Reg_visiblity" *ngIf="((accoutService.user$) | async) === null">
-            <li class="nav-item">
-              <a
-                style="color: #401a04"
-                routerLinkActive="active"
-                routerLink="/account/register"
-                >التسجيل</a
-              >
-            </li>
-            <li class="nav-item">
-              <a routerLinkActive="active" routerLink="account/login"
-                ><i></i>تسجيل دخول</a
-              >
-            </li>
-          </div>
-        </ul>
-      </div>
-      <div class="h_Btns">
-        <a href="/erdafad" class="btn btn-light">
-          <i class="fas fa-search"></i> Search
-        </a>
-  
-        <a href="#" class="btn btn-light">
-          <i class="fas fa-shopping-cart"></i> 0 Item(s)
-        </a>
-      </div>
+        </div>
+      </ul>
     </div>
-  </nav>
-  
+    <div class="h_Btns">
+      <a href="/erdafad" class="btn btn-light">
+        <i class="fas fa-search"></i> Search
+      </a>
+
+      <a href="#" class="btn btn-light">
+        <i class="fas fa-shopping-cart"></i> 0 Item(s)
+      </a>
+    </div>
+  </div>
+</nav>
