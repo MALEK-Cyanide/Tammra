@@ -13,9 +13,9 @@ namespace Tammra.Models
         public string Status { get; set; }
         public DateTime OrderDate { get; set; } = DateTime.UtcNow;
 
-        [ForeignKey("Customer")]
-        public int CustomerId { get; set; }
-        public Customer Customer { get; set; }
+        [ForeignKey("User")]
+        public string UserId { get; set; }
+        public User User { get; set; }
 
         public ICollection<Product> Products { get; set; }
     }

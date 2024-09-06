@@ -29,8 +29,8 @@ namespace Tammra.Cotroller
         private readonly EmailService _emailService;
         private readonly IConfiguration _config;
 
-        public AccountController(JWTService jWTService , 
-            SignInManager<User> signInManager ,
+        public AccountController(JWTService jWTService,
+            SignInManager<User> signInManager,
             UserManager<User> userManager,
             EmailService emailService,
             IConfiguration config,
@@ -51,17 +51,17 @@ namespace Tammra.Cotroller
 
             if (user.EmailConfirmed == false) return Unauthorized("Please Confirm your Email");
 
-            var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password , false);
+            var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
             if (!result.Succeeded)
             {
-                return Ok(new {mess = "Bad Reqest"});
+                return BadRequest(new { mess = "Bad Reqest" });
             }
             return CreateApplicationUserDto(user);
         }
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto model)
         {
-            if (await CheckEmailExitAsync(model.Email)) 
+            if (await CheckEmailExitAsync(model.Email))
             {
                 return BadRequest();
             }
@@ -85,16 +85,16 @@ namespace Tammra.Cotroller
             //{
             //    if (await SendConfirmEmailAsync(userToAdd))
             //    {
-                    return Ok(new JsonResult(new { title = "Created", message = "Done , Just confirm ur Email" }));
+            return Ok(new JsonResult(new { title = "Created", message = "Done , Just confirm ur Email" }));
             //}
             //    return BadRequest("Faild to send email");
-        //}
-        //    catch (System.Exception)
-        //    {
+            //}
+            //    catch (System.Exception)
+            //    {
 
-        //    return BadRequest("Faild to send email");
-    //}
-}
+            //    return BadRequest("Faild to send email");
+            //}
+        }
 
         [Authorize]
         [HttpGet("refresh-user-token")]
@@ -122,8 +122,9 @@ namespace Tammra.Cotroller
                 var decodedToken = Encoding.UTF8.GetString(decodedTokenBytes);
 
                 var result = await _userManager.ConfirmEmailAsync(user, decodedToken);
-                if (result.Succeeded) {
-                    return Ok(new JsonResult(new { title = "تأكيد البريد الإلكتروني" , message = "تم تأكيد بريدك الإلكتروني قم بتسجيل الدخول" }));
+                if (result.Succeeded)
+                {
+                    return Ok(new JsonResult(new { title = "تأكيد البريد الإلكتروني", message = "تم تأكيد بريدك الإلكتروني قم بتسجيل الدخول" }));
                 }
                 return BadRequest("Invalid Token");
             }
@@ -142,8 +143,8 @@ namespace Tammra.Cotroller
             }
             var user = await _userManager.FindByEmailAsync(email);
 
-            if (user == null)  return Unauthorized("هذا البريد الإلكتروني لم يتم تسجيله");
-            if (user.EmailConfirmed == true)  return BadRequest("هذا البريد الإلكتروني مسجل بالفعل  قم بتسجيل الدخول");
+            if (user == null) return Unauthorized("هذا البريد الإلكتروني لم يتم تسجيله");
+            if (user.EmailConfirmed == true) return BadRequest("هذا البريد الإلكتروني مسجل بالفعل  قم بتسجيل الدخول");
 
             try
             {
@@ -156,7 +157,7 @@ namespace Tammra.Cotroller
             catch (System.Exception)
             {
                 return BadRequest("Invalid EMail");
-            } 
+            }
         }
 
         [HttpPost("forget-username-or-password/{email}")]
@@ -170,7 +171,7 @@ namespace Tammra.Cotroller
 
             try
             {
-                if(await SendForgetUsernameOrPasswordAsync(user))
+                if (await SendForgetUsernameOrPasswordAsync(user))
                 {
                     return Ok(new JsonResult(new { title = "تم إرسال نسيت أسم المستخدم و كلمة السر", message = "قم بتأكيد بريدك الإلكتروني" }));
                 }
@@ -192,7 +193,7 @@ namespace Tammra.Cotroller
                 var decodedTokenBytes = WebEncoders.Base64UrlDecode(model.token);
                 var decodedToken = Encoding.UTF8.GetString(decodedTokenBytes);
 
-                var result = await _userManager.ResetPasswordAsync(user, decodedToken,model.newPassword);
+                var result = await _userManager.ResetPasswordAsync(user, decodedToken, model.newPassword);
                 if (result.Succeeded)
                 {
                     return Ok(new JsonResult(new { title = "تغير كلمة السر", message = "تم تغير كلمة السر بنجاح" }));
@@ -228,7 +229,8 @@ namespace Tammra.Cotroller
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Role = user.UserRole,
-                JWT = _jWTService.JWTCreating(user)
+                JWT = _jWTService.JWTCreating(user),
+                Email = user.Email
             };
         }
 
@@ -263,7 +265,7 @@ namespace Tammra.Cotroller
 
             var url = $"{_config["JWT:ClientUrl"]}/{_config["Email:ResetPassword"]}?token={token}&email={user.Email}";
 
-            var body = 
+            var body =
                 $"<p style=\"font-size: 20px; font-family: 'Times New Roman', Times, serif;\"><span style=\"color: rgb(152, 0, 0);\">{user.FirstName} {user.LastName}</span> : مرحباً</p>" +
                 $"<p style=\"font-size: 15px; font-family: 'Times New Roman', Times, serif;\">{user.UserName} : بريدك الإلكتروني</p>" +
                 $"<p style=\"font-size: 15px; font-family: 'Times New Roman', Times, serif;\">أضغط على الرابط التالي لتغير كلمة السر</p>" +

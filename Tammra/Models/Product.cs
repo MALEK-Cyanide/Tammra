@@ -18,9 +18,9 @@ namespace Tammra.Models
         public DateTime DateAdded { get; set; } = DateTime.UtcNow;
         public DateTime DateUpdated { get; set; }
 
-        [ForeignKey("Vendor")]
-        public int VendorId { get; set; }
-        public Vendor Vendor { get; set; }
+        [ForeignKey("User")]
+        public string UserId { get; set; }
+        public User User { get; set; }
 
         public ICollection<Oreder> Oreders { get; set; }
     }
