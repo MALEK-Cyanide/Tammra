@@ -1,0 +1,91 @@
+.Active{
+    color: brown !important;
+}
+.fname{
+    margin-right: 10px;
+    font-size: 20px;
+}
+.nav-item {
+    font-family: "Times New Roman", Times, serif;
+    padding: 10px;
+  }
+  .navbar {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  .nav-link.active {
+    font-weight: bold;
+    color: #eb9c36;
+    border-bottom: 2px solid #401a04;
+  }
+  .nav-link,
+  .M_btns a,
+  .Reg_visiblity a {
+    font-family: "Times New Roman", Times, serif;
+    text-decoration: none;
+    color: #401a04;
+    font-weight: bolder;
+    font-size: 20px;
+    transition: all 0.3s ease-in-out;
+  }
+  .M_btns a,
+  .Reg_visiblity a {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .top-header {
+    font-size: 14px;
+    font-family: "Times New Roman", Times, serif;
+    height: 32px;
+  }
+  .auth-links .btn {
+    background-color: #401a04a8;
+    color: #ffffff;
+    height: 30px;
+    font-size: 14px;
+  }
+  
+  .header-actions .btn {
+    color: #401a04;
+  }
+  .h_Btns .btn {
+    padding: 5px 40px;
+  }
+  
+  .h_Btns .btn:hover {
+    background-color: #eb9c36;
+  }
+  @media only screen and (max-width: 768px) {
+    .top-header-container {
+      display: none;
+    }
+    .h_Btns {
+      display: none;
+    }
+  }
+  @media only screen and (min-width: 768px) {
+    .M_btns {
+      display: none;
+    }
+    .Reg_visiblity {
+      display: none;
+    }
+  }
+  .form-group label {
+    font-weight: bold;
+    color: #401a04;
+    margin-bottom: 0.5rem;
+  }
+  
+  .form-control {
+    font-family: "Times New Roman", Times, serif;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  .form-control:focus {
+    border-color: #401a04;
+    box-shadow:3px 0px rgba(153, 42, 1, 0.379);
+  }

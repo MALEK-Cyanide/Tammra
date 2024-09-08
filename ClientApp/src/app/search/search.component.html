@@ -1,0 +1,26 @@
+<div>
+    <input type="text" [(ngModel)]="searchQuery" placeholder="أسم المنتج الذي تبحث عنه" />
+    <button (click)="search()">Search</button>
+</div>
+<div *ngIf="searchResults.length <= 0">
+    <div class="loader-container" id="loading">
+        <div class="loader"></div>
+        <div class="loading-text">جاري البحث عن المنتج</div>
+    </div>
+</div>
+
+<div  *ngIf="searchResults.length > 0">
+    <h3>Search Results:</h3>
+    <ul *ngFor="let product of searchResults">
+        <li>{{ product.productName }}</li>
+        <li>السعر : {{ product.price }}</li>
+        <li>الكمية : {{ product.quantity }}</li>
+    </ul>
+</div>
+<script>
+    // Set a timeout to hide the loading page after 3 seconds
+    setTimeout(function () {
+        // Hide the loader
+        document.getElementById('loading').style.display = 'none';
+    }, 3000); // 3000 milliseconds = 3 seconds
+</script>

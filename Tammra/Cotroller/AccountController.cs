@@ -63,7 +63,7 @@ namespace Tammra.Cotroller
         {
             if (await CheckEmailExitAsync(model.Email))
             {
-                return BadRequest();
+                return BadRequest(new {error = "البريد الإلكتروني خطأ" });
             }
             var userToAdd = new User
             {

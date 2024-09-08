@@ -217,6 +217,9 @@ namespace Tammra.Data.Migrations
                     b.Property<string>("ProductName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("ProductionPrice")
+                        .HasColumnType("float");
+
                     b.Property<double>("Profit")
                         .HasColumnType("float");
 

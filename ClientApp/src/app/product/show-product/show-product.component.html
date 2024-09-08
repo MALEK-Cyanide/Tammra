@@ -1,0 +1,21 @@
+<div class="card-body" *ngIf="product"style="font-family: 'Times New Roman', Times, serif;">
+  <div class="container-products">
+    <div class="product-card">
+      <div class="product-image">
+        <img [src]="imageUrl" alt={{imageUrl}} />
+      </div>
+      <div class="product-details">
+        <h5 class="product-title">{{ product.productName }}</h5>
+        <p class="product-price"><strong>السعر:</strong> {{ product.price }} ج.م</p>
+        <div class="more-details ">
+          <p class="product-description">أجود أنواع التمور</p>
+          <p><strong>الكمية : </strong>{{ product.quantity }}</p>
+          <p><strong>سعر الجملة : </strong>{{ product.productionPrice }}</p>
+          <p><strong>تاريخ الإضافة : </strong>{{ product.dateAdded }}</p>
+          <p><strong>تاريخ أخر تعديل : </strong>{{ product.dateUpdated }}</p>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-brown" routerLink="/product/all-product">الرجوع إلي المنتجات</button>
+    </div>
+  </div>
+</div>

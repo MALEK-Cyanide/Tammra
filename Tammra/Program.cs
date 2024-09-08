@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Tammra.Data;
@@ -93,6 +95,7 @@ namespace Tammra
             });
 
             var app = builder.Build();
+            app.UseStaticFiles();
             app.UseCors(op =>
             {
                 op.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:4200");
@@ -109,9 +112,7 @@ namespace Tammra
             app.UseAuthentication();
             app.UseAuthorization();
 
-
             app.MapControllers();
-
             app.Run();
         }
     }

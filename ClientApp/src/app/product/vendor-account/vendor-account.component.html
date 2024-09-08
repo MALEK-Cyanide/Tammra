@@ -1,0 +1,62 @@
+<div class="container">
+    <h2 class="my-4">إعدادات الحساب</h2>
+    <form [formGroup]="EditInfoForm" (ngSubmit)="onSubmit()">
+        <!-- Vendor Name -->
+        <h6>تغيير معلوماتك الشخصية</h6>
+        <div class="mb-3">
+            <label for="name" class="form-label"> الاسم الأول</label>
+            <input type="text" class="form-control"  formControlName="firstName" />
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">الأسم الأخير</label>
+            <input type="text" class="form-control"  formControlName="lastName" />
+        </div>
+        <!-- Vendor Phone -->
+        <div class="mb-3">
+            <label for="phone" class="form-label">رقم الهاتف</label>
+            <input type="text" class="form-control"  formControlName="phoneNumber" />
+        </div>
+
+        <!-- Profile Photo -->
+        <div class="mb-3">
+            <label for="profilePhoto" class="form-label">صورة الملف الشخصي</label>
+            <input type="file" class="form-control w-75" (change)="onFileSelected($event)" accept="image/*" formControlName="vendorImagePath" />
+        </div>
+
+        <!-- Cover Photo -->
+        <div class="mb-3">
+            <label for="coverPhoto" class="form-label">صورة الغلاف</label>
+            <input type="file" class="form-control w-75" (change)="onFileSelected($event)" accept="image/*" formControlName="vendorCoverPath" />
+        </div>
+        <!-- companyName Update -->
+        <div class="mb-3">
+            <label for="password" class="form-label">أسم شركتك</label>
+            <input type="password" class="form-control" formControlName="companyName" />
+        </div>
+        <!-- Vendor Location -->
+        <div class="mb-3">
+            <input type="hidden" class="form-control" readonly />
+        </div>
+
+        <!-- Google Maps Button -->
+        <!-- <div class="mb-3">
+            <button type="button" class="btn btnSumbit">
+                تغيير موقعك
+            </button>
+        </div> -->
+        <!-- Vendor Description -->
+        <div class="mb-3">
+            <label for="description" class="form-label">الوصف</label>
+            <textarea id="description" class="form-control" rows="4" formControlName="description"></textarea>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <button type="submit" class="btn btnSumbit"> حفظ التغييرات </button>
+            <button class="btn btndelete">حذف الحساب</button>
+        </div>
+
+        <h6 class="d-flex justify-content-end" style="color: rgb(135, 135, 135)">
+            بمجرد ان تحذف حسابك لا يمكنك الرجوع اليه مرة اخرى
+        </h6>
+    </form>
+</div>

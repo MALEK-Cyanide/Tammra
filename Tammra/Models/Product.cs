@@ -14,8 +14,13 @@ namespace Tammra.Models
         public double Price { get; set; }
         public double Quantity { get; set; }
         public double Profit { get; set; }
+        public double ProductionPrice { get; set; }
         public string ProdImagePath { get; set; }
+        [DataType(DataType.Date)]  // Specify that it's a date
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime DateAdded { get; set; } = DateTime.UtcNow;
+        [DataType(DataType.Date)]  // Specify that it's a date
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime DateUpdated { get; set; }
 
         [ForeignKey("User")]
