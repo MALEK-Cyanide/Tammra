@@ -2,7 +2,7 @@
   <div class="container-products">
     <div class="product-card">
       <div class="product-image">
-        <img [src]="imageUrl" alt={{imageUrl}} />
+        <img [src]="url+product.prodImagePath" alt={{product.productName}} />
       </div>
       <div class="product-details">
         <h5 class="product-title">{{ product.productName }}</h5>
@@ -15,7 +15,7 @@
           <p><strong>تاريخ أخر تعديل : </strong>{{ product.dateUpdated }}</p>
         </div>
       </div>
-      <button type="submit" class="btn btn-brown" routerLink="/product/all-product">الرجوع إلي المنتجات</button>
+      <button type="submit" class="btn btn-brown" routerLink="/vendor/all-product">الرجوع إلي المنتجات</button>
     </div>
   </div>
 </div>

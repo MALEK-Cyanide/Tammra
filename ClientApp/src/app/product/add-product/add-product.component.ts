@@ -38,7 +38,6 @@ export class AddProductComponent implements OnInit {
     this.AddProductForm = this.formBuilder.group({
       email: [this.getEmail(), [Validators.required]],
       productName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
-      prodImagePath: ['', [Validators.required]],
       quantity: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
       price: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
       productionPrice: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
@@ -47,22 +46,20 @@ export class AddProductComponent implements OnInit {
   getImagePath() {
     return this.imagePath
   }
-  onSubmit() {
-
+  onSubmit(): void {
+    const formData = new FormData();
+  
+    formData.append('product', JSON.stringify(this.AddProductForm.value));
+  
     if (this.selectedFile) {
-      const formData = new FormData();
-      formData.append('image', this.selectedFile, this.selectedFile.name);
-
-      this.http.post<{ filePath: string }>(`${environment.appUrl}/api/product/uplaod-image`, formData)
-        .subscribe(response => {
-          this.imagePath = response.filePath;
-          this.getImagePath()
-        });
+      formData.append('image', this.selectedFile);
     }
-    this.productService.addProduct(this.AddProductForm.value).subscribe(response => {
-      Swal.fire("" , "تم إضافة منتجك بنجاح" , "success")
-      this.router.navigateByUrl("/product/all-product")
-    });
+  
+    this.http.post(`${environment.appUrl}/api/product/add-product`, formData)
+      .subscribe(response => {
+        Swal.fire("" , "تم إضافة منتجك بنجاح" , "success");
+        this.router.navigateByUrl("/vendor/all-product")
+      });
   }
   getEmail() {
     return this.accountservice.getJWT().email

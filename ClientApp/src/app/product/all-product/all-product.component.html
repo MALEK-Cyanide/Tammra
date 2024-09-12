@@ -1,10 +1,12 @@
 <div class="card-container" style="font-family: 'Times New Roman', Times, serif;">
     <div class="product-card" *ngFor="let product of products">
         <div class="card-content">
-            <a [routerLink]="['/product/show-product/', product.productId]">
-                <img src="/Images/coverphoto.jpg" class="card-img-top" alt="...">
-            </a>
-            <!-- <img [src]="product.prodImagePath" alt="{{product.productName}}" class="product-image img-fluid" /> -->
+            <div style="height: 200px;">
+                <a [routerLink]="['/vendor/show-product/', product.productId]">
+                    <img [src]="url+product.prodImagePath" class="product-image img-fluid" />
+                </a>
+            </div>
+            
             <div class="card-body">
                 <h5 class="card-title">{{product.productName}}</h5>
                 <div class="card-text">
@@ -12,10 +14,10 @@
                     <p><strong>الكمية: </strong> <span style="color: rgb(111, 3, 3);">{{product.quantity}}</span> </p>
                     <p><strong>السعر: </strong> <span style="color: red;">{{product.price}}</span> ج.م</p>
                 </div>
-                <button [routerLink]="['/product/edit-product/', product.productId]"
+                <button [routerLink]="['/vendor/edit-product/', product.productId]"
                     class="btn btn-brown mx-1">تعديل</button>
 
-                <button [routerLink]="['/product/delete-product/', product.productId]"
+                <button [routerLink]="['/vendor/delete-product/', product.productId]"
                     class="btn btn-brown mx-1">حذف</button>
             </div>
         </div>

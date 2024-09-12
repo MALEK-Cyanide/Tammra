@@ -95,7 +95,7 @@ namespace Tammra
             });
 
             var app = builder.Build();
-            app.UseStaticFiles();
+            
             app.UseCors(op =>
             {
                 op.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:4200");
@@ -113,6 +113,7 @@ namespace Tammra
             app.UseAuthorization();
 
             app.MapControllers();
+            app.UseStaticFiles();
             app.Run();
         }
     }

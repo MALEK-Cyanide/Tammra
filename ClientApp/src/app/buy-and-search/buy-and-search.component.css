@@ -1,0 +1,194 @@
+.content {
+    width: 100%;
+    height: 200vh;
+  }
+  .container {
+    margin: auto;
+  }
+  .cover-photo img {
+    width: 100%;
+    height: 350px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+  
+  .profile-photo {
+    position: absolute;
+    left: 50%;
+    top: 350px;
+    transform: translateX(-50%);
+    width: 220px;
+    height: 230px;
+  }
+  .profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .vendor-info {
+    margin-top: 120px;
+    z-index: 1;
+  }
+  
+  p {
+    font-size: 20px;
+    font-weight: 400;
+    color: #444342;
+  }
+  .heading {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #0c0c0c;
+    position: relative;
+    display: inline-block;
+    margin-bottom: 50px;
+  }
+  .heading::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -15px;
+    height: 5px;
+    width: 100%;
+    background-color: #ffc107;
+    border-radius: 5px;
+  }
+  
+  /* Card Designing*/
+  /* Base card styling */
+  .card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    background-color: white;
+  }
+  
+  .card img {
+    width: 100%;
+    transition: transform 0.3s ease;
+  }
+  
+  /* Card body content */
+  .card-body {
+    padding: 20px;
+    text-align: center;
+    position: relative;
+  }
+  
+  /* Top section with yellow background */
+  .card .card-top {
+    background-color: #ffeb3b; /* Initial yellow color */
+    height: 150px;
+    width: 100%;
+    position: relative;
+    transition: background-color 0.3s ease; /* Smooth transition */
+  }
+  
+  /* Icon styling */
+  .card .icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 50%;
+  }
+  
+  /* Animation on hover */
+  .card:hover .card-top {
+    background-color: #ffc107; /* Darker yellow on hover */
+  }
+  
+  .card:hover img {
+    transform: scale(1.1); /* Zoom image on hover */
+  }
+  
+  /* Bottom section styling */
+  .card-footer {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Button styling */
+  .card-footer .btn {
+    background-color: #ffc107;
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+  }
+  
+  /* Container for search bar */
+  .center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .search-bar-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px; /* Adjust the width of the search bar */
+    margin-top: 20px;
+  }
+  
+  /* Input field styling */
+  .search-input {
+    width: 100%;
+    padding: 10px 45px 10px 15px;
+    border-radius: 25px;
+    border: 2px solid #ffc107;
+    outline: none;
+    font-size: 16px;
+    transition: width 0.4s ease-in-out;
+  }
+  
+  /* Search button styling */
+  .search-btn {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #ffc107;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+  .search-btn i {
+    font-size: 16px;
+  }
+  /* Input focus effects */
+  .search-input:focus {
+    border-color: #5d340c;
+  }
+  /* Adjusting for mobile */
+  @media (max-width: 768px) {
+    .search-bar-container {
+      max-width: 300px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .profile-photo {
+      position: absolute;
+      left: 50%;
+      top: 320px;
+      transform: translateX(-50%);
+      width: 180px;
+      height: 180px;
+    }
+  
+    .vendor-info {
+      margin-top: 100px;
+    }
+  }
+  

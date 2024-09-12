@@ -31,10 +31,10 @@ export class DeleteProductComponent implements OnInit {
     this.productService.deleteProduct(id).subscribe(() => {
       this.getProduct();
       
-      this.rout.navigateByUrl("/product/all-product")
+      this.rout.navigateByUrl("/vendor/all-product")
     });
   }
   cancel() {
-    this.rout.navigateByUrl("/product/all-product")
+    this.rout.navigateByUrl("/vendor/all-product")
   }
 }

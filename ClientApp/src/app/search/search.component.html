@@ -1,26 +1,74 @@
-<div>
-    <input type="text" [(ngModel)]="searchQuery" placeholder="أسم المنتج الذي تبحث عنه" />
-    <button (click)="search()">Search</button>
-</div>
-<div *ngIf="searchResults.length <= 0">
-    <div class="loader-container" id="loading">
-        <div class="loader"></div>
-        <div class="loading-text">جاري البحث عن المنتج</div>
+<div class="container">
+    <div class="imgcontainer">
+        <img src="/Images/background.png" style="height: 110vh;" />
+        <div class="container mt-12">
+            <div class="row">
+                <div class="center-container" *ngIf="Type">
+                    <div class="search-bar-container">
+                        <input type="text" placeholder="ابحث عن منتج ..." class="search-input"
+                            [(ngModel)]="searchQuery" />
+                        <button type="submit" class="search-btn" (click)="searchForProduct()"><i
+                                class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                <div class="center-container" *ngIf="!Type">
+                    <div class="search-bar-container">
+                        <input type="text" placeholder="ابحث عن منتج ..." class="search-input"
+                            [(ngModel)]="searchQuery" />
+                        <button type="submit" class="search-btn" (click)="searchForVendor()"><i
+                                class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center searchbtn">
+                    <button type="button" (click)="isVendor()" class="btn btn-secondary">التاجر </button>
+                    <button type="button" (click)="isProduct()" class="btn btn-secondary">المنتج </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="card-content col-md-3 col-sm-6">
+                    <div class="card-container" *ngIf="Type">
+                        <div *ngFor="let product of searchProducts">
+                            <div class="image-container-card">
+                                <img [src]="url+product.prodImagePath" class="product-image" alt="صوره المنتج ">
+                                <div class="corner-triangle top-left"></div>
+                                <div class="corner-triangle top-right"></div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{product.productName}}</h5>
+                                <div class="card-text">
+                                    <p><strong>الكمية: </strong> <span
+                                            style="color:#401a04;">{{product.quantity}}</span>
+                                    </p>
+                                    <p><strong>السعر: </strong> <span style="color: #401a04;
+                                    ">{{product.price}}</span> ج.م
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-container" *ngIf="!Type">
+                        <div *ngFor="let vendor of searchVendors">
+                            <div class="image-container-card">
+                                <a (click)="ViewVendorProfile(vendor.email)">
+                                    <img [src]="url+vendor.vendorImagePath" class="card-img-top" alt="صوره التاجر ">
+                                </a>
+                                <div class="corner-triangle top-left"></div>
+                                <div class="corner-triangle top-right"></div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{vendor.firstName}} {{vendor.lastName}}</h5>
+                                <div class="card-text">
+                                    <p><strong>للتواصل : </strong> <span
+                                            style="color:#401a04;">{{vendor.phoneNumber}}</span>
+                                    </p>
+                                    <button class="btn btn-secondary" style="color: white;" (click)="ViewVendorProfile(vendor.email)">عرض صفحة
+                                        التاجر</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-<div  *ngIf="searchResults.length > 0">
-    <h3>Search Results:</h3>
-    <ul *ngFor="let product of searchResults">
-        <li>{{ product.productName }}</li>
-        <li>السعر : {{ product.price }}</li>
-        <li>الكمية : {{ product.quantity }}</li>
-    </ul>
-</div>
-<script>
-    // Set a timeout to hide the loading page after 3 seconds
-    setTimeout(function () {
-        // Hide the loader
-        document.getElementById('loading').style.display = 'none';
-    }, 3000); // 3000 milliseconds = 3 seconds
-</script>

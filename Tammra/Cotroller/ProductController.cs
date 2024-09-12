@@ -1,9 +1,11 @@
 ﻿using Azure.Core;
+using Mailjet.Client.Resources;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,6 +14,7 @@ using System.Threading.Tasks;
 using Tammra.Data;
 using Tammra.DTOs.Product;
 using Tammra.Models;
+using User = Tammra.Models.User;
 
 namespace Tammra.Cotroller
 {
@@ -31,14 +34,16 @@ namespace Tammra.Cotroller
             _env = env;
         }
         [HttpGet("all-product")]
-        public IActionResult GetAllProductsForUser([FromQuery] string email)
+        public async Task<IActionResult> GetAllProductsForUser([FromQuery] string email)
         {
             if (string.IsNullOrEmpty(email))
             {
                 return BadRequest("Email is required");
             }
+            //User user =await _userManager.FindByEmailAsync(email);
+            //var UserId = await _userManager.GetUserIdAsync(user);
 
-            var userProducts = _context.Products.Where(p => p.User.Email == email).ToList();
+            var userProducts =await _context.Products.Where(p => p.User.Email == email).ToListAsync();
 
             if (!userProducts.Any())
             {
@@ -48,37 +53,51 @@ namespace Tammra.Cotroller
             return Ok(userProducts);
         }
         [HttpPost("add-product")]
-        public async Task<IActionResult> PostProduct(AddProductDto request)
+        public async Task<IActionResult> CreateProduct([FromForm] string product, [FromForm] IFormFile image)
         {
-            User user = await _userManager.FindByEmailAsync(request.Email);
-            var userID = await GetUserIdAsync(user);
-            if (user == null || userID == null)
+            var Product = JsonConvert.DeserializeObject<AddProductDto>(product);
+
+            User user = await _userManager.FindByEmailAsync(Product.Email);
+            var UserId = await _userManager.GetUserIdAsync(user);
+
+            if (image == null || image.Length == 0)
+                return BadRequest("Image not selected");
+
+            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images" , "Products");
+            if (!Directory.Exists(folderPath))
             {
-                return BadRequest();
+                Directory.CreateDirectory(folderPath);
             }
 
-            if (!ModelState.IsValid)
+            var fileName = Path.GetFileNameWithoutExtension(image.FileName);
+            var extension = Path.GetExtension(image.FileName);
+            var uniqueFileName = $"{fileName}_{System.Guid.NewGuid()}{extension}";
+
+            var relativePath = "/images/Products/" + uniqueFileName;
+            var filePath = Path.Combine(folderPath, uniqueFileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                return BadRequest(ModelState);
+                await image.CopyToAsync(stream);
             }
-            var product = new Product
+            var pro = new Product
             {
-                ProductName = request.ProductName,
-                Price = request.Price,
-                Quantity = request.Quantity,
-                Profit = request.Profit,
-                ProdImagePath = request.ProdImagePath,
+                ProductName = Product.ProductName,
+                Price = Product.Price,
+                Quantity = Product.Quantity,
+                Profit = Product.Profit,
+                ProdImagePath = relativePath,
                 DateAdded = DateTime.UtcNow,
-                ProductionPrice = request.ProductionPrice,
-                UserId = userID
+                ProductionPrice = Product.ProductionPrice,
+                UserId = UserId
             };
 
-            _context.Products.Add(product);
+            _context.Products.Add(pro);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(Product);
         }
-
+        
         [HttpGet("get-product/{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
@@ -150,56 +169,30 @@ namespace Tammra.Cotroller
         }
 
         [HttpPost("uplaod-image")]
-        public async Task<IActionResult> UploadImage([FromForm] IFormFile image)
+        public async Task<string> UploadImage([FromForm] IFormFile image)
         {
-            if (image == null || image.Length == 0)
+            if (!Directory.Exists("wwwroot/images/Products"))
             {
-                return BadRequest("No image uploaded.");
+                Directory.CreateDirectory("wwwroot/images/Products");
             }
-
-            var uploadsPath = Path.Combine(_env.WebRootPath, "uploads" , image.FileName);
-
-            if (!Directory.Exists(uploadsPath))
-            {
-                Directory.CreateDirectory(uploadsPath);
-            }
-
-            var fileName = Path.GetFileNameWithoutExtension(image.FileName);
+            var imageName = Path.GetFileNameWithoutExtension(image.FileName);
             var extension = Path.GetExtension(image.FileName);
-            var uniqueFileName = $"{fileName}_{System.Guid.NewGuid()}{extension}";
-            var filePath = Path.Combine(uploadsPath, uniqueFileName);
 
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            var uniqueFileName = $"{imageName}_{System.Guid.NewGuid()}{extension}";
+
+            var imagePath = Path.Combine("wwwroot/images/Products", uniqueFileName);
+
+            
+
+            using (var stream = new FileStream(imagePath, FileMode.Create))
             {
                 await image.CopyToAsync(stream);
             }
-
-            var relativePath = Path.Combine("uploads", uniqueFileName);
-            var imageUrl = "/uploads/" + uniqueFileName;
-            return Ok(imageUrl);
+            
+            return imagePath;
         }
+
         [HttpGet("getImage/{id}")]
-        //public async Task<IActionResult> GetImage(int id)
-        //{
-        //     var image = await _context.Products.FirstOrDefaultAsync(i => i.ProductId == id);
-
-        //    if (image == null || string.IsNullOrEmpty(image.ProdImagePath))
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    // Get the image file path
-        //    var imagePath = Path.Combine(image.ProdImagePath);
-
-        //    // Check if the file exists
-        //    //if (!System.IO.File.Exists(imagePath))
-        //    //{
-        //    //    return NotFound();
-        //    //}
-
-        //    byte[] imageBytes = System.IO.File.ReadAllBytes(imagePath);
-        //    return File(imageBytes, "image/PNG");
-        //}
         public async Task<IActionResult> GetImage(int id)
         {
             Product image = await _context.Products.FirstOrDefaultAsync(i => i.ProductId == id);

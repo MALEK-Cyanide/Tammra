@@ -1,15 +1,7 @@
-<!-- <div style="height: 100vh; text-align: center;">
-    <a routerLink="/product/all-product" class="btn btn-primary">all-product</a>
-    <br>
-    <br>
-    <a routerLink="/product/add-product" class="btn btn-primary">add-product</a>
-    <router-outlet></router-outlet>
-</div> -->
 <div class="container-fluid">
     <div class="row">
-        <!-- Sidebar -->
-
-        <div class="col-md-3 col-lg-2 sidebar sidebar-sticky" [ngClass]="{ 'sidebar-closed': !isSidebarOpen }">
+        <div class="col-md-3 col-lg-2 sidebar sidebar-sticky" [ngClass]="{ 'sidebar-closed': !isSidebarOpen }"
+            *ngIf="isVendorOrAdmin">
             <div style="margin-bottom: 300px;"> </div>
             <ul class="nav flex-column">
                 <li class="nav-item">
@@ -29,57 +21,46 @@
                         </li>
                     </ul>
                 </li>
-                <!-- <li class="nav-item drop-links-btn">
-                    <a class="nav-link " routerLink="/product/add">
-                        <option value="اضافة">اضافة</option>
-                    </a>
-                    <a class="nav-link" routerLink="/products/edit">
-                        <option value="تعديل">تعديل</option>
-                    </a>
-                    <a class="nav-link" routerLink="/products/delete">
-                        <option value="حذف">حذف</option>
-                    </a>
-                </li> -->
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/orders">الطلبات</a>
                 </li>
             </ul>
         </div>
-        <!-- Main Content Area -->
         <div class="col-md-9 col-lg-10 main-content">
-            <button class="navbar-toggler d-md-none custom-toggler" type="button" (click)="toggleSidebar()">
+            <button class="navbar-toggler d-md-none custom-toggler" type="button">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-
-            <!-- Profile Section -->
             <div class="profile-section">
                 <div class="cover-photo">
-                    <img src="/Images/coverphoto.jpg" alt="Cover Photo" class="img-fluid" />
+                    <img [src]="url+coverPath" alt="Cover Photo" class="img-fluid" />
                 </div>
                 <div class="profile-photo  text-center">
-                    <img src="/Images/profileophoto.png" alt="Profile Photo" class="rounded-circle" />
+                    <img [src]="url+profilePath" alt="Profile Photo" class="rounded-circle" />
                 </div>
                 <div class="vendor-info text-center">
-                    <h2>شركة تمور الفرقان</h2>
+                    <h2>{{companyName}}</h2>
                     <p>
-                        شركة تمور الفرقان شركة رائدة في مجال التمور تقع في مدينة الخارجة
-                        بمحافظة الوادي الجديد فهى من المحافظات المنتجة لأفضل وأجود أنواع
-                        التمور على مستوي الجمهورية مع تميز الشركة بطاقة تخزينية كبيرة لتغطية
-                        متطلبات السوق المحلية و العالمي وتتميز الشركة أيضا بتعدد و تنوع
-                        الأصناف المنتجة لها
+                        {{description}}
                     </p>
                 </div>
             </div>
+            <div>
+                <h2>Select Your Market Location</h2>
+                <div class="map-container">
+                    <google-map height="300px" width="70%" [center]="center" [zoom]="zoom"
+                        (mapClick)="onMapClick($event)">
+                    </google-map>
+                </div>
+                <div *ngIf="latitude && longitude">
+                    <p>Latitude: {{ latitude }}</p>
+                    <p>Longitude: {{ longitude }}</p>
+                    <button (click)="saveLocation()">Save Location</button>
+                </div>
+            </div>
             <router-outlet></router-outlet>
+            <app-vendor-info></app-vendor-info>
         </div>
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-    integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-    crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-    integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
-    crossorigin="anonymous"></script>

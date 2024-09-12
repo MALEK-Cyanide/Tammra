@@ -16,12 +16,11 @@ import { environment } from '../../../environments/environment.development';
 })
 export class ShowProductComponent implements OnInit {
   product: GetAllProducts | undefined;
-  imageUrl: any;
+  url = environment.appUrl
 
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute, private http: HttpClient,
-    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
@@ -30,21 +29,6 @@ export class ShowProductComponent implements OnInit {
 
   getProduct(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.getImg(id)
     this.productService.getProduct(id).subscribe((product) => (this.product = product));
-  }
-  // loadImage(id: number) {
-  //   console.log(id)
-  //   this.productService.getImage(id).subscribe((imageBlob) => {
-  //     const objectURL = URL.createObjectURL(imageBlob);
-  //     this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-  //   });
-  // }
-  getImg(id: number) {
-    this.http.get(`${environment.appUrl}/api/product/getImage/${id}`)
-      .subscribe(response => {
-        this.imageUrl = response;
-        console.log(this.imageUrl)
-      });
   }
 }

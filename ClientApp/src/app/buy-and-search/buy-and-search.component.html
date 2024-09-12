@@ -1,0 +1,32 @@
+<div class="content">
+    <div class="profile-section">
+        <div class="cover-photo">
+            <img [src]="url+vendor?.vendorCoverPath" alt="Cover Photo" class="img-fluid" />
+        </div>
+        <div class="profile-photo text-center">
+            <img [src]="url+vendor?.vendorImagePath" alt="Profile Photo" class="rounded-circle" />
+        </div>
+        <div class="vendor-info text-center">
+            <h2 class="heading">{{vendor?.firstName}} {{vendor?.lastName}}</h2>
+            <p>
+                {{vendor?.description}}
+            </p>
+        </div>
+        <div class="center-container">
+        <div class="search-bar-container">
+            <input type="text" placeholder="ابحث عن منتج ..." class="search-input" />
+            <button type="submit" class="search-btn">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
+    <br>
+    <div class="d-flex justify-content-center">
+        <h2 class="heading">المنتجات</h2>
+    </div>
+
+    <div class="col-md-12 col-lg-6 col-sm-">
+    </div>
+</div>
+
+</div>

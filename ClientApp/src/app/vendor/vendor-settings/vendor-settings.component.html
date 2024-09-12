@@ -1,0 +1,71 @@
+<div class="container">
+    <h2 class="my-4">إعدادات الحساب</h2>
+    <h6>تغيير معلوماتك الشخصية</h6>
+    <form [formGroup]="EditInfoForm" (ngSubmit)="onSubmit()">
+        <div class="row con">
+            <div class="image-upload-container">
+                <div class="image-preview" *ngIf="imgProfilePath">
+                    <img [src]="url+imgProfilePath" alt="Uploaded Image" class="preview-image" />
+                </div>
+
+                <label for="file-upload" class="custom-upload-button">
+                    <i class="fas fa-cloud-upload-alt"></i> تغير صورة البروفايل
+                </label>
+                <input id="file-upload" type="file" (change)="onFileSelectedProfile($event)" accept="image/*" />
+            </div>
+            <div class="image-upload-container ">
+                <div class="image-preview" *ngIf="imgCoverPath">
+                    <img [src]="url+imgCoverPath" alt="Uploaded Image" class="preview-image" />
+                </div>
+
+                <label for="file-cover-upload" class="custom-upload-button">
+                    <i class="fas fa-cloud-upload-alt"></i> تغير الصورة الخلفية
+                </label>
+                <input id="file-cover-upload" type="file" (change)="onFileSelectedCover($event)" accept="image/*" />
+            </div>
+        </div>
+        <!-- Vendor Name -->
+        <div class="row">
+            <div class="col-md-6">
+                <label for="name" class="form-label"> الاسم الأول</label>
+                <input type="text" class="form-control" formControlName="firstName" />
+            </div>
+
+            <div class="col-md-6">
+                <label for="name" class="form-label">الأسم الأخير</label>
+                <input type="text" class="form-control" formControlName="lastName" />
+            </div>
+        </div>
+        <!-- Vendor Phone -->
+        <div class="row">
+            <div class="col-md-6">
+                <label for="text" class="form-label">أسم شركتك</label>
+                <input type="text" class="form-control" formControlName="companyName" />
+            </div>
+            <div class="col-md-6">
+                <label for="phone" class="form-label">رقم الهاتف</label>
+                <input type="text" class="form-control" formControlName="phoneNumber" />
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">الوصف</label>
+            <textarea id="description" class="form-control" rows="4" formControlName="description"></textarea>
+        </div>
+        <div class="map-container">
+            <label style="margin: 0 auto;">موقعك الجغرافي</label>
+
+            <google-map height="400px" width="100%" [center]="center" [zoom]="zoom" (mapClick)="onMapClick($event)">
+                <map-marker [position]="center"></map-marker>
+            </google-map>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <button type="submit" class="btn btnSumbit"> حفظ التغييرات </button>
+            <button class="btn btndelete">حذف الحساب</button>
+        </div>
+
+        <h6 class="d-flex justify-content-end" style="color: rgb(135, 135, 135)">
+            بمجرد ان تحذف حسابك لا يمكنك الرجوع اليه مرة اخرى
+        </h6>
+    </form>
+</div>

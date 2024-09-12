@@ -9,6 +9,8 @@ body {
 }
 
 .Ftr {
+
+  position: relative;
   background-color: rgb(241, 238, 238);
   color: #7c3030;
   padding: 20px;

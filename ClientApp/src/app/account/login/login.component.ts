@@ -23,7 +23,7 @@ import { User } from '../../shared/models/account/User';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup = new FormGroup({});
   submitted = false;
-  errorMessages: string[] = [];
+  errorMessages: {error : string}[] = [];
   returnURL: string | null = null;
 
   constructor(public accountService: AccountService

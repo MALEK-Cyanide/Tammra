@@ -62,7 +62,7 @@ export class EditProductComponent {
       };
       this.productService.updateProduct(updatedProduct).subscribe(() => {
         Swal.fire("" , "تم تعديل منتجك بنجاح" , "info")
-        this.router.navigate(['/product/all-product']);
+        this.router.navigate(['/vendor/all-product']);
       });
     }
   }

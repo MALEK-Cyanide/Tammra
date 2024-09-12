@@ -14,7 +14,7 @@ export class ProductService {
 
   private searchResultsSource = new BehaviorSubject<any[]>([]);
   searchResults$ = this.searchResultsSource.asObservable();
-  
+
   constructor(private http: HttpClient, private route: ActivatedRoute) { }
 
   getAllProducts(email: string): Observable<GetAllProducts[]> {
@@ -42,10 +42,4 @@ export class ProductService {
   updateSearchResults(results: any[]) {
     this.searchResultsSource.next(results);
   }
-  // getImage(id: number) {
-  //   console.log(id)
-
-  //   return this.http.get(`${environment.appUrl}/api/product/getImage/${id}`, { responseType: 'blob' });
-  // }
-
 }

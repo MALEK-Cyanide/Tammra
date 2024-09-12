@@ -1,14 +1,23 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using Tammra.Data;
+using Tammra.Data.Migrations;
+using Tammra.DTOs.Product;
+using Tammra.DTOs.Vendor;
+using Tammra.Models;
 using User = Tammra.Models.User;
 
 namespace Tammra.Cotroller
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Route("vendor")]
     public class VendorAccountController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
@@ -17,33 +26,48 @@ namespace Tammra.Cotroller
         {
             _userManager = userManager;
         }
-        [HttpGet("get-settings")]
-        public async Task<IActionResult> GetVendorData([FromQuery] string email)
+        [HttpGet("vendor-data/{email}")]
+        public async Task<IActionResult> GetVendorData(string email)
         {
-            User user = await _userManager.FindByEmailAsync(email);
-            
-            return Ok(user);
+            if (string.IsNullOrEmpty(email))
+            {
+                return BadRequest("Email is required");
+            }
+
+            User vendorData = await _userManager.FindByEmailAsync(email);
+            if (vendorData == null)
+            {
+                return NotFound("Vendor data not found");
+            }
+
+            return Ok(vendorData);
         }
 
-        [HttpPut("settings/{email:alpha}")]
-        public async Task<IActionResult> UpdateUser(string email, [FromBody] User user)
+
+        [HttpPost("update-settings")]
+        public async Task<IActionResult> UpdateUser([FromForm] string email, [FromForm] string vendor, [FromForm] IFormFile imageProfile,  [FromForm] IFormFile imageCover)
         {
+            var Vendor = JsonConvert.DeserializeObject<User>(vendor);
+
             User userInDb = await _userManager.FindByEmailAsync(email);
             if (userInDb == null)
             {
                 return NotFound();
             }
-
-            userInDb.FirstName = user.FirstName;
-            userInDb.LastName    = user.LastName;
-            userInDb.PhoneNumber = user.PhoneNumber;
-            userInDb.Description = user.Description;
-            //userInDb.Address = user.Address;
-            userInDb.CompanyName = user.CompanyName;
-            //userInDb.Navigation = user.Navigation;
-            userInDb.VendorCoverPath = user.VendorCoverPath;
-            userInDb.VendorImagePath = user.VendorImagePath;
-
+            if (imageProfile != null)
+            {
+                userInDb.VendorImagePath = ProfileImage(imageProfile);
+            }
+            if (imageCover != null)
+            {
+                
+                userInDb.VendorCoverPath = CoverImage(imageCover);
+            }
+                userInDb.FirstName = Vendor.FirstName;
+                userInDb.LastName = Vendor.LastName;
+                userInDb.PhoneNumber = Vendor.PhoneNumber;
+                userInDb.Description = Vendor.Description;
+                userInDb.CompanyName = Vendor.CompanyName;
             try
             {
                 await _userManager.UpdateAsync(userInDb);
@@ -54,6 +78,96 @@ namespace Tammra.Cotroller
             }
 
             return Ok(userInDb);
+        }
+
+        [HttpPost("save-location")]
+        public async Task<IActionResult> SaveLocation([FromBody] LocationDto location)
+        {
+            var user = await _userManager.FindByEmailAsync(location.Email);
+            if (user == null)
+            {
+                return BadRequest("User not found.");
+            }
+
+            user.Latitude = location.Latitude;
+            user.Longitude = location.Longitude;
+
+            await _userManager.UpdateAsync(user);
+            
+
+            return Ok();
+        }
+
+        [HttpGet("get-location/{email}")]
+        public async Task<IActionResult> GetLocation(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            var location = new LocationDto
+            {
+                Email = user.Email,
+                Latitude = user.Latitude,
+                Longitude = user.Longitude
+            };
+
+            return Ok(location);
+        }
+        [HttpGet("search-vendor")]
+        public IActionResult SearchVendor([FromQuery] string query)
+        {
+            if (string.IsNullOrEmpty(query))
+            {
+                return BadRequest();
+            }
+            var user = _userManager.Users.Where(p => p.FirstName.Contains(query) || p.LastName.Contains(query)).ToList();
+            return Ok(user);
+        }
+        private string ProfileImage(IFormFile imageProfile)
+        {
+            var folderPathForVendorProfile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "VendorProfile");
+            if (!Directory.Exists(folderPathForVendorProfile))
+            {
+                Directory.CreateDirectory(folderPathForVendorProfile);
+            }
+
+            var fileNameForProfile = Path.GetFileNameWithoutExtension(imageProfile.FileName);
+            var extensionForProfile = Path.GetExtension(imageProfile.FileName);
+            var uniqueFileNameForProfile = $"{fileNameForProfile}_{System.Guid.NewGuid()}{extensionForProfile}";
+
+            var relativePathForProfile = "/images/VendorProfile/" + uniqueFileNameForProfile;
+            var filePathForProfile = Path.Combine(folderPathForVendorProfile, uniqueFileNameForProfile);
+
+            using (var stream = new FileStream(filePathForProfile, FileMode.Create))
+            {
+                imageProfile.CopyToAsync(stream);
+            }
+            return relativePathForProfile;
+        }
+
+        private string CoverImage(IFormFile imageCover)
+        {
+            var folderPathVendorCover = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "VendorCover");
+            if (!Directory.Exists(folderPathVendorCover))
+            {
+                Directory.CreateDirectory(folderPathVendorCover);
+            }
+
+            var fileNameForCover = Path.GetFileNameWithoutExtension(imageCover.FileName);
+            var extensionForCover = Path.GetExtension(imageCover.FileName);
+            var uniqueFileNameForCover = $"{fileNameForCover}_{System.Guid.NewGuid()}{extensionForCover}";
+
+            var relativePathForCover = "/images/VendorCover/" + uniqueFileNameForCover;
+            var filePathForCover = Path.Combine(folderPathVendorCover, uniqueFileNameForCover);
+
+            using (var stream = new FileStream(filePathForCover, FileMode.Create))
+            {
+               imageCover.CopyToAsync(stream);
+            }
+            return relativePathForCover;
         }
     }
 }

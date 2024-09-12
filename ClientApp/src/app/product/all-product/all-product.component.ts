@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { GetAllProducts } from '../../shared/models/Product/GetAllProducts';
 import { ProductService } from '../product.service';
 import { AccountService } from '../../account/account.service';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-all-product',
@@ -15,6 +16,8 @@ import { AccountService } from '../../account/account.service';
 })
 export class AllProductComponent implements OnInit {
   products: GetAllProducts[] = [];
+  url = environment.appUrl
+  
   constructor(private productService: ProductService , private accountService : AccountService) { }
 
   ngOnInit(): void {

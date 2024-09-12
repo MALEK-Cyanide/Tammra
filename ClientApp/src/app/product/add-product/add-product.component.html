@@ -7,7 +7,7 @@
         <div class="card custom-card ">
 
           <div class="card-body ">
-            <form [formGroup]="AddProductForm" (ngSubmit)="onSubmit()" autocomplete="off">
+            <form [formGroup]="AddProductForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" autocomplete="off">
               <div
                 style="text-align: center; color: rgb(154, 103, 8); font-size: 30px; margin-bottom: 30px; margin-top: -30px;">
                 إضافة منتج جديد
@@ -22,7 +22,7 @@
                 <label for="productPicture" class="form-label w-25">صورة المنتج</label>
                 <!-- <input type="text" class="form-control w-75" id="productPicture" formControlName="prodImagePath"
                   required> -->
-                <input type="file" class="form-control w-75" (change)="onFileSelected($event)" accept="image/*" formControlName="prodImagePath" required/>
+                <input type="file" class="form-control w-75" (change)="onFileSelected($event)" accept="image/*" required/>
               </div>
 
 

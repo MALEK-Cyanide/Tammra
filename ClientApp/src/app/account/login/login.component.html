@@ -4,7 +4,7 @@
             <div class="card p-4">
                 <h2 class="text-center mb-4">مرحبًا بك</h2>
                 <h4 class="text-center mb-4">تسجيل الدخول</h4>
-                <form [formGroup]="loginForm" (ngSubmit)="login()" autocomplete="off">
+                <form [formGroup]="loginForm" (ngSubmit)="login()">
                     <div class="form-floating mb-3">
                         <input formControlName="Username" type="text" placeholder="البريد الإلكتروني"
                             class="form-control" [class.is-invalid]="submitted && loginForm.get('Username')?.errors">
@@ -32,9 +32,8 @@
                     </div>
 
                     <div class="form-floatin" *ngIf="errorMessages.length > 0">
-                        <!-- <app-validation-messages [errorMessages]="errorMessages"></app-validation-messages> -->
-                        <a class="btn btn-link" (click)="resendEmailConfirmationLink()"
-                            *ngIf="errorMessages[0].includes('قم بتأكيد بريدك الإلكتروني')">
+                        <app-validation-messages [errorMessages]="errorMessages"></app-validation-messages>
+                        <a class="btn btn-link" (click)="resendEmailConfirmationLink()">
                             إعادة إرسال تأكيد البريد الإلكتروني
                         </a>
                     </div>

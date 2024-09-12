@@ -1,0 +1,113 @@
+body {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.btnSumbit {
+  background-color: #401a04;
+  color: white;
+  border-radius: 15px;
+  width: 150px;
+  border: 1px solid #401a04;
+}
+
+h2,
+h6 {
+  color: #401a04;
+  text-align: center;
+}
+
+h6 {
+  text-align: center;
+  color: #a3a2a1;
+}
+
+.btndelete {
+  background-color: rgb(191, 19, 19);
+  color: #fff;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+/* Style the label to look like a button */
+.custom-label {
+  color: white;
+  padding: 5px 5px;
+  border: #401a04 solid 1px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  display: inline-block;
+}
+
+/* Add hover effect to the label */
+.custom-label:hover {
+  background-color: #c4c4c4;
+}
+
+.image-upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  border-radius: 15px;
+  background-color: #f4f6f9;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+}
+
+/* Custom upload button */
+.custom-upload-button {
+  background-color: #7d3803;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  display: inline-block;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+/* Button hover effect */
+.custom-upload-button:hover {
+  background-color: #cf7b4a;
+}
+
+/* Hidden file input */
+input[type="file"] {
+  display: none;
+}
+
+/* Image preview styles */
+.image-preview {
+  width: 100%;
+  height: 200px;
+  border: 2px dashed #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.map-container {
+  margin: 0 auto  ;
+  height: 400px;
+  width: 80%;
+}
+.con{
+  margin: 0 auto  ;
+
+}
