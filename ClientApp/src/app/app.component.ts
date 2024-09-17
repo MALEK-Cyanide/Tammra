@@ -37,4 +37,10 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
     this.accountService.refreashUser();
   }
+  scrollToTop(): void {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // لجعل التمرير سلساً
+    });
+  }
 }

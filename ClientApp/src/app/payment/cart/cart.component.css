@@ -1,0 +1,157 @@
+.imgbg {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.image {
+    width: 100%;
+    z-index: -1;
+    opacity: 0.2;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    object-fit: cover;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+    z-index: 2;
+}
+
+.cart-details {
+    flex-grow: 1;
+    margin-right: 25px;
+    margin-top: 0%;
+
+}
+
+.quantity-selector select {
+    width: 70px;
+}
+
+.quantity-selector select:focus {
+    box-shadow: none;
+}
+
+.bi {
+    margin-left: 15px;
+}
+
+.btn-brown {
+    background-color: #401a04;
+    color: white;
+    border-radius: 5px;
+    border: 1px solid #401a04;
+}
+
+.btn-brown:hover {
+    background-color: #5f3015;
+    color: #fff;
+}
+
+.btn-brown:active {
+    background-color: #5C3317;
+    border-color: #5C3317;
+}
+
+#bttn {
+    width: 100%;
+}
+
+.img1 {
+    width: 200px;
+    height: 150px;
+}
+
+.text {
+    color: #5C3317;
+    font-weight: 700;
+
+}
+
+.em {
+    color: rgb(247, 217, 48);
+}
+
+.paymethods {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: start;
+    margin-top: 20px;
+}
+
+.paymethods img {
+    width: 48px;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .symbols {
+        flex-direction: column;
+        margin-top: 20px;
+    }
+
+    .btn {
+        font-size: 18px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .imgbg {
+        min-height: 100vh;
+        /* Ensure the background image covers full height */
+    }
+
+    .image {
+        height: 100%;
+        width: 100%;
+    }
+
+
+
+    .row {
+        flex-direction: column;
+        margin-left: 0;
+        margin-right: 0;
+
+    }
+
+    .col-md-8,
+    .col-md-4 {
+        max-width: 100%;
+        flex: 0 0 100%;
+    }
+
+    .col-md-4 {
+        margin-top: 20px;
+    }
+
+    .symbols {
+        flex-direction: column;
+        margin-top: 20px;
+    }
+
+    .btn {
+        font-size: 18px;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: gray;
+    margin-right: 10px;
+}
+
+.sale-price {
+    color: red;
+    font-weight: bold;
+}

@@ -22,6 +22,11 @@ namespace Tammra.Models
         [DataType(DataType.Date)]  // Specify that it's a date
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime DateUpdated { get; set; }
+        public double Rate { get; set; }
+        public bool IsOnSale { get; set; }
+        public double SalePrice { get; set; }
+        public double PriceAfterSale { get; set; }
+
 
         [ForeignKey("User")]
         public string UserId { get; set; }

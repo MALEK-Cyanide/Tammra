@@ -68,7 +68,7 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       this.accountService.register(this.registerForm.value).subscribe({
         next: (response: any) => {
-          Swal.fire("", "تم إنشاء حسابك بنجاح", "success")
+          Swal.fire("", " تم إرسال رسالة تأكيد الى بريدك الإلكتروني", "success")
           this.router.navigateByUrl("/account/login");
         },
         error: error => {

@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Tammra.Data;
 using Tammra.DTOs.Product;
 using Tammra.Models;
+using static System.Net.Mime.MediaTypeNames;
 using User = Tammra.Models.User;
 
 namespace Tammra.Cotroller
@@ -40,8 +41,6 @@ namespace Tammra.Cotroller
             {
                 return BadRequest("Email is required");
             }
-            //User user =await _userManager.FindByEmailAsync(email);
-            //var UserId = await _userManager.GetUserIdAsync(user);
 
             var userProducts =await _context.Products.Where(p => p.User.Email == email).ToListAsync();
 
@@ -52,8 +51,15 @@ namespace Tammra.Cotroller
 
             return Ok(userProducts);
         }
+        [HttpGet("get-all-products")]
+        public async Task<IActionResult> GetProducts()
+        {
+            var products = await _context.Products.ToListAsync();
+            return Ok(products);
+        }
+
         [HttpPost("add-product")]
-        public async Task<IActionResult> CreateProduct([FromForm] string product, [FromForm] IFormFile image)
+        public async Task<IActionResult> CreateProduct([FromForm] string product, [FromForm] IFormFile image , [FromForm] string rate)
         {
             var Product = JsonConvert.DeserializeObject<AddProductDto>(product);
 
@@ -80,6 +86,7 @@ namespace Tammra.Cotroller
             {
                 await image.CopyToAsync(stream);
             }
+
             var pro = new Product
             {
                 ProductName = Product.ProductName,
@@ -89,6 +96,7 @@ namespace Tammra.Cotroller
                 ProdImagePath = relativePath,
                 DateAdded = DateTime.UtcNow,
                 ProductionPrice = Product.ProductionPrice,
+                Rate = double.Parse(rate),
                 UserId = UserId
             };
 
@@ -106,13 +114,32 @@ namespace Tammra.Cotroller
             {
                 return NotFound();
             }
-            return product;
+
+            var productRating = await _context.Products
+                                          .Where(r => r.ProductId == id)
+                                          .AverageAsync(r => r.Rate);
+
+            return Ok(product);    
+        }
+        [HttpGet("get-rate/{id}")]
+        public async Task<ActionResult<Product>> GetRate(int id)
+        {
+            var productRating = await _context.Products
+                                          .Where(r => r.ProductId == id)
+                                          .AverageAsync(r => r.Rate);
+
+            return Ok(productRating);
         }
 
-        [HttpPut("edit-product/{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, EditProductDto product)
+        [HttpPut("edit-product")]
+        public async Task<IActionResult> UpdateProduct([FromForm] int id, [FromForm] string product , [FromForm] IFormFile image)
         {
-            if (id != product.ProductId)
+            var angProduct = JsonConvert.DeserializeObject<EditProductDto>(product);
+
+            User user = await _userManager.FindByEmailAsync(angProduct.Email);
+            var UserId = await _userManager.GetUserIdAsync(user);
+
+            if (id != angProduct.ProductId)
             {
                 return BadRequest();
             }
@@ -122,29 +149,51 @@ namespace Tammra.Cotroller
             {
                 return NotFound();
             }
-            existingProduct.ProductName = product.ProductName;
-            existingProduct.DateUpdated = DateTime.UtcNow;
-            existingProduct.Price = product.Price;
-            existingProduct.Quantity = product.Quantity;
-            existingProduct.ProductionPrice = product.ProductionPrice;
-            existingProduct.ProdImagePath = product.ProdImagePath;
+            if(image != null)
+            {
+                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "Products");
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
 
-            try
-            {
-                await _context.SaveChangesAsync();
-                return Ok();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.Products.Any(p => p.ProductId == id))
+                var fileName = Path.GetFileNameWithoutExtension(image.FileName);
+                var extension = Path.GetExtension(image.FileName);
+                var uniqueFileName = $"{fileName}_{System.Guid.NewGuid()}{extension}";
+
+                var relativePath = "/images/Products/" + uniqueFileName;
+                var filePath = Path.Combine(folderPath, uniqueFileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    return NotFound();
+                    await image.CopyToAsync(stream);
                 }
-                else
-                {
-                    throw;
-                }
+                existingProduct.ProdImagePath = relativePath;
             }
+
+            existingProduct.ProductName = angProduct.ProductName;
+            existingProduct.DateUpdated = DateTime.UtcNow;
+            existingProduct.Price = angProduct.Price;
+            existingProduct.Quantity = angProduct.Quantity;
+            existingProduct.ProductionPrice = angProduct.ProductionPrice;
+            if(angProduct.IsOnSale == true)
+            {
+                existingProduct.IsOnSale = true;
+                double sale = (angProduct.Price * angProduct.SalePrice) / 100;
+
+                existingProduct.PriceAfterSale = angProduct.Price - sale;
+                existingProduct.SalePrice = angProduct.SalePrice;
+            }
+            else
+            {
+                existingProduct.IsOnSale = false;
+                existingProduct.SalePrice = 0;
+                existingProduct.PriceAfterSale = 0;
+
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok();
         }
 
         [HttpDelete("delete-product/{id}")]
@@ -190,25 +239,6 @@ namespace Tammra.Cotroller
             }
             
             return imagePath;
-        }
-
-        [HttpGet("getImage/{id}")]
-        public async Task<IActionResult> GetImage(int id)
-        {
-            Product image = await _context.Products.FirstOrDefaultAsync(i => i.ProductId == id);
-            if (image == null)
-            {
-                return NotFound("Image not found");
-            }
-            string filePath = image.ProdImagePath;
-
-
-            return Ok(filePath);
-        }
-        private string GetImageUrlFromDatabase(int id)
-        {
-            var image = _context.Products.FirstOrDefault(i => i.ProductId == id);
-            return image?.ProdImagePath;
         }
         [HttpGet("search-product")]
         public IActionResult SearchProducts([FromQuery] string query)

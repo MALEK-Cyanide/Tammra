@@ -6,6 +6,7 @@ import { AccountService } from '../account/account.service';
 import { environment } from '../../environments/environment.development';
 import { LocationDto } from './LocationDto';
 import { isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class VendorService {
   private vendorData: VendorInfo | undefined;
 
   constructor(private http: HttpClient, private accoubtService: AccountService
-    ,@Inject(PLATFORM_ID) private platformId: Object
+    , @Inject(PLATFORM_ID) private platformId: Object , private router : Router
   ) { }
 
   getUser(email: string): Observable<VendorInfo> {
@@ -37,20 +38,44 @@ export class VendorService {
 
   setSelectedUser(user: VendorInfo | undefined): void {
     this.selectedUser = user;
-    localStorage.setItem('vendorData', JSON.stringify(user));
-  }
 
-  getSelectedUser(): VendorInfo | undefined {
-    return this.selectedUser;
+    if (user) {
+      const now = new Date().getTime();
+      const vendorDataWithExpiry = {
+        value: user,
+        expiry: now + 5 * 600 * 1000
+      };
+
+      localStorage.setItem('vendorData', JSON.stringify(vendorDataWithExpiry));
+    } else {
+      localStorage.removeItem('vendorData');
+    }
   }
   getVendorData() {
     if (this.vendorData) {
       return this.vendorData;
-    } if (isPlatformBrowser(this.platformId)) {
-      const savedData = localStorage.getItem('vendorData');
-      return savedData ? JSON.parse(savedData) : null;
     }
 
+    if (isPlatformBrowser(this.platformId)) {
+      const savedDataStr = localStorage.getItem('vendorData');
+
+      if (!savedDataStr) {
+        return null;
+      }
+
+      const savedData = JSON.parse(savedDataStr);
+      const now = new Date().getTime();
+
+      if (now > savedData.expiry) {
+        localStorage.removeItem('vendorData');
+        this.router.navigateByUrl("/search")
+        return null;
+      }
+
+      return savedData.value;
+    }
+
+    return null;
   }
   saveLocation(vemdorLocation: LocationDto | undefined): Observable<LocationDto> {
     return this.http.post<LocationDto>(`${environment.appUrl}/api/VendorAccount/location/`, vemdorLocation);

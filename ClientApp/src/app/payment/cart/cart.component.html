@@ -1,0 +1,74 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css">
+
+<div class="imgbg">
+    <img class="image" src="Images/background.png" />
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-8 col-md-12 d-flex flex-column">
+                <!-- Cart Header Card -->
+                <div class="card border-0 mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <h6>المنتجات ({{ cartItems.length }})</h6>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart Item Card -->
+                <div *ngIf="cartItems.length > 0">
+                    <div class="card border-0 mb-3" *ngFor="let item of cartItems">
+                        <div class="card-body d-flex flex-column flex-md-row align-items-center">
+                            <img src="{{url}}{{item.image}}" class="img1" alt="Product">
+                            <div class="cart-details d-flex flex-column ms-md-3">
+                                <p class="mb-1"><strong style="font-size: large;">{{ item.productName }}</strong></p>
+                                <p class="mb-1"><strong>الكمية : </strong> <span style="color: green;">{{item.quantity}}</span></p>
+                                <div *ngIf="item.priceAfterSale != 0">
+                                    <p><strong>السعر:
+                                        </strong> <span class="original-price price"
+                                            style="color: red;">{{item.price}}</span> ج.م <i
+                                            class="fa fa-arrow-left"></i>
+                                        <span class="sale-price"> {{ item.priceAfterSale }} ج.م </span>
+                                    </p>
+                                </div>
+                                <div *ngIf="item.priceAfterSale == 0">
+                                    <p><strong>السعر:
+                                        </strong> <span class="price" style="color: red;">{{item.price}}</span>
+                                        ج.م
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="symbols d-flex flex-row align-items-center mt-3 mt-md-0">
+                                <!-- <i class="bi bi-trash me-3" style="cursor: pointer;"
+                                    (click)="removeItem(item.productId)">
+                                </i> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-brown my-3" id="bttn" (click)="checkout()">اشترِ الآن</button>
+            </div>
+
+            <div class="col-lg-4 col-md-12 d-flex flex-column">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <h6 class="mb-3">ملخص الطلب</h6>
+                        <h5>ج.م</h5>
+
+
+                        <hr>
+                        <h6 class="pay mb-3">نقبل</h6>
+                        <div class="paymethods">
+                            <img src="https://img.icons8.com/color/48/000000/paypal.png" alt="PayPal">
+                            <img src="https://img.icons8.com/color/48/000000/visa.png" alt="Visa">
+                            <img src="https://img.icons8.com/color/48/000000/mastercard.png" alt="Mastercard">
+                            <img src="https://img.icons8.com/color/48/000000/apple-pay.png" alt="Apple Pay">
+                            <img src="https://img.icons8.com/color/48/000000/cash.png" alt="Cash">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

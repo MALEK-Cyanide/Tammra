@@ -16,6 +16,8 @@ namespace Tammra.Models
         [ForeignKey("User")]
         public string UserId { get; set; }
         public User User { get; set; }
+        public double TotalAmount { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; }
 
         public ICollection<Product> Products { get; set; }
     }

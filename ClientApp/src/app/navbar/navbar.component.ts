@@ -26,6 +26,7 @@ import { ProductService } from '../product/product.service';
 })
 export class NavbarComponent implements OnInit {
   Fname: any;
+  Role : any
   searched = true;
   searchQuery: string = '';
   searchResults: any[] = [];
@@ -34,6 +35,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.Fname = this.accoutService.getFname()?.firstName + " " + this.accoutService.getFname()?.lastName;
+    this.Role = this.accoutService.getFname()?.role
   }
 
   logout() {

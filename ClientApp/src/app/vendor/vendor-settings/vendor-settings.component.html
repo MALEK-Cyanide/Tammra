@@ -4,27 +4,21 @@
     <form [formGroup]="EditInfoForm" (ngSubmit)="onSubmit()">
         <div class="row con">
             <div class="image-upload-container">
-                <div class="image-preview" *ngIf="imgProfilePath">
-                    <img [src]="url+imgProfilePath" alt="Uploaded Image" class="preview-image" />
-                </div>
-
+                <img [src]="url+imgProfilePath" class="image-preview">
                 <label for="file-upload" class="custom-upload-button">
                     <i class="fas fa-cloud-upload-alt"></i> تغير صورة البروفايل
                 </label>
                 <input id="file-upload" type="file" (change)="onFileSelectedProfile($event)" accept="image/*" />
             </div>
-            <div class="image-upload-container ">
-                <div class="image-preview" *ngIf="imgCoverPath">
-                    <img [src]="url+imgCoverPath" alt="Uploaded Image" class="preview-image" />
-                </div>
 
+            <div class="image-upload-container ">
+                <img [src]="url+imgCoverPath" class="image-preview">
                 <label for="file-cover-upload" class="custom-upload-button">
                     <i class="fas fa-cloud-upload-alt"></i> تغير الصورة الخلفية
                 </label>
                 <input id="file-cover-upload" type="file" (change)="onFileSelectedCover($event)" accept="image/*" />
             </div>
         </div>
-        <!-- Vendor Name -->
         <div class="row">
             <div class="col-md-6">
                 <label for="name" class="form-label"> الاسم الأول</label>
@@ -36,7 +30,6 @@
                 <input type="text" class="form-control" formControlName="lastName" />
             </div>
         </div>
-        <!-- Vendor Phone -->
         <div class="row">
             <div class="col-md-6">
                 <label for="text" class="form-label">أسم شركتك</label>
@@ -54,18 +47,13 @@
         <div class="map-container">
             <label style="margin: 0 auto;">موقعك الجغرافي</label>
 
-            <google-map height="400px" width="100%" [center]="center" [zoom]="zoom" (mapClick)="onMapClick($event)">
+            <google-map height="500px" width="100%" [center]="center" [zoom]="zoom" (mapClick)="onMapClick($event)">
                 <map-marker [position]="center"></map-marker>
             </google-map>
         </div>
 
-        <div class="d-flex justify-content-between mt-4">
+        <div class="d-flex mt-4 btndiv">
             <button type="submit" class="btn btnSumbit"> حفظ التغييرات </button>
-            <button class="btn btndelete">حذف الحساب</button>
         </div>
-
-        <h6 class="d-flex justify-content-end" style="color: rgb(135, 135, 135)">
-            بمجرد ان تحذف حسابك لا يمكنك الرجوع اليه مرة اخرى
-        </h6>
     </form>
 </div>

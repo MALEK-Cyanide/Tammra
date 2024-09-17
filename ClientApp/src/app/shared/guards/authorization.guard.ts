@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, GuardResult, MaybeAsync, Router, R
 import { map, Observable } from 'rxjs';
 import { AccountService } from '../../account/account.service';
 import { User } from '../models/account/User';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,7 @@ export class AuthGuard implements CanActivate{
           return true;
         }else{
           this.router.navigate(["account/login"] , {queryParams: {returnUrl : state.url}});
+          Swal.fire("" , "يجب عليك تسجيل الدخول أولاً" , "warning")
           return false;
         }
       })

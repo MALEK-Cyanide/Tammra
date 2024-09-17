@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { VendorService } from './vendor.service';
-import Swal from 'sweetalert2';
 import { VendorInfo } from './VendorInfo';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { AccountService } from '../account/account.service';
@@ -31,12 +30,16 @@ export class VendorAccountComponent implements OnInit {
   zoom = 12;
   latitude: number | null = null;
   longitude: number | null = null;
+  show: boolean = true
+  showInfo() {
+    this.show = false
+  }
 
-
-  constructor(private vendorService: VendorService, private accountServices: AccountService, private rout: Router, private http: HttpClient) { }
+  constructor(private vendorService: VendorService, private accountServices: AccountService, private http: HttpClient) { }
 
   ngOnInit(): void {
     this.getVendorData()
+    window.scrollTo({top: 0, behavior: 'smooth'});
   }
 
   getVendorData() {

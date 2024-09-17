@@ -44,7 +44,7 @@ namespace Tammra.Cotroller
         }
 
 
-        [HttpPost("update-settings")]
+        [HttpPut("update-settings")]
         public async Task<IActionResult> UpdateUser([FromForm] string email, [FromForm] string vendor, [FromForm] IFormFile imageProfile,  [FromForm] IFormFile imageCover)
         {
             var Vendor = JsonConvert.DeserializeObject<User>(vendor);
@@ -56,26 +56,78 @@ namespace Tammra.Cotroller
             }
             if (imageProfile != null)
             {
-                userInDb.VendorImagePath = ProfileImage(imageProfile);
+                var folderPathForVendorProfile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "VendorProfile");
+                if (!Directory.Exists(folderPathForVendorProfile))
+                {
+                    Directory.CreateDirectory(folderPathForVendorProfile);
+                }
+
+                var fileNameForProfile = Path.GetFileNameWithoutExtension(imageProfile.FileName);
+                var extensionForProfile = Path.GetExtension(imageProfile.FileName);
+                var uniqueFileNameForProfile = $"{fileNameForProfile}_{System.Guid.NewGuid()}{extensionForProfile}";
+
+                var relativePathForProfile = "/images/VendorProfile/" + uniqueFileNameForProfile;
+                var filePathForProfile = Path.Combine(folderPathForVendorProfile, uniqueFileNameForProfile);
+
+                using (var stream = new FileStream(filePathForProfile, FileMode.Create))
+                {
+                    await imageProfile.CopyToAsync(stream);
+                }
+                userInDb.VendorImagePath = relativePathForProfile;
+
             }
+            else if(imageProfile == null)
+            {
+                if(userInDb.VendorImagePath != null)
+                {
+                    userInDb.VendorImagePath = userInDb.VendorImagePath;
+                }
+                else
+                {
+                    userInDb.VendorImagePath = "/images/VendorProfile/profile.png";
+
+                }
+            }
+
             if (imageCover != null)
             {
-                
-                userInDb.VendorCoverPath = CoverImage(imageCover);
+                var folderPathVendorCover = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "VendorCover");
+                if (!Directory.Exists(folderPathVendorCover))
+                {
+                    Directory.CreateDirectory(folderPathVendorCover);
+                }
+
+                var fileNameForCover = Path.GetFileNameWithoutExtension(imageCover.FileName);
+                var extensionForCover = Path.GetExtension(imageCover.FileName);
+                var uniqueFileNameForCover = $"{fileNameForCover}_{System.Guid.NewGuid()}{extensionForCover}";
+
+                var relativePathForCover = "/images/VendorCover/" + uniqueFileNameForCover;
+                var filePathForCover = Path.Combine(folderPathVendorCover, uniqueFileNameForCover);
+
+                using (var stream = new FileStream(filePathForCover, FileMode.Create))
+                {
+                    await imageCover.CopyToAsync(stream);
+                }
+                userInDb.VendorCoverPath = relativePathForCover;
             }
-                userInDb.FirstName = Vendor.FirstName;
-                userInDb.LastName = Vendor.LastName;
-                userInDb.PhoneNumber = Vendor.PhoneNumber;
-                userInDb.Description = Vendor.Description;
-                userInDb.CompanyName = Vendor.CompanyName;
-            try
+            else if(imageCover == null) 
             {
-                await _userManager.UpdateAsync(userInDb);
+                if (userInDb.VendorCoverPath != null)
+                {
+                    userInDb.VendorCoverPath = userInDb.VendorCoverPath;
+                }
+                else
+                {
+                    userInDb.VendorCoverPath = "/images/VendorCover/cover.jpg";
+                }
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                return StatusCode(500, "Error updating user data");
-            }
+            userInDb.FirstName = Vendor.FirstName;
+            userInDb.LastName = Vendor.LastName;
+            userInDb.PhoneNumber = Vendor.PhoneNumber;
+            userInDb.Description = Vendor.Description;
+            userInDb.CompanyName = Vendor.CompanyName;
+
+            await _userManager.UpdateAsync(userInDb);
 
             return Ok(userInDb);
         }
@@ -126,48 +178,6 @@ namespace Tammra.Cotroller
             var user = _userManager.Users.Where(p => p.FirstName.Contains(query) || p.LastName.Contains(query)).ToList();
             return Ok(user);
         }
-        private string ProfileImage(IFormFile imageProfile)
-        {
-            var folderPathForVendorProfile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "VendorProfile");
-            if (!Directory.Exists(folderPathForVendorProfile))
-            {
-                Directory.CreateDirectory(folderPathForVendorProfile);
-            }
-
-            var fileNameForProfile = Path.GetFileNameWithoutExtension(imageProfile.FileName);
-            var extensionForProfile = Path.GetExtension(imageProfile.FileName);
-            var uniqueFileNameForProfile = $"{fileNameForProfile}_{System.Guid.NewGuid()}{extensionForProfile}";
-
-            var relativePathForProfile = "/images/VendorProfile/" + uniqueFileNameForProfile;
-            var filePathForProfile = Path.Combine(folderPathForVendorProfile, uniqueFileNameForProfile);
-
-            using (var stream = new FileStream(filePathForProfile, FileMode.Create))
-            {
-                imageProfile.CopyToAsync(stream);
-            }
-            return relativePathForProfile;
-        }
-
-        private string CoverImage(IFormFile imageCover)
-        {
-            var folderPathVendorCover = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "VendorCover");
-            if (!Directory.Exists(folderPathVendorCover))
-            {
-                Directory.CreateDirectory(folderPathVendorCover);
-            }
-
-            var fileNameForCover = Path.GetFileNameWithoutExtension(imageCover.FileName);
-            var extensionForCover = Path.GetExtension(imageCover.FileName);
-            var uniqueFileNameForCover = $"{fileNameForCover}_{System.Guid.NewGuid()}{extensionForCover}";
-
-            var relativePathForCover = "/images/VendorCover/" + uniqueFileNameForCover;
-            var filePathForCover = Path.Combine(folderPathVendorCover, uniqueFileNameForCover);
-
-            using (var stream = new FileStream(filePathForCover, FileMode.Create))
-            {
-               imageCover.CopyToAsync(stream);
-            }
-            return relativePathForCover;
-        }
+        
     }
 }

@@ -1,4 +1,4 @@
-<div class="card-body" *ngIf="product"style="font-family: 'Times New Roman', Times, serif;">
+<div class="card-body" *ngIf="product">
   <div class="container-products">
     <div class="product-card">
       <div class="product-image">
@@ -6,16 +6,32 @@
       </div>
       <div class="product-details">
         <h5 class="product-title">{{ product.productName }}</h5>
-        <p class="product-price"><strong>السعر:</strong> {{ product.price }} ج.م</p>
-        <div class="more-details ">
-          <p class="product-description">أجود أنواع التمور</p>
+        <div *ngIf="product.priceAfterSale != 0">
+          <p><strong>السعر:
+              </strong> <span class="original-price" style="color: red;">{{product.price}}</span> ج.م <i class="fa fa-arrow-left"></i>
+              <span class="sale-price"> {{ product.priceAfterSale }} ج.م </span>
+          </p>
+      </div>
+      <div *ngIf="product.priceAfterSale == 0">
+          <p><strong>السعر:
+              </strong> <span class="" style="color: red;">{{product.price}}</span> ج.م
+          </p>
+      </div>        <div class="more-details ">
           <p><strong>الكمية : </strong>{{ product.quantity }}</p>
           <p><strong>سعر الجملة : </strong>{{ product.productionPrice }}</p>
           <p><strong>تاريخ الإضافة : </strong>{{ product.dateAdded }}</p>
           <p><strong>تاريخ أخر تعديل : </strong>{{ product.dateUpdated }}</p>
+          <div class="rating" style="margin-top: 20px; margin-bottom: 20px;">
+            <span *ngFor="let star of stars">
+              @if(AvgRate != undefined){
+              <i class="fa" [ngClass]="{'fa-star': AvgRate , 'fa-star-o': star <= AvgRate }"></i>
+              }
+            </span>
+          </div>
         </div>
       </div>
-      <button type="submit" class="btn btn-brown" routerLink="/vendor/all-product">الرجوع إلي المنتجات</button>
+      <button type="submit" class="btn btn-brown" routerLink="/vendor/all-product"> <i class="fa fa-arrow-right"></i>
+        الرجوع إلي المنتجات</button>
     </div>
   </div>
 </div>

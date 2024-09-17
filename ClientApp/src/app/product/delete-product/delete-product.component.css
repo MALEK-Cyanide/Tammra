@@ -82,3 +82,13 @@
           font-size: 1em;
       }
   }
+  .original-price {
+    text-decoration: line-through;
+    color: gray;
+    margin-right: 10px;
+}
+
+.sale-price {
+    color: red;
+    font-weight: bold;
+}

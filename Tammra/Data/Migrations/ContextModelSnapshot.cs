@@ -170,6 +170,82 @@ namespace Tammra.Data.Migrations
                     b.ToTable("OrederProduct");
                 });
 
+            modelBuilder.Entity("Tammra.Models.Cart", b =>
+                {
+                    b.Property<int>("CartId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartId"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CartId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Carts");
+                });
+
+            modelBuilder.Entity("Tammra.Models.CartItem", b =>
+                {
+                    b.Property<int>("CartItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartItemId"));
+
+                    b.Property<int>("CartId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("CartItemId");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("CartItems");
+                });
+
+            modelBuilder.Entity("Tammra.Models.OrderItem", b =>
+                {
+                    b.Property<int>("OrderItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderItemId"));
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderItemId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderItems");
+                });
+
             modelBuilder.Entity("Tammra.Models.Oreder", b =>
                 {
                     b.Property<int>("OrderId")
@@ -183,6 +259,9 @@ namespace Tammra.Data.Migrations
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("TotalAmount")
+                        .HasColumnType("float");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -208,7 +287,13 @@ namespace Tammra.Data.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsOnSale")
+                        .HasColumnType("bit");
+
                     b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PriceAfterSale")
                         .HasColumnType("float");
 
                     b.Property<string>("ProdImagePath")
@@ -224,6 +309,12 @@ namespace Tammra.Data.Migrations
                         .HasColumnType("float");
 
                     b.Property<double>("Quantity")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Rate")
+                        .HasColumnType("float");
+
+                    b.Property<double>("SalePrice")
                         .HasColumnType("float");
 
                     b.Property<string>("UserId")
@@ -406,6 +497,53 @@ namespace Tammra.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Tammra.Models.Cart", b =>
+                {
+                    b.HasOne("Tammra.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Tammra.Models.CartItem", b =>
+                {
+                    b.HasOne("Tammra.Models.Cart", "Cart")
+                        .WithMany("CartItems")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tammra.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Tammra.Models.OrderItem", b =>
+                {
+                    b.HasOne("Tammra.Models.Oreder", "Oreder")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tammra.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Oreder");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Tammra.Models.Oreder", b =>
                 {
                     b.HasOne("Tammra.Models.User", "User")
@@ -422,6 +560,16 @@ namespace Tammra.Data.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Tammra.Models.Cart", b =>
+                {
+                    b.Navigation("CartItems");
+                });
+
+            modelBuilder.Entity("Tammra.Models.Oreder", b =>
+                {
+                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("Tammra.Models.User", b =>

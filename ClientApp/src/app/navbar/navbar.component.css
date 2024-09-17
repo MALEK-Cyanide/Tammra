@@ -3,10 +3,15 @@
 }
 .fname{
     margin-right: 10px;
-    font-size: 20px;
+    font-size: 18px;
+    text-decoration: none;
+    color: #ffaf47;
+}
+.fname:hover{
+  color: #995400;
 }
 .nav-item {
-    font-family: "Times New Roman", Times, serif;
+    font-family: 'Cairo', Times, serif;
     padding: 10px;
   }
   .navbar {
@@ -20,7 +25,7 @@
   .nav-link,
   .M_btns a,
   .Reg_visiblity a {
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Cairo", Times, serif;
     text-decoration: none;
     color: #401a04;
     font-weight: bolder;
@@ -35,7 +40,7 @@
   }
   .top-header {
     font-size: 14px;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Cairo", Times, serif;
     height: 32px;
   }
   .auth-links .btn {
@@ -78,7 +83,7 @@
   }
   
   .form-control {
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Cairo", Times, serif;
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;

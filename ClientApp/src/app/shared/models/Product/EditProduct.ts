@@ -6,5 +6,7 @@ export interface EditProduct {
     profit: number;
     prodImagePath: string;
     productionPrice:number;
-    dateUpdated:Date
+    dateUpdated:Date,
+    isOnSale : boolean,
+    salePrice : number
 }

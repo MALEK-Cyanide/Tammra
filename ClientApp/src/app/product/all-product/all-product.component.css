@@ -1,23 +1,16 @@
-
 .card-container {
     display: flex;
     flex-wrap: wrap;
-    /* Allows wrapping of cards on smaller screens */
     gap: 15px;
 }
 
 /* Individual card styling */
 .card {
     background-color: #f8f9fa;
-    /* Light background color for the card */
     border: 1px solid #ddd;
-    /* Light border */
     border-radius: 8px;
-    /* Rounded corners */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    /* Subtle shadow */
     width: calc(25% - 50px);
-    /* Each card takes up roughly 1/3 of the container's width */
     transition: transform 0.3s ease;
 }
 
@@ -36,7 +29,7 @@
 }
 
 .product-card {
-    width: 100%;
+    width: 23%;
     max-width: 300px;
     height: 380px;
     background-color: #f2d4ae;
@@ -121,5 +114,55 @@
 
 .btn-brown:hover {
     background-color: #a66c24;
-
 }
+
+.original-price {
+    text-decoration: line-through;
+    color: gray;
+    margin-right: 10px;
+}
+
+.sale-price {
+    color: red;
+    font-weight: bold;
+}
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .search-bar-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px; /* Adjust the width of the search bar */
+    margin-top: 20px;
+  }
+  @media (max-width: 768px) {
+    .search-bar-container {
+      max-width: 300px;
+    }
+  }
+  .search-input {
+    width: 100%;
+    padding: 10px 45px 10px 15px;
+    border-radius: 25px;
+    border: 2px solid #ffc107;
+    outline: none;
+    font-size: 16px;
+    transition: width 0.4s ease-in-out;
+  }
+  .search-btn {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #ffc107;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+  .search-btn i {
+    font-size: 16px;
+  }

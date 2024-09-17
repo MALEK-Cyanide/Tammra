@@ -18,6 +18,7 @@ namespace Tammra.DTOs.Product
         public string UserId { get; set; }
         public string Email { get; set; }
         public IFormFile ImgPath { get; set; }
+        public double Rate { get; set; }
 
     }
 }

@@ -4,6 +4,7 @@ import { ProductService } from '../product.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-delete-product',
@@ -14,6 +15,7 @@ import Swal from 'sweetalert2';
 })
 export class DeleteProductComponent implements OnInit {
   product: GetAllProducts | undefined;
+  url = environment.appUrl
 
   constructor(private productService: ProductService, private route: ActivatedRoute, private rout: Router) { }
 

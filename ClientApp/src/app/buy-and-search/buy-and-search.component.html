@@ -13,20 +13,90 @@
             </p>
         </div>
         <div class="center-container">
-        <div class="search-bar-container">
-            <input type="text" placeholder="ابحث عن منتج ..." class="search-input" />
-            <button type="submit" class="search-btn">
-                <i class="fas fa-search"></i>
-            </button>
+            <div class="search-bar-container">
+                <input type="text" placeholder="ابحث عن منتج ..." class="search-input" [(ngModel)]="searchQuery" />
+                <button type="submit" class="search-btn" (click)="searchForProduct()"><i
+                        class="fas fa-search"></i></button>
+            </div>
+        </div>
+        <br>
+        <div class="d-flex justify-content-center">
+            <h2 class="heading">المنتجات</h2>
+        </div>
+        <div *ngIf="show">
+            <button (click)="getAllProd(email)" class="btn btn-brown" style="margin-bottom: 15px;"> <i
+                    class="fa fa-arrow-right"></i> الرجوع إلي المنتجات</button>
+        </div>
+        <div class="card-container" style="font-family: 'Cairo', Times, serif;">
+            <div class="product-card" *ngFor="let product of products">
+                <div class="card-content">
+                    <div style="height: 200px;">
+                        <img src="{{url}}{{product.prodImagePath}}" class="product-image img-fluid" />
+                    </div>
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{product.productName}}</h5>
+                        <div class="card-text">
+                            <p><strong>الكمية: </strong> <span
+                                    style="color: rgb(111, 3, 3);">{{product.quantity}}</span> </p>
+                            <div *ngIf="product.priceAfterSale != 0">
+                                <p><strong>السعر:
+                                    </strong> <span class="original-price" style="color: red;">{{product.price}}</span>
+                                    ج.م <i class="fa fa-arrow-left"></i>
+                                    <span class="sale-price"> {{ product.priceAfterSale }} ج.م </span>
+                                </p>
+                            </div>
+                            <div *ngIf="product.priceAfterSale == 0">
+                                <p><strong>السعر:
+                                    </strong> <span class="" style="color: red;">{{product.price}}</span> ج.م
+                                </p>
+                            </div>
+                             <button (click)="addToCart(product.productId)" class="btn btn-brown mx-1"
+                                style="margin-bottom: 10px;">أضف إلى السلة <i class="fa fa-shopping-cart"></i></button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-4" style="font-size: 20px;margin-bottom: 900px;">
+            <div class="crd crd-custom p-4">
+                <div class="row">
+                    <div class=" col-12 col-md-6 left-side">
+                        <div class="d-flex align-items-center mb-4" style="margin-top: 50px;">
+                            <div class="icon-container">
+                                <i class="bi bi-telephone"></i>
+                            </div>
+                            <span><i class="fa fa-phone"> </i> رقم الموبايل: <span
+                                    style="color: rgb(168, 74, 20);">{{vendor?.phoneNumber}}</span></span>
+                        </div>
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="icon-container">
+                                <i class="bi bi-envelope"></i>
+                            </div>
+                            <div> <i class="fa fa-message"> </i> البريد الالكتروني: <span
+                                    style="color: rgb(168, 74, 20);">{{vendor?.email}}</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="icon-container">
+                                <i class="bi bi-calendar-fill"></i>
+                            </div>
+                            <div><i class="fa fa-building"> </i> أسم الشركة : <span
+                                    style="color: rgb(168, 74, 20);">{{vendor?.companyName}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-5 right-side ">
+                        <p>موقعك الحالي</p>
+                        <div class="map-container">
+                            <google-map height="220px" width="100%" [center]="center" [zoom]="zoom">
+                            </google-map>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <br>
-    <div class="d-flex justify-content-center">
-        <h2 class="heading">المنتجات</h2>
-    </div>
-
-    <div class="col-md-12 col-lg-6 col-sm-">
-    </div>
-</div>
-
 </div>

@@ -17,7 +17,6 @@ const routes: Routes = [
   { path: 'delete-product/:id', component: DeleteProductComponent },
   { path: 'vendor-settings', component: VendorSettingsComponent },
   { path: 'vendor-info', component: VendorInfoComponent }
-
 ]
 
 @NgModule({

@@ -27,33 +27,82 @@
             <div class="row">
                 <div class="card-content col-md-3 col-sm-6">
                     <div class="card-container" *ngIf="Type">
-                        <div *ngFor="let product of searchProducts">
-                            <div class="image-container-card">
-                                <img [src]="url+product.prodImagePath" class="product-image" alt="صوره المنتج ">
-                                <div class="corner-triangle top-left"></div>
-                                <div class="corner-triangle top-right"></div>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">{{product.productName}}</h5>
-                                <div class="card-text">
-                                    <p><strong>الكمية: </strong> <span
-                                            style="color:#401a04;">{{product.quantity}}</span>
-                                    </p>
-                                    <p><strong>السعر: </strong> <span style="color: #401a04;
-                                    ">{{product.price}}</span> ج.م
-                                    </p>
+                        <div *ngFor="let product of searchProducts" class="card ">
+                            <div class="product" *ngIf="product.quantity != 0">
+                                <div class="image-container">
+                                    <img [src]="url+product.prodImagePath" class="product-image" style="width: 100%;">
+                                    <span class="sold-out-badge">أنتهت الكمية</span>
                                 </div>
+                                <div class="product-details">
+                                    <h5 class="card-title">{{product.productName}}</h5>
+                                    <div class="card-text">
+                                        <p><strong>الكمية: </strong> <span
+                                                style="color:#401a04;">{{product.quantity}}</span>
+                                        </p>
+                                        <div *ngIf="product.priceAfterSale != 0">
+                                            <p><strong>السعر:
+                                                </strong> <span class="original-price price"
+                                                    style="color: red;">{{product.price}}</span> ج.م <i
+                                                    class="fa fa-arrow-left"></i>
+                                                <span class="sale-price"> {{ product.priceAfterSale }} ج.م </span>
+                                            </p>
+                                        </div>
+                                        <div *ngIf="product.priceAfterSale == 0">
+                                            <p><strong>السعر:
+                                                </strong> <span class="price" style="color: red;">{{product.price}}</span>
+                                                ج.م
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button [routerLink]="['///', product.productId]" class="btn btn-brown mx-1"
+                                    style="margin-bottom: 10px;">شراء <i class="fa fa-shopping-cart"></i></button>
+                            </div>
+                        </div>
+
+                        <div *ngFor="let product of searchProducts" class="card ">
+                            <div *ngIf="product.quantity == 0">
+                                <div class="image-container-card sold-out-badge">
+                                    <img [src]="url+product.prodImagePath" class="card-img-top" style="width: 100%;">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{product.productName}}</h5>
+                                    <div class="card-text">
+                                        <p><strong>الكمية: </strong> <span
+                                                style="color:#401a04;">{{product.quantity}}</span>
+                                        </p>
+                                        <div *ngIf="product.priceAfterSale != 0">
+                                            <p><strong>السعر:
+                                                </strong> <span class="original-price"
+                                                    style="color: red;">{{product.price}}</span> ج.م <i
+                                                    class="fa fa-arrow-left"></i>
+                                                <span class="sale-price"> {{ product.priceAfterSale }} ج.م </span>
+                                            </p>
+                                        </div>
+                                        <div *ngIf="product.priceAfterSale == 0">
+                                            <p><strong>السعر:
+                                                </strong> <span class="" style="color: red;">{{product.price}}</span>
+                                                ج.م
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button [routerLink]="['///', product.productId]" class="btn btn-brown mx-1"
+                                    style="margin-bottom: 10px;">شراء <i class="fa fa-shopping-cart"></i></button>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="card-content col-md-3 col-sm-6">
                     <div class="card-container" *ngIf="!Type">
-                        <div *ngFor="let vendor of searchVendors">
+                        <div *ngFor="let vendor of searchVendors" class="card">
                             <div class="image-container-card">
                                 <a (click)="ViewVendorProfile(vendor.email)">
-                                    <img [src]="url+vendor.vendorImagePath" class="card-img-top" alt="صوره التاجر ">
+                                    <img [src]="url+vendor.vendorImagePath" class="card-img-top" style="width: 100%;">
                                 </a>
-                                <div class="corner-triangle top-left"></div>
-                                <div class="corner-triangle top-right"></div>
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">{{vendor.firstName}} {{vendor.lastName}}</h5>
@@ -61,7 +110,8 @@
                                     <p><strong>للتواصل : </strong> <span
                                             style="color:#401a04;">{{vendor.phoneNumber}}</span>
                                     </p>
-                                    <button class="btn btn-secondary" style="color: white;" (click)="ViewVendorProfile(vendor.email)">عرض صفحة
+                                    <button class="btn-brown" style="color: white;"
+                                        (click)="ViewVendorProfile(vendor.email)">عرض صفحة
                                         التاجر</button>
                                 </div>
                             </div>

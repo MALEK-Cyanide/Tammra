@@ -8,4 +8,8 @@ export interface GetAllProducts {
     prodImagePath: string;
     dateAdded:Date;
     dateUpdated:Date,
+    rate:number,
+    isOnSale : boolean,
+    salePrice : number,
+    priceAfterSale : number
 }

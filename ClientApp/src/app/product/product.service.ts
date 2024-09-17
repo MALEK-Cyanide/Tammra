@@ -42,4 +42,7 @@ export class ProductService {
   updateSearchResults(results: any[]) {
     this.searchResultsSource.next(results);
   }
+  getRate(id: number): Observable<any> {
+    return this.http.get<any>(`${environment.appUrl}/api/product/get-rate/${id}`);
+  }
 }

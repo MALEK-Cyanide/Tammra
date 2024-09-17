@@ -8,8 +8,8 @@ import { VendorService } from '../vendor.service';
 import { HttpClient } from '@angular/common/http';
 import { VendorInfo } from '../VendorInfo';
 import { CommonModule } from '@angular/common';
-import { GoogleMapsModule } from '@angular/google-maps';
 import { LocationDto } from '../LocationDto';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @Component({
   selector: 'app-vendor-settings',
@@ -52,8 +52,10 @@ export class VendorSettingsComponent implements OnInit {
 
   ngOnInit() {
     this.getVendorInfo();
-    this.latitude = this.center.lat;
-    this.longitude = this.center.lng;
+    this.http.get(`${environment.appUrl}/api/VendorAccount/get-location/${this.accountServices.getJWT().email}`)
+      .subscribe((data: any) => {
+        this.center = { lat: data.latitude, lng: data.longitude };
+      });
   }
 
   onMapClick(event: google.maps.MapMouseEvent) {
@@ -119,10 +121,12 @@ export class VendorSettingsComponent implements OnInit {
       formData.append('imageCover', this.selectedCover);
     }
 
-    this.http.post(`${environment.appUrl}/api/VendorAccount/update-settings`, formData)
+    this.http.put(`${environment.appUrl}/api/VendorAccount/update-settings`, formData)
       .subscribe(response => {
-        this.rout.navigateByUrl("/vendor/all-product")
+        console.log(response)
         Swal.fire("", "تم تغير بياناتك بنجاح", "success");
+        this.rout.navigateByUrl("/vendor")
+
       });
   }
 

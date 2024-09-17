@@ -33,3 +33,11 @@
       height: 500px;
     }
 }
+.rating .fa-star {
+  color: rgb(255, 157, 0);
+  cursor: pointer;
+}
+
+.rating .fa-star-o {
+  color: gray;
+}
