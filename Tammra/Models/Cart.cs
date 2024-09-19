@@ -9,6 +9,7 @@ namespace Tammra.Models
     {
         [Key]
         public int CartId { get; set; }
+        public double TotalPrice { get; set; }
 
         [ForeignKey("User")]
         public string UserId { get; set; }

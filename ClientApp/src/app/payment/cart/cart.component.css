@@ -155,3 +155,56 @@
     color: red;
     font-weight: bold;
 }
+.small-number-input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    background-color: #f7f7f7;
+    padding: 5px;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Styling for the buttons */
+  .butto {
+    background-color: #874100;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    padding: 0;
+  }
+  
+  .butto:hover {
+    background-color: #ffa200;
+  }
+  
+  /* Styling for the number input */
+  input[type="number"] {
+    width: 40px;
+    text-align: center;
+    font-size: 0.9rem;
+    border: none;
+    background: transparent;
+    outline: none;
+    color: #333;
+  }
+  
+  /* Remove spinner arrows */
+  input[type="number"]::-webkit-inner-spin-button, 
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  input[type="number"] {
+    appearance: textfield;
+  }

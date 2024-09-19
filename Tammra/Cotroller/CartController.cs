@@ -41,7 +41,7 @@ namespace Tammra.Cotroller
 
             var cartItem = await _context.CartItems
                 .FirstOrDefaultAsync(ci => ci.CartId == cart.CartId && ci.ProductId == productId);
-
+            
             var cartItemDto = new CartItemDto();
             if (cartItem == null)
             {
@@ -50,7 +50,7 @@ namespace Tammra.Cotroller
                 {
                     CartId = cartItem.CartId,
                     ProductId = cartItem.ProductId,
-                    Quantity = cartItem.Quantity
+                    Quantity = cartItem.Quantity,
                 };
                 _context.CartItems.Add(cartItem);
             }
@@ -81,6 +81,9 @@ namespace Tammra.Cotroller
                     .Where(ci => ci.Cart.UserId == UserId)
                     .Include(ci => ci.Product)
                     .ToListAsync();
+                var prodId = _context.CartItems.Where(ci => ci.Cart.UserId == UserId).FirstOrDefault();
+                var prod = _context.Products.Where(x => x.ProductId == prodId.ProductId).FirstOrDefault();
+                double totalQ = prod.Quantity;
 
                 var cartItemDtos = cartItems.Select(ci => new CartItemDto
                 {
@@ -92,6 +95,7 @@ namespace Tammra.Cotroller
                     Image = ci.Product.ProdImagePath,
                     TotalPrice = ci.Product.Price * ci.Quantity,
                     PriceAfterSale = ci.Product.PriceAfterSale,
+                    TotalQuantity = totalQ
                 }).ToList();
 
                 return Ok(cartItemDtos);
@@ -101,5 +105,35 @@ namespace Tammra.Cotroller
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+        [HttpDelete("delete-cart/{id}")]
+        public async Task<IActionResult> DeleteItem(int id)
+        {
+            var cartItem = await _context.CartItems.Where(x => x.ProductId == id).FirstOrDefaultAsync();
+            if (cartItem == null)
+            {
+                return NotFound();
+            }
+
+            _context.CartItems.Remove(cartItem);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+        [HttpPut("change-amount")]
+        public async Task<IActionResult> ChangeQ([FromForm] int id , [FromForm] int quntity)
+        {
+            var cartItem = await _context.CartItems.Where(x => x.CartItemId == id).FirstOrDefaultAsync();
+            if (cartItem == null)
+            {
+                return NotFound();
+            }
+            cartItem.Quantity = quntity;
+
+            _context.CartItems.Update(cartItem);
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
     }
 }

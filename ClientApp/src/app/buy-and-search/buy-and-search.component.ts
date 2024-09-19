@@ -52,8 +52,8 @@ export class BuyAndSearchComponent implements OnInit {
     });
   }
   addToCart(productId: number): void {
-    this.cartService.addToCart(productId, this.accountService.getJWT().email, 1).subscribe(() => {
-      Swal.fire("", "تم إضافة طلبك إلى سلة المشتريات", "success")
+    this.cartService.addToCart(productId, this.accountService.getJWT().email, this.quantity).subscribe(() => {
+      Swal.fire("", "تم إضافة طلبك إلى عربة المشتريات", "success")
     });
   }
   getAllProd(email: string) {

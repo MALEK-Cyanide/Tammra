@@ -1,0 +1,89 @@
+<div class="main">
+    <div class="row">
+        <div class="address-container col-md-8">
+            <div class="d-flex justify-content-between details-container">
+                <div>
+                    <h5><b>تفاصيل الشحن</b></h5>
+                    <strong> الاسم : <span style="color: rgb(213, 110, 0);">{{customer?.firstName}}
+                            {{customer?.lastName}}</span></strong>
+                    <br />
+                    <br />
+                    <strong>رقم الهاتف :</strong>
+                    <br />
+                    <h5 style="margin-bottom: 10px;">{{order?.phoneNumber}}</h5>
+                    <br />
+                    <strong>عنوان التوصيل :</strong>
+                    <br />
+                    <h5 style="margin-bottom: 10px;">{{order?.governorate}} , {{order?.city}} ,
+                        {{order?.addressDetails}}</h5>
+                </div>
+                <div>
+                    <button class="btn change-btn" style="margin-top: 70px;" routerLink="/confirm-order">
+                        تغيير
+                    </button>
+                </div>
+            </div>
+
+            <div class="payment-method">
+                <div class="form-group">
+                    <h5 class="mb-3"><b>طريقة الدفع</b></h5>
+                    <div>
+                        <label>
+                            <input type="checkbox" [(ngModel)]="checkbox1" (click)="onCheckboxChange(1)" />
+                            الدفع عند الاستلام
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <input type="checkbox" [(ngModel)]="checkbox2" (click)="onCheckboxChange(2)" />
+                            الدفع عن طريق الفيزا
+                        </label>
+                    </div>
+                </div>
+                <div class="payment-logos" *ngIf="checkbox2">
+                    <form id="payment-form" (ngSubmit)="handlePayment($event)" class="payment-form">
+                        <div id="card-element" class="card-element">
+                        </div>
+                        <button type="button" id="submit-button" class="pay-button"
+                            (click)="handlePayment($event)">Pay</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4 payment-form">
+            <div class="order-summary">
+                <h5 class="mb-3"><b>ملخص الطلب</b></h5>
+                <p> <strong>رقم الطلب: {{order?.orderNum}}</strong></p>
+                <h6 style="color: crimson; margin-bottom: 30px;"><strong> المبلغ: {{order?.totalAmount}}
+                        ج.م</strong></h6>
+                <h6 style="color: crimson; margin-bottom: 30px;"><strong> رسوم الشحن: 30 ج.م
+                        </strong></h6>
+                <h6 style="color: crimson; margin-bottom: 30px;"><strong> إجمالي المبلغ: {{totalafter}}
+                        ج.م</strong></h6>
+            </div>
+
+            <button class="confirm-button" style="margin-bottom: 50px;">تأكيد الطلب</button>
+
+            <div class="payment-security">
+                <h4>أمن الدفع</h4>
+                <p>
+                    لأمان معلومات الدفع الخاصة بك، لا تشارك معلومات بطاقاتك الائتمانية إلى
+                    مع موفري خدمة الدفع المعتمدين.
+                </p>
+                <div class="payment-logos">
+                    <img src="/Images/meza.png" alt="Meza" />
+                    <img src="/Images/Visa-vs-Mastercard.jpg" alt="Visa" />
+                </div>
+            </div>
+
+            <div class="privacy">
+                <h4>الأمان والخصوصية</h4>
+                <p>
+                    يلتزم موقع تمرة بحماية خصوصية المستخدمين على موقعنا، ونحن ملتزمون
+                    بحمايتها من خلال الالتزام على معايير الصناعة الصارمة.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

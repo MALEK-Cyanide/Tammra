@@ -9,12 +9,15 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Stripe;
 using System.IO;
 using System.Linq;
 using System.Text;
 using Tammra.Data;
 using Tammra.Models;
 using Tammra.Services;
+using Stripe;
+
 
 namespace Tammra
 {
@@ -93,6 +96,9 @@ namespace Tammra
                 option.AddPolicy("AdminPolicy", policy => policy.RequireRole("Vendor"));
                 option.AddPolicy("AdminPolicy", policy => policy.RequireRole("Customer"));
             });
+            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+            builder.Services.AddControllers();
+            StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
             var app = builder.Build();
             

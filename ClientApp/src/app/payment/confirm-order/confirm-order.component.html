@@ -1,0 +1,127 @@
+<div class="main">
+    <div class="row">
+        <div class="col-8 form-info">
+            <div class="form-group input-section">
+                <form [formGroup]="PaymentForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <div class="d-flex name">
+                            <div class="form-group col-md-6">
+                                <label for="firstName">الاسم الأول</label>
+                                <input type="text" class="form-control" id="firstName" [value]="customer?.firstName"
+                                    readonly />
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="secondName">الاسم الثاني</label>
+                                <input type="text" class="form-control" id="secondName" [value]="customer?.lastName"
+                                    readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="phoneNumber">رقم الهاتف</label>
+                            <input type="tel" class="form-control" id="phoneNumber" [value]="customer?.phoneNumber"
+                                required />
+                        </div>
+                        <span style="color: rgb(228, 6, 6)" *ngIf="
+                      PaymentForm?.get('phoneNumber')?.hasError('required') &&
+                      PaymentForm?.get('phoneNumber')?.touched
+                    ">
+                            يجب إدخال رقم هاتف صالح
+                        </span>
+                        <label class="label">عنوان الشحن</label>
+                        <div class="dropdown-container">
+                            <select id="governorates" class="dropdown" formControlName="governorate" required>
+                                <option value="" disabled selected>يرجي اختيار موقعك</option>
+                                <option value="القاهرة">القاهرة</option>
+                                <option value="الجيزة">الجيزة</option>
+                                <option value="الإسكندرية">الإسكندرية</option>
+                                <option value="بور سعيد">بورسعيد</option>
+                                <option value="السويس">السويس</option>
+                                <option value="الدقهلية">الدقهلية</option>
+                                <option value="دمياط">دمياط</option>
+                                <option value="الشرقية">الشرقية</option>
+                                <option value="القليوبية">القليوبية</option>
+                                <option value="كفر الشيخ">كفر الشيخ</option>
+                                <option value="الغربية">الغربية</option>
+                                <option value="المنوفية">المنوفية</option>
+                                <option value="البحيرة">البحيرة</option>
+                                <option value="الإسماعيلية">الإسماعيلية</option>
+                                <option value="بني سويف">بني سويف</option>
+                                <option value="الفيوم">الفيوم</option>
+                                <option value="المنيا">المنيا</option>
+                                <option value="أسيوط">أسيوط</option>
+                                <option value="سوهاج">سوهاج</option>
+                                <option value="قنا">قنا</option>
+                                <option value="الأقصر">الأقصر</option>
+                                <option value="أسوان">أسوان</option>
+                                <option value="البحر الأحمر">البحر الأحمر</option>
+                                <option value="الوادي الجديد">الوادي الجديد</option>
+                                <option value="مرسي مطروح">مرسي مطروح</option>
+                                <option value="شمال سيناء">شمال سيناء</option>
+                                <option value="جنوب سيناء">جنوب سيناء</option>
+                            </select>
+                        </div>
+                        <span style="color: rgb(228, 6, 6)" *ngIf="
+                      PaymentForm?.get('governorate')?.hasError('required') &&
+                      PaymentForm?.get('governorate')?.touched
+                    ">
+                        يجب أختيار محافظة
+                        </span>
+                    </div>
+                    <div class="d-flex">
+                        <div class="form-group col-md-6">
+                            <label for="city">المدينة</label>
+                            <input type="text" class="form-control" id="city" placeholder="المدينة" required
+                                formControlName="city" />
+                        </div>
+                        <span style="color: rgb(228, 6, 6)" *ngIf="
+                        PaymentForm?.get('phoneNumber')?.hasError('required') &&
+                        PaymentForm?.get('phoneNumber')?.touched
+                      ">
+                          يجب أختيار محافظة
+                          </span>
+                        <div class="form-group col-md-6">
+                            <label for="street">الشارع</label>
+                            <input type="text" class="form-control" id="street" formControlName="street" required
+                                placeholder="اسم الشارع / رقم الشارع" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="addressDetails">تفاصيل العنوان</label>
+                        <textarea class="form-control" id="addressDetails" rows="3" formControlName="addressDetails"
+                            placeholder="المنطقة المبنى الوحدة، رقم المنزل، اسم الشركة إلخ (اختياري)"></textarea>
+                    </div>
+                    <div class="info-section">
+                        <span><i class="bi bi-lock icon-lock"></i></span>
+                        <h3 class="privacy-title">الأمان والخصوصية</h3>
+                        <p class="privacy-text">
+                            نحافظ على معايير الصناعة العالية والتقنية والإدارية لحماية
+                            معلوماتك الشخصية.
+                        </p>
+                    </div>
+
+                    <!-- Save Button -->
+                    <div class="d-flex justify-content-center mb-4">
+                        <button class="save-button" type="submit">حفظ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-4 payment-form">
+            <div class="border p-4">
+                <h6 class="mb-3">موجز الطلب</h6>
+                <h4 style="color: crimson; font-size: large;"><strong> {{totalP}} ج.م</strong></h4>
+                <hr />
+                <h6 class="mb-3">نقبل</h6>
+                <div class="d-flex justify-content-start align-items-center">
+                    <img src="https://img.icons8.com/color/48/000000/visa.png" alt="Visa" class="me-2" />
+                    <img src="https://img.icons8.com/color/48/000000/mastercard.png" alt="Mastercard" class="me-2" />
+                    <img src="https://img.icons8.com/color/48/000000/cash.png" alt="Cash" class="me-2" />
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

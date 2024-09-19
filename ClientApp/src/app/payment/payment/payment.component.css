@@ -1,0 +1,229 @@
+.main {
+  font-family: "Cairo", sans-serif;
+  position: relative;
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  font-family: "Cairo", Times, serif;
+  font-size: 18px;
+  font-weight: 500;
+  }
+  
+  .main::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("/Images/background.png");
+    background-position: center;
+    background-size: cover;
+    opacity: 0.2;
+    z-index: -1;
+  }
+  
+  .payment-form {
+    position: relative;
+    z-index: 1;
+    border-radius: 5px;
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+  }
+  .address-container {
+    position: relative;
+    z-index: 1;
+    border-radius: 5px;
+    width: 60%;
+    padding: 20px;
+  }
+  
+  .row {
+    width: 100%;
+    justify-content: center;
+  }
+  .details-container {
+    padding: 30px;
+    padding-right: 20px;
+    padding-top: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background-color: #ffff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  .change-btn {
+    background-color: #401a04;
+    color: #ffff;
+    width: 100px;
+    margin-top: 30px;
+  }
+  a{
+    text-decoration: none;
+    color: #ffff;
+  }
+  h5 {
+    margin-top: 10px;
+    color: #762e05;
+  }
+  .payment-info p {
+    margin: 10px;
+    color: #762e05;
+  }
+  
+  .payment-method {
+    padding: 30px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    background-color: #ffff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  .payment-security p, .privacy p {
+    font-size: 14px;
+    color: #565656;
+  }
+  .payment-logos img {
+    width: 100px;
+    height: 50px;
+  }
+  .payment-form p {
+    font-size: 16px;
+  }
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .form-group input[type="radio"] {
+    margin-right: 10px;
+    width: 15px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 1px solid #401a04;
+  
+    outline: none;
+    cursor: pointer;
+  }
+  
+  .form-group input[type="radio"]:checked {
+    background-color: #401a04;
+    border: 2px solid #6f2c06;
+  }
+  .submit-btn {
+    background-color: #401a04;
+    color: #ffffff;
+    border-radius: 5px;
+    width: 150px;
+  
+    border: none;
+  }
+  input:focus {
+    outline: none;
+    border: 1px solid #000000;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0);
+  }
+  .payment-form {
+    background-color: #ffffff;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  .confirm-button {
+    background-color: #401a04;
+    color: #ffffff;
+    border-radius: 5px;
+    width: 100%;
+    height: 40px;
+    border: none;
+    margin-bottom: 20px;
+  }
+  #cardNumber,#expirationDate {
+    width: 95%;
+  
+  }
+  
+  @media only screen and (max-width: 768px) {
+    .row {
+      flex-direction: column;
+      width: 100%;
+      height: auto;
+    }
+    .address-container{
+  width: 100%;
+    }
+    .payment-form{
+      width: 100%;
+  
+    }
+  
+  }
+  /* Form styling */
+.payment-form {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f4f6f8;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Card element styling */
+.card-element {
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background-color: #ffffff;
+  margin-bottom: 10px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease;
+}
+
+/* Focus style for card input */
+.card-element:focus-within {
+  border-color: #ae4800;
+  box-shadow: 0 0 0 2px rgba(103, 114, 229, 0.2);
+}
+
+/* Pay button styling */
+.pay-button {
+  padding: 12px 24px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #843900; /* Stripe's primary brand color */
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+/* Button hover and active states */
+.pay-button:hover {
+  background-color: #ff8c00;
+}
+
+.pay-button:active {
+  background-color: #4357a3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .payment-form {
+    padding: 15px;
+  }
+
+  .pay-button {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+}

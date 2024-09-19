@@ -51,8 +51,15 @@
                                     </strong> <span class="" style="color: red;">{{product.price}}</span> ج.م
                                 </p>
                             </div>
-                             <button (click)="addToCart(product.productId)" class="btn btn-brown mx-1"
-                                style="margin-bottom: 10px;">أضف إلى السلة <i class="fa fa-shopping-cart"></i></button>
+                            <div *ngIf="product.quantity != 0">
+                                <button (click)="addToCart(product.productId)" class="btn btn-brown mx-1"
+                                    style="margin-bottom: 10px;">أضف إلى العربة <i
+                                        class="fa fa-shopping-cart"></i></button>
+                            </div>
+
+                            <div *ngIf="product.quantity == 0">
+                                <div class="sold-out-badge">أنتهت الكمية</div>
+                            </div>
                         </div>
 
                     </div>

@@ -123,10 +123,8 @@ export class VendorSettingsComponent implements OnInit {
 
     this.http.put(`${environment.appUrl}/api/VendorAccount/update-settings`, formData)
       .subscribe(response => {
-        console.log(response)
         Swal.fire("", "تم تغير بياناتك بنجاح", "success");
         this.rout.navigateByUrl("/vendor")
-
       });
   }
 

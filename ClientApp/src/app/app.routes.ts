@@ -12,6 +12,8 @@ import { BuyAndSearchComponent } from './buy-and-search/buy-and-search.component
 import { ProductComponent } from './product/product.component';
 import { SearchComponent } from './search/search.component';
 import { CartComponent } from './payment/cart/cart.component';
+import { PaymentComponent } from './payment/payment/payment.component';
+import { ConfirmOrderComponent } from './payment/confirm-order/confirm-order.component';
 export const routes: Routes = [
     { path: "", component: HomeComponent },
     { path: "about", component: AboutComponent },
@@ -29,6 +31,18 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         children: [{
             path: "cart", component: CartComponent,
+        }]
+    }, {
+        path: "",
+        canActivate: [AuthGuard],
+        children: [{
+            path: "confirm-order", component: ConfirmOrderComponent,
+        }]
+    }, {
+        path: "",
+        canActivate: [AuthGuard],
+        children: [{
+            path: "payment", component: PaymentComponent,
         }]
     },
     { path: "account", loadChildren: () => import("./account/account.module").then(m => m.AccountModule) },

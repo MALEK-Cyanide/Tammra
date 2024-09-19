@@ -10,7 +10,7 @@ import { CartDto } from './CartDto';
 })
 export class CartService {
 
-  constructor(private http : HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   getCart(email: string): Observable<CartDto[]> {
     return this.http.get<CartDto[]>(`${environment.appUrl}/api/cart/get-cart/${email}`);
@@ -24,11 +24,23 @@ export class CartService {
     formData.append('email', email);
 
     formData.append('quantity', quantity.toString());
-    
+
     return this.http.post(`${environment.appUrl}/api/cart/add-to-cart`, formData);
   }
 
   checkout(email: string): Observable<any> {
-    return this.http.post<any>(`${environment.appUrl}/api/Order/checkout/${email}` , {});
+    return this.http.post<any>(`${environment.appUrl}/api/Order/checkout/${email}`, {});
+  }
+  deleteItem(id: number) {
+    return this.http.delete(`${environment.appUrl}/api/cart/delete-cart/${id}`);
+  }
+  changQ(id: number, quantity: number) {
+    const formData = new FormData();
+
+    formData.append('id', id.toString());
+
+    formData.append('quntity', quantity.toString());
+
+    return this.http.put(`${environment.appUrl}/api/cart/change-amount`, formData)
   }
 }
