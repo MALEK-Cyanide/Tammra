@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Tammra.Data;
@@ -17,17 +20,19 @@ namespace Tammra.Cotroller
     {
         private readonly Context _context;
         private readonly UserManager<User> _userManager;
+        private readonly IWebHostEnvironment _environment;
 
-        public AdminController(Context context, UserManager<User> userManager)
+        public AdminController(Context context, UserManager<User> userManager , IWebHostEnvironment environment)
         {
             _context = context;
             _userManager = userManager;
+            _environment = environment;
         }
         [HttpGet("all-product")]
         public async Task<IActionResult> GetProducts()
         {
             var products = await _context.Products
-        .Include(x => x.User) // Include the User entity
+        .Include(x => x.User)
         .Select(product => new
         {
             product.ProductId,
@@ -85,6 +90,7 @@ namespace Tammra.Cotroller
                 .Include(x => x.Product)
                 .Select(or => new
                 {
+                    ProductId = or.Product.ProductId,
                     ProductName = or.Product.ProductName,
                     or.Quantity,
                     or.Price,
@@ -197,6 +203,60 @@ namespace Tammra.Cotroller
             await _context.SaveChangesAsync();
             return Ok();
         }
+        [HttpPost("check-coupon")]
+        public async Task<IActionResult> CheckCoupons([FromForm]string couponCode , [FromForm] string orederNum)
+        {
+            Coupon coupon = _context.Coupons.Where(x => x.CouponName == couponCode.Trim()).FirstOrDefault();
+            if (coupon == null || coupon.Quantity == 0)
+            {
+                string message = "null";
+                return BadRequest(message);
+            }
+            else
+            {
+                Oreder oreder = _context.Oreders.Where(x => x.OrderNum ==  orederNum).FirstOrDefault();
 
+                oreder.TotalAmount -= ((oreder.TotalAmount * coupon.CouponValue) / 100);
+                _context.Oreders.Update(oreder);
+                await _context.SaveChangesAsync();
+
+                coupon.Quantity--;
+                _context.Coupons.Update(coupon);
+                await _context.SaveChangesAsync();
+
+                return Ok(oreder.TotalAmount+30);
+            }
+        }
+        [HttpPost("upload-icon")]
+        public async Task<IActionResult> UploadIcon([FromForm] IFormFile icon)
+        {
+            if (icon == null || icon.Length == 0)
+            {
+                return BadRequest("No file uploaded.");
+            }
+
+            var validExtensions = new[] { ".ico", ".png" };
+            var fileExtension = Path.GetExtension(icon.FileName).ToLower();
+
+            if (!validExtensions.Contains(fileExtension))
+            {
+                return BadRequest("Invalid file type. Only .ico and .png are allowed.");
+            }
+
+            var uploadPath = Path.Combine(_environment.WebRootPath, "WebsiteIcon");
+            if (!Directory.Exists(uploadPath))
+            {
+                Directory.CreateDirectory(uploadPath);
+            }
+
+            var filePath = Path.Combine(uploadPath, "favicon" + fileExtension);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await icon.CopyToAsync(stream);
+            }
+
+            return Ok();
+        }
     }
 }

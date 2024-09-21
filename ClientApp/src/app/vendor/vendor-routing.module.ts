@@ -8,6 +8,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { VendorSettingsComponent } from "./vendor-settings/vendor-settings.component";
 import { VendorInfoComponent } from "./vendor-info/vendor-info.component";
+import { ProductdetComponent } from "../new-show-details/productdet.component";
 
 const routes: Routes = [
   { path: 'all-product', component: AllProductComponent },
@@ -16,7 +17,8 @@ const routes: Routes = [
   { path: 'show-product/:id', component: ShowProductComponent },
   { path: 'delete-product/:id', component: DeleteProductComponent },
   { path: 'vendor-settings', component: VendorSettingsComponent },
-  { path: 'vendor-info', component: VendorInfoComponent }
+  { path: 'vendor-info', component: VendorInfoComponent },
+  { path: 'new-show-product/:id', component: ProductdetComponent },
 ]
 
 @NgModule({

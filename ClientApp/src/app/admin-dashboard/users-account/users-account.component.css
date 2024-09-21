@@ -136,3 +136,20 @@ input:focus {
 margin-left: 10px;  }
 
 }
+.btn-brown {
+  background-color: #401a04;
+
+  color: #fff;
+  border-radius: 10px;
+
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 25px;
+  border-radius: 4px;
+}
+
+.btn-brown:hover {
+    background-color: #a66c24;
+}

@@ -1,0 +1,29 @@
+.terms-container {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    line-height: 1.8;
+    color: #333;
+    box-shadow: 4px 2px 2px  rgba(0, 0, 0, 0.2); 
+    border-radius: 20px;
+}
+
+.terms-section h3, .terms-section h4 {
+    color: #b88d0b;
+    margin-bottom: 10px;
+}
+
+.terms-section p {
+    margin-bottom: 20px;
+}
+
+.terms-section a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.terms-section a:hover {
+    text-decoration: underline;
+}

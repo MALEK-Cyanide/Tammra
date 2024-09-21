@@ -47,11 +47,17 @@
             </div>
 
             <div class="profile-section">
-                <div class="cover-photo">
+                <div class="cover-photo" *ngIf="coverPath != null">
                     <img src="{{url}}{{coverPath}}" alt="Cover Photo" class="img-fluid" />
                 </div>
-                <div class="profile-photo text-center">
+                <div class="cover-photo" *ngIf="coverPath == null">
+                    <img src="/Images/cover.png" alt="Cover Photo" class="img-fluid" />
+                </div>
+                <div class="profile-photo text-center" *ngIf="profilePath != null">
                     <img src="{{url}}{{profilePath}}" alt="Profile Photo" class="rounded-circle" />
+                </div>
+                <div class="profile-photo text-center" *ngIf="profilePath == null">
+                    <img src="/Images/profileophoto.png" alt="Profile Photo" class="rounded-circle" />
                 </div>
                 <div class="vendor-info text-center">
                     <h2 class="heading">{{companyName}}</h2>

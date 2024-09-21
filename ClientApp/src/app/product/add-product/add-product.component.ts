@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
   selector: 'app-add-product',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule,
-     FormsModule,],
+    FormsModule,],
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.css'
 })
@@ -60,9 +60,9 @@ export class AddProductComponent implements OnInit {
     if (this.selectedFile) {
       formData.append('image', this.selectedFile);
     }
-if(this.selectedRating){
-  formData.append('rate', this.selectedRating.toString());
-}
+    if (this.selectedRating) {
+      formData.append('rate', this.selectedRating.toString());
+    }
 
     this.http.post(`${environment.appUrl}/api/product/add-product`, formData)
       .subscribe(response => {

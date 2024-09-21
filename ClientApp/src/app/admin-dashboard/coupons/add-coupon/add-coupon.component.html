@@ -1,11 +1,11 @@
 <div  class="card mb-3">
     <form [formGroup]="couponForm" (ngSubmit)="onSubmitAdd()">
         <div class="form-group d-flex">
-            <label for="CouponName" class="col-md-2">إسم الكوبون</label>
+            <label for="CouponName" class="col-md-2">كود الكوبون</label>
             <input type="text" id="CouponName" class="form-control" formControlName="couponName" />
         </div>
         <div class="form-group d-flex mt-2">
-            <label for="CouponValue" class="col-md-2">قيمة الخصم</label>
+            <label for="CouponValue" class="col-md-2">نسبة الخصم</label>
             <input type="number" id="CouponValue" class="form-control " formControlName="couponValue" />
         </div>
         <div class="form-group d-flex mt-2">

@@ -94,7 +94,6 @@ export class VendorSettingsComponent implements OnInit {
       })
       this.imgProfilePath = user.vendorImagePath;
       this.imgCoverPath = user.vendorCoverPath;
-
     })
   }
 

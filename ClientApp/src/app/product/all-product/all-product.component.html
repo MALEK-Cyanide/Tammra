@@ -15,7 +15,7 @@
     <div class="product-card" *ngFor="let product of products">
         <div class="card-content">
             <div style="height: 200px;">
-                <a [routerLink]="['/vendor/show-product/', product.productId]">
+                <a [routerLink]="['/vendor/new-show-product/', product.productId]">
                     <img [src]="url+product.prodImagePath" class="product-image img-fluid" />
                 </a>
                 <div class="corner-triangle top-left"></div>

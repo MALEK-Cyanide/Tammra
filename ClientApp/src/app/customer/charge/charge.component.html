@@ -1,0 +1,65 @@
+<div class="container">
+    <div class="card">
+        <div class="row d-flex justify-content-between px-3 top">
+            <div class="d-flex">
+                <h5><b> حاله الشحن </b> </h5>
+
+            </div>
+            <div class="d-flex flex-column text-sm-right">
+                <span>رقم الطلب : <strong style="color: rgb(208, 118, 0);">{{Order?.orderNum}}</strong></span>
+                <p class="mb-0">رقم الهاتف المستخدم : <span> <strong style="color: rgb(37, 118, 0);">{{Order?.phoneNumber}}</strong></span></p>
+                <p>مكان الإستلام : <span class="font-weight-bold"><strong style="color: rgb(129, 0, 0);"> {{Order?.governorate}} , {{Order?.city}} ,
+                        {{Order?.street}} , {{Order?.addressDetails}}</strong></span></p>
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-center">
+            <div class="col-12">
+                <ul id="progressbar" class="text-center" *ngIf="this.Order?.status == 'تم الطلب'">
+                    <li *ngFor="let step of steps; let i = index"
+                        [ngClass]="{'complete': i < 0, 'active': i === 0, 'step': true}">
+                        <i [ngClass]="step.icon"></i>
+                        {{ step.label }}
+                    </li>
+                </ul>
+
+                <ul id="progressbar" class="text-center" *ngIf="this.Order?.status == 'تم الشحن'">
+                    <li *ngFor="let step of steps; let i = index"
+                        [ngClass]="{'complete': i < 1, 'active': i === 1, 'step': true}">
+                        <i [ngClass]="step.icon"></i>
+                        {{ step.label }}
+                    </li>
+                </ul>
+
+                <ul id="progressbar" class="text-center" *ngIf="this.Order?.status == 'خرج للتوصيل'">
+                    <li *ngFor="let step of steps; let i = index"
+                        [ngClass]="{'complete': i < 2, 'active': i === 2, 'step': true}">
+                        <i [ngClass]="step.icon"></i>
+                        {{ step.label }}
+                    </li>
+                </ul>
+
+                <ul id="progressbar" class="text-center" *ngIf="this.Order?.status == 'تم التوصيل'">
+                    <li *ngFor="let step of steps; let i = index"
+                        [ngClass]="{'complete': i < 3, 'active': i === 3, 'step': true}">
+                        <i [ngClass]="step.icon"></i>
+                        {{ step.label }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card-details">
+            <div class="row d-flex justify-content-between px-3 top">
+                <div class="d-flex">
+                    <h6>
+                        معاد طلب المنتجات :
+                        <span class=" dn-order" style="color: rgb(37, 118, 0);">
+                            {{Order?.orderDate}}
+                        </span>
+                    </h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

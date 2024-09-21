@@ -48,7 +48,9 @@
   font-size: 16px;
   transition: width 0.4s ease-in-out;
 }
-
+.search-input:focus {
+  border-color: #5d340c;
+}
 .search-btn {
   position: absolute;
   left: 5px;
@@ -64,10 +66,6 @@
 
 .search-btn i {
   font-size: 16px;
-}
-
-.search-input:focus {
-  border-color: #5d340c;
 }
 
 .searchbtn {

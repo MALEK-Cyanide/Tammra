@@ -10,6 +10,7 @@ import { OrderDetailsComponent } from './order-details/order-details.component';
 import { UsersAccountComponent } from './users-account/users-account.component';
 import { CouponsComponent } from './coupons/coupons.component';
 import { AddCouponComponent } from './coupons/add-coupon/add-coupon.component';
+import { AdminSettingsComponent } from './admin-settings/admin-settings.component';
 
 const routes: Routes = [
   { path: 'add-product', component: AddProductComponent },
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'users', component: UsersAccountComponent },
   { path: 'copon', component: CouponsComponent },
   { path: 'add-copon', component: AddCouponComponent },
+  { path: 'admin-settings', component: AdminSettingsComponent },
   
 
 ]

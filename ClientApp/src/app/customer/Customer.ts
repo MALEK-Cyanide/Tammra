@@ -5,4 +5,6 @@ export interface Customer{
     phoneNumber:string,
     address:string,
     customerImagePath:string,
+    gender:string,
+    birthday:string
 }

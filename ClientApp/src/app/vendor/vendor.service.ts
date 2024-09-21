@@ -33,6 +33,10 @@ export class VendorService {
     const params = new HttpParams().set('query', query);
     return this.http.get<VendorInfo[]>(`${environment.appUrl}/api/VendorAccount/search-vendor/`, { params });
   }
+  searchUser(query: string): Observable<VendorInfo[]> {
+    const params = new HttpParams().set('query', query);
+    return this.http.get<VendorInfo[]>(`${environment.appUrl}/api/admin/search-user/`, { params });
+  }
   searchOrder(query: string): Observable<Order[]> {
     const params = new HttpParams().set('query', query);
     return this.http.get<Order[]>(`${environment.appUrl}/api/admin/search-order/`, { params });

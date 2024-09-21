@@ -21,6 +21,8 @@ namespace Tammra.Models
         public string CustomerImagePath { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+        public string Gender { get; set; }
+        public string Birthday { get; set; }
         public ICollection<Product> Products { get; set; }
         public ICollection<Oreder> Oreder { get; set; }
 

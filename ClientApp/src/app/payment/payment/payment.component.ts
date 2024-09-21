@@ -2,15 +2,16 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { CustomerService } from '../../customer/customer.service';
 import { AccountService } from '../../account/account.service';
-import { Customer } from '../../customer/Customer';
 import { Payment } from './Payment';
 import { HttpClient } from '@angular/common/http';
 import { Stripe, loadStripe } from '@stripe/stripe-js';
 import { environment } from '../../../environments/environment.development';
 import Swal from 'sweetalert2';
 import { CartService } from '../cart/cart.service';
+import { error } from 'node:console';
+import { Customer } from '../../customer/Customer';
+import { CustomerService } from '../../customer/customer.service';
 
 @Component({
   selector: 'app-payment',
@@ -30,12 +31,15 @@ export class PaymentComponent implements OnInit {
   checkbox3 = false;
   total = 0;
   totalafter = 0
+  totalCoupon = 0
   OrderNum = ""
   email: any
   payed = false
+  disableCoupon = false;
 
   stripe: Stripe | null = null;
   cardElement: any;
+  couponCode: any;
 
   constructor(private CustomerServices: CustomerService, private Account: AccountService, private http: HttpClient
     , private cartService: CartService
@@ -140,46 +144,93 @@ export class PaymentComponent implements OnInit {
     event.preventDefault();
 
     try {
-      const response = await fetch(`${environment.appUrl}/api/order/create-payment-intent`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          amount: this.totalafter * 100,
-          email: this.email
-        }),
-      });
+      if (this.totalCoupon == 0) {
+        const response = await fetch(`${environment.appUrl}/api/order/create-payment-intent`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            amount: this.totalafter * 100,
+            email: this.email
+          }),
+        });
 
-      const data = await response.json();
 
-      if (data.error) {
-        console.error('Error from API:', data.error);
-        alert('Payment failed. Please try again.');
-        return;
+        const data = await response.json();
+
+        if (data.error) {
+          console.error('Error from API:', data.error);
+          alert('Payment failed. Please try again.');
+          return;
+        }
+
+        const clientSecret = data.clientSecret;
+
+        if (!clientSecret) {
+          throw new Error('Client secret is missing from the response.');
+        }
+
+        const result = await this.stripe?.confirmCardPayment(clientSecret, {
+          payment_method: {
+            card: this.cardElement,
+          },
+        });
+
+        if (result?.error) {
+          console.error('Error confirming payment:', result.error.message);
+          alert('Payment failed. Please try again.');
+        } else if (result?.paymentIntent?.status === 'succeeded') {
+          Swal.fire("تمت عملية الدفع", `كود طلبك : ${this.OrderNum}`, "success")
+          this.payed = true
+        } else {
+          alert('Payment failed. Please check your card details and try again.');
+        }
+      }
+      else{
+        const response = await fetch(`${environment.appUrl}/api/order/create-payment-intent`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            amount: this.totalCoupon * 100,
+            email: this.email
+          }),
+        });
+        
+  
+        const data = await response.json();
+  
+        if (data.error) {
+          console.error('Error from API:', data.error);
+          alert('Payment failed. Please try again.');
+          return;
+        }
+  
+        const clientSecret = data.clientSecret;
+  
+        if (!clientSecret) {
+          throw new Error('Client secret is missing from the response.');
+        }
+  
+        const result = await this.stripe?.confirmCardPayment(clientSecret, {
+          payment_method: {
+            card: this.cardElement,
+          },
+        });
+  
+        if (result?.error) {
+          console.error('Error confirming payment:', result.error.message);
+          alert('Payment failed. Please try again.');
+        } else if (result?.paymentIntent?.status === 'succeeded') {
+          Swal.fire("تمت عملية الدفع", `كود طلبك : ${this.OrderNum}`, "success")
+          this.payed = true
+        } else {
+          alert('Payment failed. Please check your card details and try again.');
+        }
       }
 
-      const clientSecret = data.clientSecret;
-
-      if (!clientSecret) {
-        throw new Error('Client secret is missing from the response.');
-      }
-
-      const result = await this.stripe?.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: this.cardElement,
-        },
-      });
-
-      if (result?.error) {
-        console.error('Error confirming payment:', result.error.message);
-        alert('Payment failed. Please try again.');
-      } else if (result?.paymentIntent?.status === 'succeeded') {
-        Swal.fire("تمت عملية الدفع", `كود طلبك : ${this.OrderNum}`, "success")
-        this.payed = true
-      } else {
-        alert('Payment failed. Please check your card details and try again.');
-      }
     } catch (error) {
       console.error('Error during payment processing:', error);
       alert('Payment processing error. Please try again.');
@@ -192,7 +243,7 @@ export class PaymentComponent implements OnInit {
       Swal.fire("", "تم تأكيد طريقة الدفع سيتواصل معك المندوب قريبا", "success")
     })
   }
-  downloadOrder(){
+  downloadOrder() {
     this.cartService.downloadOrderPdf(this.Account.getJWT().email).subscribe(
       (blob) => {
         const url = window.URL.createObjectURL(blob);
@@ -204,7 +255,22 @@ export class PaymentComponent implements OnInit {
       }
     );
   }
-  Coupon(){
+  Coupon() {
     this.checkbox3 = true
+  }
+  getSale() {
+    const co = new FormData();
+    co.append('couponCode', this.couponCode)
+    co.append('orederNum', this.OrderNum)
+
+    this.http.post(`${environment.appUrl}/api/admin/check-coupon`, co).subscribe((res) => {
+
+      this.totalCoupon = Number(res)
+      Swal.fire("", "تم تطبيق الخصم , أستمتع بطلبك", "success")
+      this.disableCoupon = true;
+      this.checkbox3 = false
+    }, error => {
+      Swal.fire("", "الرجاء التحقق من كود الخصم", "error")
+    })
   }
 }

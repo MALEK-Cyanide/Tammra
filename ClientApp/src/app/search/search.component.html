@@ -30,7 +30,9 @@
                 <div class="card">
                     <div class="product">
                         <div class="image-container">
-                            <img [src]="url+product.prodImagePath" class="product-image" />
+                            <a [routerLink]="['/new-show-product/', product.productId]">
+                                <img [src]="url+product.prodImagePath" class="product-image" />
+                            </a>
                         </div>
                         <div class="corner-triangle top-left"></div>
                         <div class="corner-triangle top-right"></div>

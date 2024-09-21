@@ -5,4 +5,9 @@ export interface Order {
     totalAmount: number;
     orderDate: string;
     paymentWay: string;
+    phoneNumber:string,
+    governorate:string
+    city:string
+    street:string
+    addressDetails:string
 }

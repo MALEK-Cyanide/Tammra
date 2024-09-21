@@ -1,0 +1,59 @@
+<button class="btn btn-edit" routerLink="/customer/orders-list">
+    <i class="fas fa-arrow-right"></i> رجوع إلي الطلبات
+</button>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr style="text-align: center;">
+            <th>أسم المنتج</th>
+            <th>السعر</th>
+            <th>الكمية</th>
+            <th>تقيم المنتج</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let order of OrderItems; let i = index">
+            <td>{{ order.productName }}</td>
+            <td>{{ order.price }} جـ</td>
+            <td>{{ order.quantity }}</td>
+            <td class="text-center w-25"><button (click)="Product(order.productId)" class="btn btn-edit">تقيم
+                    المنتج</button></td>
+        </tr>
+    </tbody>
+</table>
+<div class="container mt-3" *ngIf="show && product">
+    <div class="row">
+        <div class="card1 card d-flex flex-column flex-lg-row col-12 p-3 align-items-start justify-content-start">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <!-- Product details -->
+                <h2>{{ product.productName }}</h2>
+                <div>
+                    <p><strong>السعر:
+                        </strong> <span class="" style="color: red;">{{product.price}}</span> ج.م
+                    </p>
+                </div>
+                <div class="description mt-4">
+                    <p><strong>الكمية المتاحة : <span style="color: rgb(30, 105, 0);">{{ product.quantity
+                                }}</span></strong></p>
+                </div>
+                <div class="rating" style="text-align: center; margin-bottom: 10px;">
+                    <span *ngFor="let star of stars" (click)="rate(star)">
+                        @if(selectedRating != undefined){
+                        <i class="fa" [ngClass]="{'fa-star': star , 'fa-star-o': star <= selectedRating}"></i>
+                        }
+                    </span>
+                </div>
+                <div class=" bttn col-lg-2 col-md-4 d-flex justify-content-center mt-4 mt-lg-0" *ngIf="Done">
+                    <button class="btn btn-brown mx-2" (click)="SaveRating(product.productId)">تم</button>
+                </div>
+            </div>
+            <div class=" bttn col-lg-2 col-md-4 d-flex justify-content-center mt-4 mt-lg-0">
+                <button class="btn btn-brown mx-2" hidden></button>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 text-center mt-4 mt-lg-0">
+                <div class="main-image">
+                    <img [src]="url+product.prodImagePath" alt="Product Image" class="img-fluid" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

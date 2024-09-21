@@ -1,4 +1,4 @@
-<div class="vendor-info text-center">
+<div class="vendor-info text-center" style="margin-top: -100px;">
   <h2 class="heading">الكوبونات والخصومات</h2>
 </div>
 <div class="container mt-4">
@@ -19,8 +19,8 @@
   <table class="table table-bordered table-hover">
     <thead>
       <tr>
-        <th>إسم الكوبون</th>
-        <th>قيمة الخصم</th>
+        <th>كود الكوبون</th>
+        <th>نسبة الخصم</th>
         <th>عدد الكوبونات</th>
         <th>الإعدادات</th>
       </tr>
@@ -28,8 +28,9 @@
     <tbody>
       <tr *ngFor="let coupon of coupons; let i = index">
         <td>{{ coupon.couponName }}</td>
-        <td>{{ coupon.couponValue }}</td>
-        <td>{{ coupon.quantity }}</td>
+        <td>{{ coupon.couponValue }} % </td>
+        <td *ngIf="coupon.quantity != 0">{{ coupon.quantity }}</td>
+        <td *ngIf="coupon.quantity == 0" style="background-color: rgb(124, 7, 7); color: white;">أنتهت الكمية</td>
         <td>
           <div class="d-flex justify-content-around">
             <button class="btn btn-edit" (click)="editCoupon(coupon)">
@@ -47,11 +48,11 @@
   <div *ngIf="showFormEdit" class="card mb-3">
     <form [formGroup]="couponForm" (ngSubmit)="onSubmitEdit()">
       <div class="form-group d-flex">
-        <label for="CouponName" class="col-md-2">إسم الكوبون</label>
+        <label for="CouponName" class="col-md-2">كود الكوبون</label>
         <input type="text" id="CouponName" class="form-control" formControlName="couponName" />
       </div>
       <div class="form-group d-flex mt-2">
-        <label for="CouponValue" class="col-md-2">قيمة الخصم</label>
+        <label for="CouponValue" class="col-md-2">نسبة الخصم</label>
         <input type="number" id="CouponValue" class="form-control " formControlName="couponValue" />
       </div>
       <div class="form-group d-flex mt-2">

@@ -1,0 +1,151 @@
+
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+    z-index: 2;
+  }
+  .cart-details {
+    flex-grow: 1;
+    margin-right: 25px;
+    margin-top: 0%;
+    
+  }
+  .cartt{
+    color: #805335;
+    margin-left: 40px;
+    font-size: 2rem; 
+
+  }
+  .quantity-selector select {
+    width: 70px;
+  }
+  
+  .quantity-selector select:focus {
+    box-shadow: none;
+  }
+  .buttons-container {
+    display: flex;
+    gap: 10px; 
+  }
+  
+  .rate-button{
+    background-color: #5C3317;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    padding: 15px 60px; 
+    font-size: 14px; 
+    font-weight: bold;
+  }
+  .cancle-btn {
+    background-color: #5C3317;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    padding: 10px 80px; 
+    font-size: 14px; 
+    font-weight: bold;
+    
+  }
+ 
+  .img1{
+    width: 200px;
+    height: 150px;
+    margin-bottom: 10px 50px ;
+  }
+  .text {
+    color: #5C3317;
+    font-weight: 700;
+  }
+  .product-card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f3f1f1;
+  }
+  
+  .product-info {
+    margin-bottom: 20px;
+  }
+  
+  .stars, .stars-input {
+    display: flex;
+  }
+  
+  .stars i, .stars-input i {
+    font-size: 24px;
+    margin-right: 5px;
+    cursor: pointer;
+  }
+  
+  .fa-star {
+    color: gold;
+  }
+  
+  .fa-star-o {
+    color: lightgray;
+  }
+  
+
+  button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #5C3317;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+color: #ffa60c;
+}
+  
+  
+  @media (max-width: 768px) {
+    .symbols {
+      flex-direction: column;
+      margin-top: 20px;
+    }
+    
+    .btn {
+      font-size: 18px;
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .imgbg {
+      min-height: 100vh; 
+    }
+  .image{
+    height: 100%;
+    width: 100%;
+  }
+    .row {
+      flex-direction: column;
+      margin-left: 0;
+      margin-right: 0;
+  
+    }
+  
+    .col-md-8, .col-md-4 {
+      max-width: 100%;
+      flex: 0 0 100%;
+    }
+ 
+    .symbols {
+      flex-direction: column;
+      margin-top: 20px;
+    }
+  
+    .btn {
+      font-size: 15px;
+     
+    }
+    #bttn{
+      width: 70%;
+      margin-right: 13%;
+    }
+    
+  }
+  

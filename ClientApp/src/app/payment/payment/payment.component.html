@@ -64,19 +64,32 @@
         <div class="col-4 payment-form">
             <div class="order-summary">
                 <h5 class="mb-3"><b>ملخص الطلب</b></h5>
-                <p> <strong>كود الطلب: {{order?.orderNum}}</strong></p>
+                <p> <strong>كود الطلب: <span style="color: rgb(213, 110, 0);">{{order?.orderNum}}</span></strong></p>
                 <h6 style="color: crimson; margin-bottom: 30px;"><strong> المبلغ: {{order?.totalAmount}} ج.م</strong>
                 </h6>
                 <h6 style="color: crimson; margin-bottom: 30px;"><strong> رسوم الشحن: 30 ج.م</strong></h6>
-                <label>
+                <label *ngIf="!disableCoupon">
                     <input type="checkbox" [(ngModel)]="checkbox3" (click)="Coupon()" style="margin-bottom: 30px;" />
                     هل لديك كود خصم ؟
                 </label>
-                <div class="form-group col-md-6">
-                    <input type="text" class="form-control" placeholder="ادخل كود الخصم"/>
+                <label *ngIf="disableCoupon" style="margin-bottom: 30px;color: rgb(43, 93, 0); font-size: smaller;">
+                    <strong>تم تطبيق كود الخصم على مشترياتك</strong>
+                </label>
+                <div class="search-bar-container" *ngIf="checkbox3" style="margin-bottom: 30px;">
+                    <input type="text" placeholder="أدخل أسم الكوبون" class="search-input" [(ngModel)]="couponCode"/>
+                    <button type="submit" class="search-btn" (click)="getSale()"><i class="fas fa-search"></i></button>
                 </div>
-                <h6 style="color: crimson; margin-bottom: 30px;"><strong> إجمالي المبلغ: {{totalafter}} ج.م</strong>
-                </h6>
+                <div *ngIf="totalCoupon != 0">
+                    <p><strong>إجمالي المبلغ: 
+                        </strong> <span class="original-price" style="color: red;"> {{totalafter}}</span> ج.م <i
+                            class="fa fa-arrow-left"></i>
+                        <span class="sale-price"> {{ totalCoupon }} ج.م </span>
+                    </p>
+                </div>
+                <div *ngIf="totalCoupon == 0">
+                    <h6 style="color: crimson; margin-bottom: 30px;"><strong> إجمالي المبلغ: {{totalafter}} ج.م</strong>
+                    </h6>
+                </div>
             </div>
 
             <button class="pay-button" style="margin-bottom: 50px;" (click)="downloadOrder()">حفظ بيانات الطلب</button>

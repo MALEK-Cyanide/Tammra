@@ -5,12 +5,16 @@
   <div class="d-flex justify-content-center">
     <div class="center-container mb-4">
       <div class="search-bar-container">
-        <input type="text" placeholder="ابحث عن مستخدم ..." class="search-input" />
-        <button type="submit" class="search-btn mb-4">
+        <input type="text" placeholder="ابحث عن مستخدم ..." class="search-input" [(ngModel)]="searchQuery" />
+        <button type="submit" class="search-btn mb-4" (click)="isUser()">
           <i class="fas fa-search"></i>
         </button>
       </div>
     </div>
+  </div>
+  <div *ngIf="Type">
+    <button (click)="getAllUser()" class="btn btn-brown" style="margin-bottom: 15px;"> <i
+        class="fa fa-arrow-right"></i> الرجوع إلي المنتجات</button>
   </div>
   <!-- User Data Table -->
   <table class="table table-bordered table-hover">
@@ -44,8 +48,9 @@
               </button>
             </div>
             <div *ngIf="!user.emailConfirmed">
-              <button class="btn" style="background-color: rgb(4, 123, 4); color: white;" (click)="blockUser(user.email)">
-                 فك الحظر
+              <button class="btn" style="background-color: rgb(4, 123, 4); color: white;"
+                (click)="blockUser(user.email)">
+                فك الحظر
               </button>
             </div>
           </div>

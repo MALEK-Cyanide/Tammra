@@ -16,6 +16,8 @@ import { PaymentComponent } from './payment/payment/payment.component';
 import { ConfirmOrderComponent } from './payment/confirm-order/confirm-order.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { AdminGuard } from './shared/guards/admin.guard';
+import { CustomerComponent } from './customer/customer.component';
+import { ProductdetComponent } from './new-show-details/productdet.component';
 export const routes: Routes = [
     { path: "", component: HomeComponent },
     { path: "about", component: AboutComponent },
@@ -30,7 +32,7 @@ export const routes: Routes = [
     },
     {
         path: "",
-        canActivate: [AuthGuard , AdminGuard],
+        canActivate: [AuthGuard, AdminGuard],
         children: [{
             path: "admin", component: AdminDashboardComponent,
             loadChildren: () => import("./admin-dashboard/admin-routing.module").then(x => x.AdminRoutingModule)
@@ -54,9 +56,17 @@ export const routes: Routes = [
         children: [{
             path: "payment", component: PaymentComponent,
         }]
+    }, {
+        path: "",
+        canActivate: [AuthGuard],
+        children: [{
+            path: "customer", component: CustomerComponent,
+            loadChildren: () => import("./customer/coustomer-routing.module").then(c => c.CoustomerRoutingModule)
+        }]
     },
     { path: "account", loadChildren: () => import("./account/account.module").then(m => m.AccountModule) },
     { path: "not-found", component: NotFoundComponent },
+    { path: "new-show-product/:id", component: ProductdetComponent },
     { path: "search", component: SearchComponent },
     { path: "authentication", component: AuthenticationComponent },
     { path: "Vendor-Profile", component: BuyAndSearchComponent },
