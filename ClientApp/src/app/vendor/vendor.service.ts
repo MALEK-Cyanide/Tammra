@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment.development';
 import { LocationDto } from './LocationDto';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
+import { Order } from '../admin-dashboard/show-orders/Order';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,10 @@ export class VendorService {
   searchVendor(query: string): Observable<VendorInfo[]> {
     const params = new HttpParams().set('query', query);
     return this.http.get<VendorInfo[]>(`${environment.appUrl}/api/VendorAccount/search-vendor/`, { params });
+  }
+  searchOrder(query: string): Observable<Order[]> {
+    const params = new HttpParams().set('query', query);
+    return this.http.get<Order[]>(`${environment.appUrl}/api/admin/search-order/`, { params });
   }
   updateSearchResults(results: any[]) {
     this.searchResultsSource.next(results);

@@ -1,0 +1,60 @@
+
+<div class="container mt-5">
+    <div class="container mt-5">
+      <div class="row justify-content-center align-items-center">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+          <div class="card custom-card ">
+  
+            <div class="card-body ">
+              <form [formGroup]="productForm" (ngSubmit)="onSubmit()" autocomplete="off">
+                <div style="text-align: center; color: rgb(154, 103, 8); font-size: 30px; margin-bottom: 30px; margin-top: -30px;">
+                  تعديل بيانات المنتج  
+                </div>
+                <div class="form-group mb-3 d-flex">
+                  <label for="productName" class="form-label w-25">اسم المنتج</label>
+                  <input type="text" class="form-control w-75" formControlName="productName" required>
+                </div>
+  
+  
+                <div class="form-group mb-3 d-flex">
+                  <label for="productPicture" class="form-label w-25">صورة المنتج</label>
+                  <input type="file" class="form-control w-75" (change)="onFileSelected($event)" accept="image/*"
+                    required />
+                </div>
+  
+  
+                <div class="form-group mb-3 d-flex">
+                  <label for="storageAmount" class="form-label w-25">الكمية المتاحة</label>
+                  <input type="number" class="form-control w-75" formControlName="quantity">
+                </div>
+  
+                <div class="form-group mb-3 d-flex">
+                  <label for="priceAfterSale" class="form-label w-25">سعر الجملة</label>
+                  <input type="number" class="form-control w-75" formControlName="productionPrice" required>
+                </div>
+  
+  
+                <div class="form-group mb-3 d-flex">
+                  <label for="priceBeforeSale " class="form-label w-25">سعر البيع</label>
+                  <input type="number" class="form-control w-75" formControlName="price" required>
+                </div>
+  
+                <div class="form-group mb-3 d-flex">
+                  <label for="priceBeforeSale " class="form-label w-25">خصم </label>
+                  <input type="checkbox" formControlName="isOnSale" (click)="sale()" required>
+                </div>
+  
+                <div class="form-group mb-3 d-flex" *ngIf="salePrice">
+                  <label for="priceBeforeSale " class="form-label w-25">نسبة الخصم</label>
+                  <input type="number" class="form-control w-25" formControlName="salePrice" required>
+                  <span style="color: rgb(160, 64, 0); font-size: 25px; margin-right: 10px;"><strong>%</strong></span>
+                </div>
+                <div class="d-flex justify-content-center">
+                  <button type="submit" class="btn btn-brown "> عدل <i class='fas fa-edit'></i> </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

@@ -1,0 +1,23 @@
+<div  class="card mb-3">
+    <form [formGroup]="couponForm" (ngSubmit)="onSubmitAdd()">
+        <div class="form-group d-flex">
+            <label for="CouponName" class="col-md-2">إسم الكوبون</label>
+            <input type="text" id="CouponName" class="form-control" formControlName="couponName" />
+        </div>
+        <div class="form-group d-flex mt-2">
+            <label for="CouponValue" class="col-md-2">قيمة الخصم</label>
+            <input type="number" id="CouponValue" class="form-control " formControlName="couponValue" />
+        </div>
+        <div class="form-group d-flex mt-2">
+            <label for="CouponValue" class="col-md-2">الكمية المتاحه</label>
+            <input type="number" id="CouponValue" class="form-control " formControlName="quantity" />
+        </div>
+        <div class="d-flex justify-content-center mt-3">
+            <button type="submit" class="btn save-btn">حفظ</button>
+            <button type="button" class="btn btn-cancel" routerLink="/admin/copon">
+                <i class="fa-regular fa-rectangle-xmark"></i>
+                إلغاء
+            </button>
+        </div>
+    </form>
+</div>

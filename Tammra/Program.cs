@@ -16,7 +16,6 @@ using System.Text;
 using Tammra.Data;
 using Tammra.Models;
 using Tammra.Services;
-using Stripe;
 
 
 namespace Tammra

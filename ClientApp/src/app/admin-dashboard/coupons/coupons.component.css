@@ -1,0 +1,147 @@
+.heading {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #0c0c0c;
+  position: relative;
+  display: inline-block;
+  margin-bottom: 50px;
+  margin-top: 80px;
+}
+.heading::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -15px;
+  height: 5px;
+  width: 100%;
+  background-color: #ffc107;
+  border-radius: 5px;
+}
+
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+
+  z-index: 1;
+}
+
+.search-bar-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  z-index: 1;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 45px 10px 15px;
+  border-radius: 25px;
+  border: 2px solid #f9b813;
+  outline: none;
+  font-size: 16px;
+  transition: width 0.4s ease-in-out;
+}
+
+.search-btn {
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #401a04;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.search-btn i {
+  font-size: 16px;
+}
+
+.search-input:focus {
+  border-color: #5d340c;
+}
+.table {
+  margin-top: 30px;
+  align-items: center;
+  width: 100%;
+  margin: auto;
+  text-align: center;
+  box-shadow: 0 4px 8px 4px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.table th {
+  background-color: #401a04;
+  color: white;
+}
+.table .empty-th {
+  background-color: #ffff;
+}
+
+.btn-edit {
+  font-weight: bold;
+  margin-left: -70px;
+  background-color: #ff9f0f;
+  color: #000000;
+}
+.btn-delete {
+  font-weight: bold;
+
+  background-color: #be1f07;
+  color: rgb(255, 255, 255);
+}
+.card {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: auto;
+  padding: 20px;
+  font-weight: bold;
+  margin-top: 30px;
+  padding-top: 40px;
+
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.card input {
+  margin-bottom: 20px;
+}
+
+input:focus {
+  outline: none;
+  border: 1px solid #000000;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0);
+}
+.btn-cancel {
+  font-weight: bold;
+  background-color: #be1f07;
+  color: #ffff;
+}
+.save-btn {
+  background-color: #401a04;
+  color: #ffff;
+  font-weight: bold;
+  margin-left: 20px;
+  padding: 0px 25px;
+}
+.add-btn {
+  background-color: #401a04;
+  color: #ffff;
+  font-weight: bold;
+  margin-left: 20px;
+  padding: 10px 25px;
+}
+.add-btn:hover {
+  background-color: #401a04;
+  color: #ffa200;
+}
+
+@media only screen and (max-width: 768px) {
+  .btn-edit {
+    margin-left: 0px;
+  }
+}

@@ -9,6 +9,7 @@
         public double TotalAmount { get; set; }
         public string PhoneNumber { get; set; }
         public string OrderNum { get; set; }
+        public double TotalPrice { get; set; }
 
     }
 }

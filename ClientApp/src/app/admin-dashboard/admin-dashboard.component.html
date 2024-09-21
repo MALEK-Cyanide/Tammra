@@ -1,0 +1,68 @@
+<div class="container-fluid">
+  <div class="row m-0">
+    <div class="container-fluid col-md-2 col-sm-12">
+      <nav class="sidebar navbar-expand-lg btnstyle" [class.sidebar-open]="isSidebarOpen">
+        <div class="collapse navbar-collapse" id="dashboard-collapse">
+          <ul class="nav flex-column">
+            <!-- Account Information -->
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/admin-dashboard/admin-settings">معلومات الحساب</a>
+            </li>
+
+            <!-- Product Management Dropdown -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                المنتجات
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li>
+                  <a class="dropdown-item d-flex justify-content-center" routerLink="/admin/all-product">عرض جميع
+                    المنتجات</a>
+                </li>
+                <li>
+                  <a class="dropdown-item d-flex justify-content-center" routerLink="/admin/add-product">إضافة</a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- Orders -->
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/admin/orders">الطلبات</a>
+            </li>
+
+            <!-- Account Settings -->
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/admin/users"> حسابات المستخدمين</a>
+            </li>
+            <li class="nav-item">
+              <a class="coupons nav-link" routerLink="/admin/copon"> الكوبونات </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <div class="col-md-10 col-lg-10 main-content">
+      <div>
+        <button class="btn navbar-toggler d-md-none custom-toggler btnMenu" type="button" data-bs-toggle="collapse"
+          data-bs-target="#dashboard-collapse" aria-controls="dashboard-collapse" aria-expanded="false"
+          aria-label="Toggle navigation" (click)="toggleSidebar()">
+          <span class="icon-bar bg-light"></span>
+          <span class="icon-bar bg-light"></span>
+          <span class="icon-bar bg-light"></span>
+        </button>
+      </div>
+
+      <div class="profile-section" style="margin-bottom: 130px;">
+        <div class="cover-photo">
+          <img src="/Images/admin-cover.jpg" alt="Cover Photo" class="img-fluid" />
+        </div>
+        <div class="profile-photo text-center">
+          <img src="/Images/admin-photo.png" alt="Profile Photo" class="rounded-circle" />
+        </div>
+      </div>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

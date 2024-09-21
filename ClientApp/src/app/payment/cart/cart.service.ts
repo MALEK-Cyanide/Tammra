@@ -9,7 +9,6 @@ import { CartDto } from './CartDto';
   providedIn: 'root'
 })
 export class CartService {
-
   constructor(private http: HttpClient) { }
 
   getCart(email: string): Observable<CartDto[]> {
@@ -42,5 +41,18 @@ export class CartService {
     formData.append('quntity', quantity.toString());
 
     return this.http.put(`${environment.appUrl}/api/cart/change-amount`, formData)
+  }
+  SendTotolPrice(total: any, email: string) {
+    const formData = new FormData();
+    formData.append('total', total.toString());
+    formData.append('email', email); 
+  
+    // Send formData to API endpoint
+    return this.http.post(`${environment.appUrl}/api/payment/total-cart-price`, formData);
+  }
+  downloadOrderPdf(email: string) {
+    return this.http.get(`${environment.appUrl}/api/Order/download-order/${email}`, {
+      responseType: 'blob',
+    });
   }
 }

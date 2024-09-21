@@ -9,4 +9,6 @@ export interface VendorInfo{
     navigation:string,
     vendorCoverPath:string,
     vendorImagePath:string,
+    userRole : string,
+    emailConfirmed:boolean
 }

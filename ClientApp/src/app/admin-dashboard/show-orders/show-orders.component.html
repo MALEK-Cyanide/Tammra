@@ -1,0 +1,114 @@
+<div class="vendor-info text-center" style="margin-top: -100px;">
+  <h2 class="heading">الطلبات</h2>
+</div>
+<div class="container mt-4">
+  <div class="d-flex justify-content-center">
+    <div class="center-container mb-4">
+      <div class="search-bar-container">
+        <input type="text" placeholder="ابحث عن طلب ..." class="search-input" [(ngModel)]="searchQuery" />
+        <button class="search-btn mb-4" (click)="isSearch()">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-edit" *ngIf="Type" (click)="AllOrders()">
+    <i class="fas fa-arrow-right"></i> رجوع إلي الطلبات
+  </button>
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr style="text-align: center;">
+        <th>كود الطلب</th>
+        <th>تاريخ الطلب</th>
+        <th>حالة الطلب</th>
+        <th>إجمالي المبلغ</th>
+        <th>طريقة الدفع</th>
+        <th>الإعدادات</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders; let i = index">
+        <td>{{ order.orderNum }}</td>
+        <td>{{ order.orderDate }}</td>
+        <td *ngIf="order.status =='تم إلغاء الطلب'" style="color: rgb(255, 255, 255); background-color: rgb(178, 5, 5)">
+          {{ order.status }}
+        </td>
+        <td *ngIf="order.status !='تم إلغاء الطلب'">{{ order.status }}</td>
+        <td>{{ order.totalAmount }} ج</td>
+        <td>{{ order.paymentWay }}</td>
+        <td>
+          <div class="d-flex justify-content-around">
+            <button class="btn btn-delete" style="background-color: rgb(57, 57, 249);"
+              routerLink="/admin/order-details/{{order.orderId}}">
+              التفاصيل <i class="fa-solid fa-search"></i>
+            </button>
+            <button class="btn btn-edit" (click)="editOrder(order)">
+              تعديل <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn btn-delete" (click)="deleteOrder(order.orderId)">
+              حذف <i class="fa-solid fa-user-xmark"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Form to add or edit an order -->
+  <div *ngIf="showForm" class="form-container card">
+    <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+      <div class="form-group d-flex">
+        <div class="col-md-2">
+          <label class="form-label" for="orderNum">كود الطلب</label>
+        </div>
+        <div class="col-md-10">
+          <input id="orderNumber" formControlName="orderNum" type="text" class="form-control" readonly />
+        </div>
+      </div>
+      <div class="form-group d-flex">
+        <div class="col-md-2">
+          <label class="form-label" for="status">حالة الطلب</label>
+        </div>
+        <div class="col-md-10">
+          <select id="orderStatus" formControlName="status" class="form-control" class="fa-solid fa-angle-down">
+            <option value="تم الطلب">تم الطلب</option>
+            <option value="تم الشحن">تم الشحن</option>
+            <option value="خرج للتوصيل">خرج للتوصيل</option>
+            <option value="تم التوصيل">تم التوصيل</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group d-flex">
+        <div class="col-md-2">
+          <label class="form-label" for="totalAmount">إجمالي المبلغ</label>
+        </div>
+        <div class="col-md-10">
+          <input id="totalAmount" formControlName="totalAmount" type="number" class="form-control" readonly />
+        </div>
+      </div>
+      <div class="form-group d-flex">
+        <div class="col-md-2">
+          <label class="form-label" for="creationDate">تاريخ الإنشاء</label>
+        </div>
+        <div class="col-md-10">
+          <input id="creationDate" formControlName="orderDate" type="text" class="form-control" readonly />
+        </div>
+      </div>
+      <div class="form-group d-flex">
+        <div class="col-md-2">
+          <label class="form-label" for="creationDate">طريقة الدفع</label>
+        </div>
+        <div class="col-md-10">
+          <input id="creationDate" formControlName="paymentWay" type="text" class="form-control" readonly />
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <button type="submit" class="btn save-btn">حفظ</button>
+        <button type="button" class="btn btn-cancel" (click)="cancelEdit()">
+          إلغاء <i class="fa-solid fa-close"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

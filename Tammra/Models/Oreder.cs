@@ -18,6 +18,7 @@ namespace Tammra.Models
         public string AddressDetails { get; set; }
         public string OrderNum { get; set; }
         public string PhoneNumber { get; set; }
+        public string PaymentWay { get; set; }
 
         [ForeignKey("User")]
         public string UserId { get; set; }

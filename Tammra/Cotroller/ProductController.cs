@@ -26,13 +26,11 @@ namespace Tammra.Cotroller
     {
         private readonly Context _context;
         private readonly UserManager<User> _userManager;
-        private readonly IWebHostEnvironment _env;
 
-        public ProductController(Context context, UserManager<User> userManager , IWebHostEnvironment env)
+        public ProductController(Context context, UserManager<User> userManager)
         {
             _context = context;
             _userManager = userManager;
-            _env = env;
         }
         [HttpGet("all-product")]
         public async Task<IActionResult> GetAllProductsForUser([FromQuery] string email)

@@ -14,6 +14,8 @@ import { SearchComponent } from './search/search.component';
 import { CartComponent } from './payment/cart/cart.component';
 import { PaymentComponent } from './payment/payment/payment.component';
 import { ConfirmOrderComponent } from './payment/confirm-order/confirm-order.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { AdminGuard } from './shared/guards/admin.guard';
 export const routes: Routes = [
     { path: "", component: HomeComponent },
     { path: "about", component: AboutComponent },
@@ -24,6 +26,14 @@ export const routes: Routes = [
         children: [{
             path: "vendor", component: VendorAccountComponent,
             loadChildren: () => import("./vendor/vendor-routing.module").then(x => x.VendorRoutingModule)
+        }]
+    },
+    {
+        path: "",
+        canActivate: [AuthGuard , AdminGuard],
+        children: [{
+            path: "admin", component: AdminDashboardComponent,
+            loadChildren: () => import("./admin-dashboard/admin-routing.module").then(x => x.AdminRoutingModule)
         }]
     },
     {

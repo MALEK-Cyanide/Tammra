@@ -1,0 +1,51 @@
+<div style="margin-bottom: 50px;">
+    <div class="center-container">
+        <div class="search-bar-container">
+            <input type="text" placeholder="ابحث عن منتج ..." class="search-input" [(ngModel)]="searchQuery" />
+            <button type="submit" class="search-btn" (click)="searchForProduct()"><i class="fas fa-search"></i></button>
+        </div>
+    </div>
+    <div *ngIf="show">
+        <button (click)="getAllProd()" class="btn btn-brown" style="margin-bottom: 15px;"> <i
+                class="fa fa-arrow-right"></i> الرجوع إلي المنتجات</button>
+    </div>
+</div>
+
+<div class="card-container" style="font-family: 'Cairo', Times, serif;">
+    <div class="product-card" *ngFor="let product of products">
+        <div class="card-content">
+            <div style="height: 200px;">
+                <a [routerLink]="['/admin/show-product/', product.productId]">
+                    <img [src]="url+product.prodImagePath" class="product-image img-fluid" />
+                </a>
+                <div class="corner-triangle top-left"></div>
+                <div class="corner-triangle top-right"></div>
+            </div>
+
+            <div class="card-body">
+                <h5 class="card-title">{{product.productName}}</h5>
+                <div class="card-text">
+                    <h6 class="card-title" style="color: brown; margin-top: 10px; margin-bottom: 5px;"> أسم التاجر : <strong>{{product.companyName}}</strong></h6>
+                    <p><strong>الكمية: </strong> <span style="color: rgb(111, 3, 3);">{{product.quantity}}</span> </p>
+                    <div *ngIf="product.priceAfterSale != 0">
+                        <p><strong>السعر:
+                            </strong> <span class="original-price" style="color: red;">{{product.price}}</span> ج.م <i
+                                class="fa fa-arrow-left"></i>
+                            <span class="sale-price"> {{ product.priceAfterSale }} ج.م </span>
+                        </p>
+                    </div>
+                    <div *ngIf="product.priceAfterSale == 0">
+                        <p><strong>السعر:
+                            </strong> <span class="" style="color: red;">{{product.price}}</span> ج.م
+                        </p>
+                    </div>
+                </div>
+                <button [routerLink]="['/admin/edit-product/', product.productId]" class="btn btn-brown mx-1">تعديل
+                    <i class="fa fa-edit"></i></button>
+
+                <button [routerLink]="['/admin/delete-product/', product.productId]" class="btn btn-brown mx-1">حذف
+                    <i class="fa fa-trash"></i></button>
+            </div>
+        </div>
+    </div>
+</div>

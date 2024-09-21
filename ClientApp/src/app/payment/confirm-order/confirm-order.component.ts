@@ -30,11 +30,12 @@ export class ConfirmOrderComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getCustomer()
-    this.totalPrice()
+    this.getTotolPrice()
     this.initializeForm();
   }
   initializeForm() {
     this.PaymentForm = this.formBuilder.group({
+      phoneNumber: ['', [Validators.required]],
       governorate: ['', [Validators.required]],
       city: ['', [Validators.required]],
       street: ['', [Validators.required]],
@@ -47,9 +48,6 @@ export class ConfirmOrderComponent implements OnInit {
       this.phoneNum = user.phoneNumber
     })
   }
-  getTotal() {
-    return this.totalP;
-  }
   totalPrice() {
     this.CustomerServices.totalPrice(this.Account.getJWT().email).subscribe((res) => {
       this.totalP = res
@@ -61,7 +59,6 @@ export class ConfirmOrderComponent implements OnInit {
     formData.append('email', this.Account.getJWT().email)
     formData.append('order', JSON.stringify(this.PaymentForm.value))
     formData.append('totalP', this.totalP)
-    formData.append('phone', this.phoneNum.toString())
 
     return this.http.post<Payment>(`${environment.appUrl}/api/Payment/make-order`, formData).subscribe((res) => {
       console.log(this.PaymentForm)
@@ -71,6 +68,11 @@ export class ConfirmOrderComponent implements OnInit {
       else{
         Swal.fire("" , "يجب ملئ جميع الحقول بدقة لضمان توصيل طلبك" , "error")
       }
+    })
+  }
+  getTotolPrice(){
+    this.http.get<number>(`${environment.appUrl}/api/Payment/get-cart-price/${this.Account.getJWT().email}`).subscribe((res : number)=>{
+      this.totalP = res
     })
   }
 }

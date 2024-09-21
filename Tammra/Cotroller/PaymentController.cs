@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using SkiaSharp;
 using System;
 using System.Linq;
 using System.Numerics;
@@ -65,7 +66,7 @@ namespace Tammra.Cotroller
         }
 
         [HttpPost("make-order")]
-        public async Task<IActionResult> MakeOrder([FromForm] string order, [FromForm] string email , [FromForm] string totalP , [FromForm] string phone)
+        public async Task<IActionResult> MakeOrder([FromForm] string order, [FromForm] string email , [FromForm] string totalP)
         {
             User user = await _userManager.FindByEmailAsync(email);
             var UserId = user.Id;
@@ -92,8 +93,8 @@ namespace Tammra.Cotroller
                 AddressDetails = orderDto.AddressDetails,
                 TotalAmount = TotalPrice,
                 OrderNum = orderNumber,
-                Status = "Pending",
-                PhoneNumber = phone,
+                Status = "تم الطلب",
+                PhoneNumber = orderDto.PhoneNumber,
                 OrderItems = cartItems.Select(ci => new OrderItem
                 {
                     ProductId = ci.ProductId,
@@ -102,16 +103,15 @@ namespace Tammra.Cotroller
                 }).ToList()
             };
 
-            if (oreder.Governorate != null && oreder.City != null && oreder.Governorate != "" && oreder.City != "")
+            if (oreder.Governorate != null && oreder.City != null && oreder.Governorate != "" && oreder.City != ""
+                && oreder.PhoneNumber != null && oreder.PhoneNumber != "" )
             {
                 context.Oreders.Add(oreder);
                 await context.SaveChangesAsync();
             }
-            //context.CartItems.RemoveRange(cartItems);
-            //await context.SaveChangesAsync();
-
             return Ok();
         }
+
         [HttpGet("get-order/{email}")]
         public async Task<IActionResult> GetOrderData(string email)
         {
@@ -136,6 +136,56 @@ namespace Tammra.Cotroller
             };
 
             return Ok(or);
+        }
+        [HttpPost("total-cart-price")]
+        public async Task<IActionResult> SendTotalPrice([FromForm] string email,[FromForm] string total)
+        {
+            User CustomerData = await _userManager.FindByEmailAsync(email);
+            var CustId = CustomerData?.Id;
+
+            var cart = await context.Carts.Where(x => x.UserId == CustId).FirstOrDefaultAsync();
+
+            cart.TotalPrice = double.Parse(total);
+
+            context.Carts.Update(cart);
+            await context.SaveChangesAsync();
+
+            return Ok();
+        }
+        [HttpGet("get-cart-price/{email}")]
+        public async Task<IActionResult> GetTotalPrice(string email)
+        {
+            User CustomerData = await _userManager.FindByEmailAsync(email);
+            var CustId = CustomerData?.Id;
+
+            var cart = await context.Carts.Where(x => x.UserId == CustId).FirstOrDefaultAsync();
+
+            double total = cart.TotalPrice;
+
+            return Ok(total);
+        }
+        [HttpPost("whenRecive")]
+        public async Task<IActionResult> whenRecive([FromForm]string email)
+        {
+            User CustomerData = await _userManager.FindByEmailAsync(email);
+            var CustId = CustomerData?.Id;
+
+            Oreder order = context.Oreders.Where( x => x.UserId == CustId).OrderByDescending(o => o.OrderDate).FirstOrDefault();
+
+            order.PaymentWay = "الدفع عند الإستلام";
+
+            var cartItems = await context.CartItems
+                    .Where(ci => ci.Cart.UserId == CustId)
+                    .Include(ci => ci.Product)
+                    .ToListAsync();
+
+            context.CartItems.RemoveRange(cartItems);
+            await context.SaveChangesAsync();
+
+            context.Oreders.Update(order);
+            await context.SaveChangesAsync();
+
+            return Ok();
         }
     }
 }

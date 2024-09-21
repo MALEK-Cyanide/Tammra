@@ -33,6 +33,10 @@
                             الدفع عند الاستلام
                         </label>
                     </div>
+                    <div *ngIf="checkbox1">
+                        <button class="pay-button" style="margin-bottom: 50px;" (click)="whenRecive()">تأكيد
+                            الطلب</button>
+                    </div>
                     <div>
                         <label>
                             <input type="checkbox" [(ngModel)]="checkbox2" (click)="onCheckboxChange(2)" />
@@ -44,8 +48,14 @@
                     <form id="payment-form" (ngSubmit)="handlePayment($event)" class="payment-form">
                         <div id="card-element" class="card-element">
                         </div>
-                        <button type="button" id="submit-button" class="pay-button"
-                            (click)="handlePayment($event)">Pay</button>
+                        <div *ngIf="!payed">
+                            <button type="button" id="submit-button" class="pay-button"
+                                (click)="handlePayment($event)">الدفع</button>
+                        </div>
+                        <div *ngIf="payed" disabled>
+                            <button type="button" id="submit-button" class="payed-button" disabled>تمت عملية
+                                الدفع</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -54,16 +64,22 @@
         <div class="col-4 payment-form">
             <div class="order-summary">
                 <h5 class="mb-3"><b>ملخص الطلب</b></h5>
-                <p> <strong>رقم الطلب: {{order?.orderNum}}</strong></p>
-                <h6 style="color: crimson; margin-bottom: 30px;"><strong> المبلغ: {{order?.totalAmount}}
-                        ج.م</strong></h6>
-                <h6 style="color: crimson; margin-bottom: 30px;"><strong> رسوم الشحن: 30 ج.م
-                        </strong></h6>
-                <h6 style="color: crimson; margin-bottom: 30px;"><strong> إجمالي المبلغ: {{totalafter}}
-                        ج.م</strong></h6>
+                <p> <strong>كود الطلب: {{order?.orderNum}}</strong></p>
+                <h6 style="color: crimson; margin-bottom: 30px;"><strong> المبلغ: {{order?.totalAmount}} ج.م</strong>
+                </h6>
+                <h6 style="color: crimson; margin-bottom: 30px;"><strong> رسوم الشحن: 30 ج.م</strong></h6>
+                <label>
+                    <input type="checkbox" [(ngModel)]="checkbox3" (click)="Coupon()" style="margin-bottom: 30px;" />
+                    هل لديك كود خصم ؟
+                </label>
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" placeholder="ادخل كود الخصم"/>
+                </div>
+                <h6 style="color: crimson; margin-bottom: 30px;"><strong> إجمالي المبلغ: {{totalafter}} ج.م</strong>
+                </h6>
             </div>
 
-            <button class="confirm-button" style="margin-bottom: 50px;">تأكيد الطلب</button>
+            <button class="pay-button" style="margin-bottom: 50px;" (click)="downloadOrder()">حفظ بيانات الطلب</button>
 
             <div class="payment-security">
                 <h4>أمن الدفع</h4>

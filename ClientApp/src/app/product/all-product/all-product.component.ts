@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { GetAllProducts } from '../../shared/models/Product/GetAllProducts';
 import { ProductService } from '../product.service';
 import { AccountService } from '../../account/account.service';
@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-all-product',
   standalone: true,
-  imports: [RouterOutlet, AsyncPipe, CommonModule , RouterModule , FormsModule],
+  imports: [CommonModule , RouterModule , FormsModule],
   templateUrl: './all-product.component.html',
   styleUrl: './all-product.component.css'
 })

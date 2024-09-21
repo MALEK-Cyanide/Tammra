@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../product.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ValidationMessagesComponent } from '../../shared/components/errors/validation-messages/validation-messages.component';
 import { Router } from '@angular/router';
 import { AccountService } from '../../account/account.service';
 import { HttpClient } from '@angular/common/http';
@@ -14,7 +13,7 @@ import Swal from 'sweetalert2';
   selector: 'app-add-product',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule,
-    ValidationMessagesComponent, FormsModule,],
+     FormsModule,],
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.css'
 })

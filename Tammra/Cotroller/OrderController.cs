@@ -13,6 +13,10 @@ using System.Collections.Generic;
 using Mailjet.Client.Resources;
 using User = Tammra.Models.User;
 using Product = Tammra.Models.Product;
+using PdfSharpCore.Drawing;
+using PdfSharpCore.Pdf;
+using System.IO;
+using System.Text;
 namespace Tammra.Cotroller
 {
     [Route("api/[controller]")]
@@ -21,82 +25,15 @@ namespace Tammra.Cotroller
     {
         private readonly Context _context;
         private readonly UserManager<User> _userManager;
-        private readonly IConfiguration configuration;
-
-        private string PayPalCleintId { get; set; } = "";
-        private string PayPalSecret { get; set; } = "";
-        private string PayPalUrl { get; set; } = "";
-        public OrderController(Context context, UserManager<User> userManager , IConfiguration _configuration)
+        public OrderController(Context context, UserManager<User> userManager)
         {
             _context = context;
             _userManager = userManager;
-            PayPalCleintId  = _configuration["PaypalSettings:ClientId"];
-            PayPalSecret = _configuration["PaypalSettings:Secret"];
-            PayPalUrl = _configuration["PaypalSettings:Url"];
         }
 
-        [HttpPost("checkout/{email}")]
-        public async Task<IActionResult> Checkout(string email)
-        {
-            User user = await _userManager.FindByEmailAsync(email);
-            var UserId = user.Id;
-
-            var cartItems = await _context.CartItems
-                .Where(ci => ci.Cart.UserId == UserId)
-                .Include(ci => ci.Product)
-                .ToListAsync();
-
-            if (!cartItems.Any())
-                return BadRequest("Cart is empty");
-
-            var order = new Oreder
-            {
-                UserId = UserId,
-                OrderDate = DateTime.Now,
-                Status = "معلق",
-                OrderItems = cartItems.Select(ci => new OrderItem
-                {
-                    ProductId = ci.ProductId,
-                    Quantity = ci.Quantity,
-                    Price = ci.Product.Price
-                }).ToList()
-            };
-
-            _context.Oreders.Add(order);
-            await _context.SaveChangesAsync();
-
-            _context.CartItems.RemoveRange(cartItems);
-            await _context.SaveChangesAsync();
-
-            return Ok(order);
-        }
         [HttpPost("create-payment-intent")]
         public async Task<IActionResult> CreatePaymentIntent([FromBody] PaymentIntentCreateRequest request)
         {
-            User user = await _userManager.FindByEmailAsync(request.Email);
-            if (user == null)
-            {
-                return BadRequest("User not found.");
-            }
-
-            var userId = user.Id;
-            var cartItems = await _context.CartItems
-                .Where(ci => ci.Cart.UserId == userId)
-                .Include(ci => ci.Product)
-                .ToListAsync();
-
-            foreach (var cartItem in cartItems)
-            {
-                Product product = cartItem.Product;
-
-                if (product == null)
-                {
-                    continue;
-                }
-                product.Quantity -= cartItem.Quantity;
-            }
-            _context.CartItems.RemoveRange(cartItems);
-            await _context.SaveChangesAsync();
             try
             {
                 var options = new PaymentIntentCreateOptions
@@ -105,6 +42,36 @@ namespace Tammra.Cotroller
                     Currency = "usd",
                     PaymentMethodTypes = new List<string> { "card" },
                 };
+                User user = await _userManager.FindByEmailAsync(request.Email);
+                if (user == null)
+                {
+                    return BadRequest("User not found.");
+                }
+
+                var userId = user.Id;
+                var cartItems = await _context.CartItems
+                    .Where(ci => ci.Cart.UserId == userId)
+                    .Include(ci => ci.Product)
+                    .ToListAsync();
+
+                Oreder oreder = _context.Oreders.Where(x => x.UserId == userId).OrderByDescending(o => o.OrderDate).FirstOrDefault();
+                oreder.PaymentWay = "تم الدفع عن طريق الفيزا";
+
+                _context.Update(oreder);
+                await _context.SaveChangesAsync();
+
+                foreach (var cartItem in cartItems)
+                {
+                    Product product = cartItem.Product;
+
+                    if (product == null)
+                    {
+                        continue;
+                    }
+                    product.Quantity -= cartItem.Quantity;
+                }
+                _context.CartItems.RemoveRange(cartItems);
+                await _context.SaveChangesAsync();
 
                 var service = new PaymentIntentService();
                 var paymentIntent = await service.CreateAsync(options);
@@ -117,6 +84,33 @@ namespace Tammra.Cotroller
             }
         }
 
+        [HttpGet("download-order/{email}")]
+        public async Task<IActionResult> DownloadOrderPdf(string email)
+        {
+            User user = await _userManager.FindByEmailAsync(email);
+            var CusId = user.Id;
+
+            var order = await _context.Oreders
+                .OrderByDescending(x => x.OrderId)
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
+                .FirstOrDefaultAsync(o => o.UserId == CusId);
+
+            var csvBuilder = new StringBuilder();
+            csvBuilder.AppendLine($" كود طلبك : {order.OrderNum}");
+            csvBuilder.AppendLine($" وقت الطلب  : {order.OrderDate}");
+            csvBuilder.AppendLine("اسم المنتج              |   الكمية   |   السعر");
+
+
+            foreach (var item in order.OrderItems)
+            {
+                csvBuilder.AppendLine($"{item.Product.ProductName}            |   {item.Quantity}   |   {item.Price}");
+
+            }
+            var csvData = Encoding.UTF8.GetPreamble().Concat(Encoding.UTF8.GetBytes(csvBuilder.ToString())).ToArray();
+
+            return File(csvData, "text/csv; charset=utf-8", $"بيانات طلبك.csv");
+        }
     }
 }
 public class PaymentIntentCreateRequest

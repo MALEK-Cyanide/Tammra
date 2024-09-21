@@ -220,6 +220,28 @@ namespace Tammra.Data.Migrations
                     b.ToTable("CartItems");
                 });
 
+            modelBuilder.Entity("Tammra.Models.Coupon", b =>
+                {
+                    b.Property<int>("CouponID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CouponID"));
+
+                    b.Property<string>("CouponName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("CouponValue")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("CouponID");
+
+                    b.ToTable("Coupons");
+                });
+
             modelBuilder.Entity("Tammra.Models.OrderItem", b =>
                 {
                     b.Property<int>("OrderItemId")
@@ -270,6 +292,9 @@ namespace Tammra.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("OrderNum")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentWay")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")

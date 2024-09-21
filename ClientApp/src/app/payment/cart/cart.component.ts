@@ -7,6 +7,7 @@ import { environment } from '../../../environments/environment.development';
 import { CartDto } from './CartDto';
 import Swal from 'sweetalert2';
 import { RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-cart',
@@ -16,15 +17,16 @@ import { RouterModule } from '@angular/router';
   styleUrl: './cart.component.css'
 })
 export class CartComponent implements OnInit {
-  totalAmount = 0.0;
+  totalAmount : any;
   cartItems: CartDto[] = [];
   url = environment.appUrl;
   qun :any
+  totalPrice = 0;
   checkCart = false
 
   @Input() value: number = 1; // Default value
 
-  constructor(private cartService: CartService, private account: AccountService) { }
+  constructor(private cartService: CartService, private account: AccountService , private http:HttpClient) { }
   ngOnInit(): void {
     this.cartService.getCart(this.account.getJWT().email).subscribe((data) => {
       this.cartItems = data;
@@ -36,6 +38,10 @@ export class CartComponent implements OnInit {
     });
   }
 
+  SendTotolPrice(){
+    this.cartService.SendTotolPrice(this.totalAmount, this.account.getJWT().email).subscribe((res) => {
+    })
+  }
   checkQuntity(){
     if(this.qun == 0){
       this.checkCart = false

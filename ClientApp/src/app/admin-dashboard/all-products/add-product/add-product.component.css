@@ -1,0 +1,43 @@
+
+.card-body{
+  padding-top: 50px;
+}
+
+
+.btn-brown {
+  background-color: #8B4513;
+  color: #FFFFFF;
+  border-color: #8B4513;
+
+  width:130px;
+}
+.btn-brown:hover {
+  background-color: #A0522D;
+  border-color: #A0522D;
+}
+
+@media (width: 768px) {
+  .custom-card {
+    height: 300px;
+  }
+}
+
+@media (width: 992px) {
+  .custom-card {
+    height: 400px;
+  }
+}
+
+@media (width: 1200px) {
+  .custom-card {
+    height: 500px;
+  }
+}
+.rating .fa-star {
+color: rgb(255, 157, 0);
+cursor: pointer;
+}
+
+.rating .fa-star-o {
+color: gray;
+}

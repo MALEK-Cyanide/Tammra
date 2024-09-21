@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 import { Stripe, loadStripe } from '@stripe/stripe-js';
 import { environment } from '../../../environments/environment.development';
 import Swal from 'sweetalert2';
+import { CartService } from '../cart/cart.service';
 
 @Component({
   selector: 'app-payment',
@@ -26,15 +27,19 @@ export class PaymentComponent implements OnInit {
   submitted = false;
   checkbox1 = false;
   checkbox2 = true;
+  checkbox3 = false;
   total = 0;
   totalafter = 0
   OrderNum = ""
-  email : any
+  email: any
+  payed = false
 
   stripe: Stripe | null = null;
   cardElement: any;
 
-  constructor(private CustomerServices: CustomerService, private Account: AccountService, private http: HttpClient) {
+  constructor(private CustomerServices: CustomerService, private Account: AccountService, private http: HttpClient
+    , private cartService: CartService
+  ) {
 
   }
 
@@ -79,7 +84,11 @@ export class PaymentComponent implements OnInit {
       this.isVisaSelected = false;
     }
   }
-
+  getTotolPrice() {
+    this.http.get<number>(`${environment.appUrl}/api/Payment/get-cart-price/${this.Account.getJWT().email}`).subscribe((res: number) => {
+      this.total = res
+    })
+  }
   onSubmit() {
     this.submitted = true;
     if (this.visaForm.valid) {
@@ -89,9 +98,9 @@ export class PaymentComponent implements OnInit {
       console.log('Form invalid', this.visaForm.value);
     }
   }
-getEmail(){
-  this.email = this.Account.getJWT().email
-}
+  getEmail() {
+    this.email = this.Account.getJWT().email
+  }
   showInvalidInputMessage: boolean = false;
   validateInput(event: KeyboardEvent) {
     const inputKey = event.key;
@@ -136,7 +145,7 @@ getEmail(){
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           amount: this.totalafter * 100,
           email: this.email
         }),
@@ -166,7 +175,8 @@ getEmail(){
         console.error('Error confirming payment:', result.error.message);
         alert('Payment failed. Please try again.');
       } else if (result?.paymentIntent?.status === 'succeeded') {
-        Swal.fire("تمت عملية الدفع", `رقم طلبك : ${this.OrderNum}`, "success")
+        Swal.fire("تمت عملية الدفع", `كود طلبك : ${this.OrderNum}`, "success")
+        this.payed = true
       } else {
         alert('Payment failed. Please check your card details and try again.');
       }
@@ -175,5 +185,26 @@ getEmail(){
       alert('Payment processing error. Please try again.');
     }
   }
-
+  whenRecive() {
+    const formdata = new FormData()
+    formdata.append('email', this.Account.getJWT().email)
+    this.http.post(`${environment.appUrl}/api/payment/whenRecive`, formdata).subscribe((res) => {
+      Swal.fire("", "تم تأكيد طريقة الدفع سيتواصل معك المندوب قريبا", "success")
+    })
+  }
+  downloadOrder(){
+    this.cartService.downloadOrderPdf(this.Account.getJWT().email).subscribe(
+      (blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `بيانات طلبك.csv`;
+        link.click();
+        window.URL.revokeObjectURL(url);
+      }
+    );
+  }
+  Coupon(){
+    this.checkbox3 = true
+  }
 }

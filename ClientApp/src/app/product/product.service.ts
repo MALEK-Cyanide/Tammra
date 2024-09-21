@@ -23,6 +23,12 @@ export class ProductService {
     });
     return this.http.get<GetAllProducts[]>(`${environment.appUrl}/api/product/all-product`, { params: { email } });
   }
+  getAllProductsForAdmin(email: string): Observable<GetAllProducts[]> {
+    const headers = new HttpHeaders({
+      'Email': email
+    });
+    return this.http.get<GetAllProducts[]>(`${environment.appUrl}/api/admin/all-product`, { params: { email } });
+  }
   addProduct(product: AddProduct): Observable<AddProduct> {
     return this.http.post<AddProduct>(`${environment.appUrl}/api/product/add-product`, product);
   }

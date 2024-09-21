@@ -1,0 +1,70 @@
+<div class="vendor-info text-center">
+  <h2 class="heading">الكوبونات والخصومات</h2>
+</div>
+<div class="container mt-4">
+  <div class="d-flex justify-content-center">
+    <div class="center-container mb-4">
+      <div class="search-bar-container">
+        <input type="text" placeholder="ابحث عن كوبون ..." class="search-input" />
+        <button type="submit" class="search-btn mb-4">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center">
+    <button class="btn add-btn mb-4" routerLink="/admin/add-copon"> إضافة كوبون </button>
+  </div>
+
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>إسم الكوبون</th>
+        <th>قيمة الخصم</th>
+        <th>عدد الكوبونات</th>
+        <th>الإعدادات</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let coupon of coupons; let i = index">
+        <td>{{ coupon.couponName }}</td>
+        <td>{{ coupon.couponValue }}</td>
+        <td>{{ coupon.quantity }}</td>
+        <td>
+          <div class="d-flex justify-content-around">
+            <button class="btn btn-edit" (click)="editCoupon(coupon)">
+              <i class="fas fa-edit"></i> تعديل
+            </button>
+            <button class="btn btn-delete" (click)="deleteCoupon(coupon.couponID)">
+              <i class="fas fa-trash"></i> حذف
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <div *ngIf="showFormEdit" class="card mb-3">
+    <form [formGroup]="couponForm" (ngSubmit)="onSubmitEdit()">
+      <div class="form-group d-flex">
+        <label for="CouponName" class="col-md-2">إسم الكوبون</label>
+        <input type="text" id="CouponName" class="form-control" formControlName="couponName" />
+      </div>
+      <div class="form-group d-flex mt-2">
+        <label for="CouponValue" class="col-md-2">قيمة الخصم</label>
+        <input type="number" id="CouponValue" class="form-control " formControlName="couponValue" />
+      </div>
+      <div class="form-group d-flex mt-2">
+        <label for="CouponValue" class="col-md-2">الكمية المتاحه</label>
+        <input type="number" id="CouponValue" class="form-control " formControlName="quantity" />
+      </div>
+      <div class="d-flex justify-content-center mt-3">
+        <button type="submit" class="btn save-btn">حفظ</button>
+        <button type="button" class="btn btn-cancel" (click)="resetForm()">
+          <i class="fa-regular fa-rectangle-xmark"></i>
+          إلغاء
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

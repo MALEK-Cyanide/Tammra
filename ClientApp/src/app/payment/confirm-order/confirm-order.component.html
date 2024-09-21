@@ -19,15 +19,10 @@
                         </div>
                         <div class="form-group">
                             <label for="phoneNumber">رقم الهاتف</label>
-                            <input type="tel" class="form-control" id="phoneNumber" [value]="customer?.phoneNumber"
-                                required />
+                            <input type="tel" class="form-control" formControlName="phoneNumber" id="phoneNumber"
+                            placeholder="+20" required />
                         </div>
-                        <span style="color: rgb(228, 6, 6)" *ngIf="
-                      PaymentForm?.get('phoneNumber')?.hasError('required') &&
-                      PaymentForm?.get('phoneNumber')?.touched
-                    ">
-                            يجب إدخال رقم هاتف صالح
-                        </span>
+                        
                         <label class="label">عنوان الشحن</label>
                         <div class="dropdown-container">
                             <select id="governorates" class="dropdown" formControlName="governorate" required>
@@ -61,12 +56,7 @@
                                 <option value="جنوب سيناء">جنوب سيناء</option>
                             </select>
                         </div>
-                        <span style="color: rgb(228, 6, 6)" *ngIf="
-                      PaymentForm?.get('governorate')?.hasError('required') &&
-                      PaymentForm?.get('governorate')?.touched
-                    ">
-                        يجب أختيار محافظة
-                        </span>
+                        
                     </div>
                     <div class="d-flex">
                         <div class="form-group col-md-6">
@@ -74,12 +64,7 @@
                             <input type="text" class="form-control" id="city" placeholder="المدينة" required
                                 formControlName="city" />
                         </div>
-                        <span style="color: rgb(228, 6, 6)" *ngIf="
-                        PaymentForm?.get('phoneNumber')?.hasError('required') &&
-                        PaymentForm?.get('phoneNumber')?.touched
-                      ">
-                          يجب أختيار محافظة
-                          </span>
+                        
                         <div class="form-group col-md-6">
                             <label for="street">الشارع</label>
                             <input type="text" class="form-control" id="street" formControlName="street" required

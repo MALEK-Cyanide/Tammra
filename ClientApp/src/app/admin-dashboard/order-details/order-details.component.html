@@ -1,0 +1,19 @@
+<button class="btn btn-edit" routerLink="/admin/orders">
+    <i class="fas fa-arrow-right"></i> رجوع إلي الطلبات 
+</button>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr style="text-align: center;">
+            <th>أسم المنتج</th>
+            <th>السعر</th>
+            <th>الكمية</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let order of OrderItems; let i = index">
+            <td>{{ order.productName }}</td>
+            <td>{{ order.price }} جـ</td>
+            <td>{{ order.quantity }}</td>
+        </tr>
+    </tbody>
+</table>

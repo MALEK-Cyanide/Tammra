@@ -40,6 +40,12 @@
                 class='fas fa-user-cog'></i></a>
           </a>
         </div>
+        <div *ngIf="Role == 'Admin'">
+          <a class="text-white" style="text-decoration: none; cursor: pointer;">
+            <a class="fname" routerLinkActive="active" routerLink="/admin"> {{Fname}} <i
+                class='fas fa-user-cog'></i></a>
+          </a>
+        </div>
         <a routerLink="/account/register" class="btn" (click)="logout()">
           تسجيل الخروج <i class='fas fa-power-off'></i>
 

@@ -175,7 +175,9 @@ namespace Tammra.Cotroller
             {
                 return BadRequest();
             }
-            var user = _userManager.Users.Where(p => p.FirstName.Contains(query) || p.LastName.Contains(query)).ToList();
+            var user = _userManager.Users
+                .Where(p => p.UserRole == "Vendor" && (p.FirstName.Contains(query) || p.LastName.Contains(query)))
+                .ToList();
             return Ok(user);
         }
         

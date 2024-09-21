@@ -12,4 +12,5 @@ export interface GetAllProducts {
     isOnSale : boolean,
     salePrice : number,
     priceAfterSale : number
+    companyName:string
 }
