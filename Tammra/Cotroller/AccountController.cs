@@ -63,7 +63,7 @@ namespace Tammra.Cotroller
         {
             if (await CheckEmailExitAsync(model.Email))
             {
-                return BadRequest(new {error = "البريد الإلكتروني خطأ" });
+                return BadRequest(new { error = "البريد الإلكتروني خطأ" });
             }
             var userToAdd = new User
             {
@@ -81,22 +81,21 @@ namespace Tammra.Cotroller
             {
                 return BadRequest(resultCreated.Errors);
             }
-            //try
-            //{
-            //    if (await SendConfirmEmailAsync(userToAdd))
-            //    {
-            return Ok(new JsonResult(new { title = "Created", message = "Done , Just confirm ur Email" }));
-            //}
-            //    return BadRequest("Faild to send email");
-            //}
-            //    catch (System.Exception)
-            //    {
+            try
+            {
+                if (await SendConfirmEmailAsync(userToAdd))
+                {
+                    return Ok(new JsonResult(new { title = "Created", message = "Done , Just confirm ur Email" }));
+                }
+                return BadRequest("حدث خطأ عند إرسال التأكيد");
+            }
+            catch (System.Exception)
+            {
 
-            //    return BadRequest("Faild to send email");
-            //}
+                return BadRequest("حدث خطأ عند إرسال التأكيد");
+            }
         }
 
-        [Authorize]
         [HttpGet("refresh-user-token")]
         public async Task<ActionResult<UserDto>> RefreshUserToken()
         {

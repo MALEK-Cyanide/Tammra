@@ -1,8 +1,27 @@
 <div style="margin-top: 60px; height:100vh ;">
-    <div class="container text-center" *ngIf="success == true">
-        <a class="btn btn-primary" routerLink="/account/login">تسجيل الدخول</a>
+  <div class="container text-center" *ngIf="success == true">
+    <a class="btn btn-primary" routerLink="/account/login">تسجيل الدخول</a>
+  </div>
+  <div class="container text-center" *ngIf="success == false">
+    <a class="btn btn-link" (click)="resendEmailConfirmationLink()">إعادة إرسال طلب تأكيد البريد</a>
+  </div>
+</div>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6 form-container">
+      <div class="card p-4">
+        <h4 class="text-center mb-4">تغيير كلمة السر</h4>
+        <form>
+          <div class="form-group mb-3">
+            <label for="inputEmail" class="form-label">البريد الإلكتروني</label>
+            <input type="text" class="form-control" id="inputEmail" placeholder="البريد الالكتروني">
+          </div>
+          <div>
+            <button type="button" (click)="resendEmailConfirmationLink()" class="btn btn-brown">موافق</button>
+            <button type="reset" class="btn cancel btn-brown">إلغاء</button>
+          </div>
+        </form>
+      </div>
     </div>
-    <div class="container text-center" *ngIf="success == false">
-        <a class="btn btn-link" (click)="resendEmailConfirmationLink()">إعادة إرسال طلب تأكيد البريد</a>
-    </div>
+  </div>
 </div>

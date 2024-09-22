@@ -57,7 +57,7 @@ namespace Tammra.Cotroller
         }
 
         [HttpPost("add-product")]
-        public async Task<IActionResult> CreateProduct([FromForm] string product, [FromForm] IFormFile image , [FromForm] string rate)
+        public async Task<IActionResult> CreateProduct([FromForm] string product, [FromForm] IFormFile image)
         {
             var Product = JsonConvert.DeserializeObject<AddProductDto>(product);
 
@@ -94,7 +94,6 @@ namespace Tammra.Cotroller
                 ProdImagePath = relativePath,
                 DateAdded = DateTime.UtcNow,
                 ProductionPrice = Product.ProductionPrice,
-                Rate = double.Parse(rate),
                 UserId = UserId
             };
 

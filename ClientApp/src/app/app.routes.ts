@@ -18,6 +18,8 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
 import { AdminGuard } from './shared/guards/admin.guard';
 import { CustomerComponent } from './customer/customer.component';
 import { ProductdetComponent } from './new-show-details/productdet.component';
+import { ChangeComponent } from './LastFooter/change/change.component';
+import { RefondComponent } from './LastFooter/refond/refond.component';
 export const routes: Routes = [
     { path: "", component: HomeComponent },
     { path: "about", component: AboutComponent },
@@ -71,5 +73,7 @@ export const routes: Routes = [
     { path: "authentication", component: AuthenticationComponent },
     { path: "Vendor-Profile", component: BuyAndSearchComponent },
     { path: "product", component: ProductComponent },
+    { path: "change", component: ChangeComponent },
+    { path: "refond", component: RefondComponent },
     { path: "**", component: NotFoundComponent, pathMatch: 'full' }
 ];

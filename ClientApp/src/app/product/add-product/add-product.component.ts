@@ -47,7 +47,7 @@ export class AddProductComponent implements OnInit {
     })
   }
   rate(rating: number) {
-    this.selectedRating = rating;
+    this.selectedRating = 0;
   }
   getImagePath() {
     return this.imagePath
@@ -59,9 +59,6 @@ export class AddProductComponent implements OnInit {
 
     if (this.selectedFile) {
       formData.append('image', this.selectedFile);
-    }
-    if (this.selectedRating) {
-      formData.append('rate', this.selectedRating.toString());
     }
 
     this.http.post(`${environment.appUrl}/api/product/add-product`, formData)

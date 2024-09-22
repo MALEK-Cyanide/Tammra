@@ -41,7 +41,7 @@
                 <input type="number" class="form-control w-75" formControlName="price" required>
               </div>
 
-              <div class="rating" style="text-align: center; margin-bottom: 10px;">
+              <div class="rating" style="text-align: center; margin-bottom: 10px;" hidden>
                 <span *ngFor="let star of stars" (click)="rate(star)">
                   @if(selectedRating != undefined){
                     <i class="fa" [ngClass]="{'fa-star': star , 'fa-star-o': star > selectedRating}"></i>

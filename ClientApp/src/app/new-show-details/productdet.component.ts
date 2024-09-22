@@ -39,7 +39,7 @@ export class ProductdetComponent implements OnInit {
     this.getAllProd()
   }
   getAllProd() {
-    this.productService.getAllProductsForAdmin(this.accountService.getJWT().email).subscribe
+    this.productService.getAllProductsForHome().subscribe
       ((data: GetAllProducts[]) => {
         this.products = data;
       });

@@ -29,6 +29,9 @@ export class ProductService {
     });
     return this.http.get<GetAllProducts[]>(`${environment.appUrl}/api/admin/all-product`, { params: { email } });
   }
+  getAllProductsForHome(): Observable<GetAllProducts[]> {
+    return this.http.get<GetAllProducts[]>(`${environment.appUrl}/api/admin/all-product`);
+  }
   addProduct(product: AddProduct): Observable<AddProduct> {
     return this.http.post<AddProduct>(`${environment.appUrl}/api/product/add-product`, product);
   }

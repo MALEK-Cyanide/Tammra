@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { AccountService } from '../account.service';
 import { ValidationMessagesComponent } from "../../shared/components/errors/validation-messages/validation-messages.component";
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { User } from '../../shared/models/account/User';
 import { take } from 'rxjs';
 import Swal from 'sweetalert2';
@@ -14,18 +14,19 @@ import Swal from 'sweetalert2';
   selector: 'app-register',
   standalone: true,
   imports: [ReactiveFormsModule,
-    CommonModule,
-    HttpClientModule, ValidationMessagesComponent],
+    CommonModule, RouterModule,
+    ValidationMessagesComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
   registerForm: FormGroup = new FormGroup({});
   submitted = false;
-  errorMessages: {error : string}[] = [];
+  errorMessages: { error: string }[] = [];
   isVendor = true;
   Vendor: any;
   Customer: any;
+  activeButton: string = '';
 
   getVendor() {
     this.isVendor = true;
@@ -34,7 +35,9 @@ export class RegisterComponent {
   getCustomer() {
     this.isVendor = false;
     this.Customer = "Customer"
-
+  }
+  setActive(button: string) {
+    this.activeButton = button;
   }
 
   constructor(public accountService: AccountService,
@@ -51,7 +54,6 @@ export class RegisterComponent {
 
   ngOnInit(): void {
     this.initializeForm();
-
   }
   initializeForm() {
     this.registerForm = this.formBuilder.group({

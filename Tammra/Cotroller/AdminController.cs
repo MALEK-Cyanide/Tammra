@@ -44,7 +44,8 @@ namespace Tammra.Cotroller
             product.IsOnSale,
             product.DateAdded,
             product.DateUpdated,
-            product.ProdImagePath
+            product.ProdImagePath,
+            product.Rate
         })
         .ToListAsync();
             return Ok(products);

@@ -4,17 +4,14 @@
     <div class="container-fluid col-md-2 col-sm-12">
       <nav class="sidebar navbar-expand-lg  btnstyle" [class.sidebar-open]="isSidebarOpen">
 
-        <div class="collapse navbar-collapse" id="dashboard-collapse">
+        <div class="collapse navbar-collapse" id="dashboard-collapse" style="position: fixed; margin-top: -200px;">
           <ul class="nav flex-column" style="font-size: larger;">
             <li class="nav-item">
-              <a class="nav-link" routerLink="/customer/profile" > إعدادت الحساب </a>
+              <a class="nav-link" routerLink="/customer/profile"> إعدادت الحساب </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" routerLink="/customer/orders-list">قائمة الطلبات</a>
             </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link" routerLink="/customer/charge">المشتريات</a>
-            </li> -->
             <li class="nav-item">
               <a class="nav-link" routerLink="/customer/fav">المفضلة</a>
             </li>
@@ -38,7 +35,7 @@
         <img src="/Images/profileophoto.png" alt="Profile Photo" class="img-thumbnail" />
       </div>
       <div class="profile-photo ph-profile" *ngIf="customer?.customerImagePath != null">
-        <img [src]="url+imgProfilePath"  alt="Profile Photo" class="img-thumbnail" />
+        <img [src]="url+imgProfilePath" alt="Profile Photo" class="img-thumbnail" />
       </div>
 
       <div class="text-center">

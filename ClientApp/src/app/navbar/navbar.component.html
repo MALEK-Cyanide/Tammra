@@ -1,6 +1,6 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
-<div class="top-header-container" style="font-family: 'Cairo', Times, serif;">
-  <div style="background-color: #401a04" class="top-header text-white">
+<div class="top-header-container" style="font-family: 'Cairo'">
+  <div style="background-color: #401a04 ; font-family: 'Cairo'" class="top-header text-white">
     <div class="container d-flex justify-content-between align-items-center">
       <div class="contact-info d-flex gap-3">
         <span>
@@ -15,41 +15,43 @@
       <div class="availability">
         <span>توصيل مجانا على الطلبات</span>
       </div>
-      <div class="auth-links d-flex gap-2" *ngIf="((accoutService.user$) | async) === null">
-        <a routerLink="/account/register" class="btn">
-          <i style="padding: 0 5px" class="fas fa-user">
+      <div style="font-family: Cairo;">
+        <div class="auth-links d-flex gap-2" *ngIf="((accoutService.user$) | async) === null">
+          <a routerLink="/account/register" class="btn" style="font-family: Cairo;">
+            <i style="padding: 0 5px" class="fas fa-user">
+            </i>
             التسجيل
-          </i>
-        </a>
-        <a routerLink="/account/login" class="btn">
-          <i style="padding: 0 5px" class="fas fa-user">
+          </a>
+          <a routerLink="/account/login" class="btn" style="font-family: Cairo;">
+            <i style="padding: 0 5px" class="fas fa-user">
+            </i>
             تسجيل دخول
-          </i>
-        </a>
-      </div>
-      <div class="auth-links d-flex gap-2" *ngIf="(accoutService.user$) | async">
-        <div *ngIf="Role == 'Vendor'">
-          <a class="text-white" style="text-decoration: none; cursor: pointer;">
-            مرحباً <a class="fname" routerLinkActive="active" routerLink="/vendor"> {{Fname}} <i
-                class='fas fa-user-cog'></i></a>
           </a>
         </div>
-        <div *ngIf="Role == 'Customer'">
-          <a class="text-white" style="text-decoration: none; cursor: pointer;">
-            مرحباً <a class="fname" routerLinkActive="active" routerLink="/customer"> {{Fname}} <i
-                class='fas fa-user-cog'></i></a>
-          </a>
-        </div>
-        <div *ngIf="Role == 'Admin'">
-          <a class="text-white" style="text-decoration: none; cursor: pointer;">
-            <a class="fname" routerLinkActive="active" routerLink="/admin"> {{Fname}} <i
-                class='fas fa-user-cog'></i></a>
-          </a>
-        </div>
-        <a routerLink="/account/register" class="btn" (click)="logout()">
-          تسجيل الخروج <i class='fas fa-power-off'></i>
+        <div class="auth-links d-flex gap-2" *ngIf="(accoutService.user$) | async">
+          <div *ngIf="Role == 'Vendor'">
+            <a class="text-white" style="text-decoration: none; cursor: pointer;">
+              مرحباً <a class="fname" routerLinkActive="active" routerLink="/vendor" style="font-family: Cairo;">
+                {{Fname}} <i class='fas fa-user-cog'></i></a>
+            </a>
+          </div>
+          <div *ngIf="Role == 'Customer'">
+            <a class="text-white" style="text-decoration: none; cursor: pointer;">
+              مرحباً <a class="fname" routerLinkActive="active" routerLink="/customer" style="font-family: Cairo;">
+                {{Fname}} <i class='fas fa-user-cog'></i></a>
+            </a>
+          </div>
+          <div *ngIf="Role == 'Admin'">
+            <a class="text-white" style="text-decoration: none; cursor: pointer;">
+              <a class="fname" routerLinkActive="active" routerLink="/admin" style="font-family: Cairo;"> {{Fname}} <i
+                  class='fas fa-user-cog'></i></a>
+            </a>
+          </div>
+          <a routerLink="/account/register" class="btn" (click)="logout()" style="font-family: Cairo;">
+            تسجيل الخروج <i class='fas fa-power-off'></i>
 
-        </a>
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -57,7 +59,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top" style="font-family: 'Cairo', Times, serif;">
   <div class="container-fluid">
     <a class="navbar-brand" routerLink="/">
-      <img src="/Images/logo.png" alt="Logo" height="50rem" />
+      <img src="/Images/5b085efb-cedb-4c1d-9b9d-d251e30db92c.jfif" alt="Logo" height="50rem" />
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
